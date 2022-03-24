@@ -20,4 +20,6 @@
 - TypeScript
 - Firebase
 
+## [Live Version (Vercel)](rindr.vercel.app)
+
 ## [Figma](https://www.figma.com/file/mZ2G3EvSs2VLwsl7D0Mnbx/RideSharing?node-id=0%3A1)
