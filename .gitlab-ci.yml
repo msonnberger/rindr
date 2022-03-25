@@ -12,7 +12,7 @@ install:
 test:
   stage: test
   script:
-    - npm ci
+    - npm install --force
     - npm run test
 
 lint:
