@@ -4,23 +4,19 @@ stages:
   - install
   - test
 
-cache:
-  paths:
-    - node_modules/
-
 install:
   stage: install
   script:
-    - npm install
+    - npm ci
 
 test:
   stage: test
   script:
-    - npm install
+    - npm ci
     - npm run test
 
 lint:
   stage: test
   script:
-    - npm install
+    - npm ci
     - npm run lint
