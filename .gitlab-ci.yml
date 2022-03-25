@@ -12,22 +12,15 @@ install:
   stage: install
   script:
     - npm install
-  artifacts:
-    expire_in: 1 days
-    when: on_success
-    paths:
-      - node_modules/
 
 test:
   stage: test
-  dependencies:
-    - install
   script:
+    - npm install
     - npm run test
 
 lint:
   stage: test
-  dependencies:
-    - install
   script:
+    - npm install
     - npm run lint
