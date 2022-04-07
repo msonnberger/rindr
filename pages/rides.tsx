@@ -3,18 +3,19 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Layout from '../components/layout'
 
-const Home: NextPage = () => {
+
+const Rides: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Rindr</title>
+        <title>Rides</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
        <Layout>
-        <h1 className="text-6xl font-bold">Rindr</h1>
+        <h1 className="text-6xl font-bold">Rides</h1>
       </Layout>
     </>
   )
 }
 
-export default Home
+export default Rides
