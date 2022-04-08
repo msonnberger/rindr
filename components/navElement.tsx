@@ -1,16 +1,32 @@
+import { useRouter } from 'next/router'
+
 interface NavElementProps {
     title: string,
     bgColor: string,
     fgColor: string,
+    route: string,
+    isActive: boolean,
     children: any
 }
 
-export default function NavElement({ title, bgColor, fgColor, children }: NavElementProps) {
-    
+export default function NavElement({ title, bgColor, fgColor, route, isActive, children }: NavElementProps) {
+  const router = useRouter()
+  const handleClick = () => {
+    router.push(route)
+  }  
+
   return (
-    <div className={bgColor}>
-      {children}
-      <p className={fgColor}>{title}</p>
-    </div>
+      <>
+      {isActive &&
+        <button className={bgColor} onClick={()=>handleClick()}>
+            {children}
+            <p className={fgColor}>{title}</p>
+        </button>}
+       {!isActive &&
+        <button onClick={()=>handleClick()}>
+            {children}
+        </button>
+    }
+    </>
   )
 }
