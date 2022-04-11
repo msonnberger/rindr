@@ -18,12 +18,15 @@ export default function NavElement({ title, bgColor, fgColor, route, isActive, c
   return (
     <>
       {isActive && (
-        <button className={bgColor} onClick={() => handleClick()}>
+        <button
+          className={`flex h-10 flex-row items-center justify-between gap-4 rounded-3xl px-3 ${bgColor}`}
+          onClick={handleClick}
+        >
           {children}
-          <p className={fgColor}>{title}</p>
+          <p className={`mr-3 font-sans text-xs font-bold ${fgColor}`}>{title}</p>
         </button>
       )}
-      {!isActive && <button onClick={() => handleClick()}>{children}</button>}
+      {!isActive && <button onClick={handleClick}>{children}</button>}
     </>
   )
 }

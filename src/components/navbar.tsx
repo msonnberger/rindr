@@ -1,80 +1,74 @@
 import { Emerald, Sky, Slate, Orange, Rose } from '../styles/colors'
 import NavElement from './navElement'
-import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faCommentDots, faPiggyBank, faCarSide, faCircleUser } from '@fortawesome/free-solid-svg-icons'
 
 const bgStylings = {
-  Slate: 'flex flex-row justify-between bg-slate-300 h-10 rounded-3xl items-center px-3 gap-4',
-  Sky: 'flex flex-row justify-between bg-sky-100 h-10 rounded-3xl items-center px-3 gap-4',
-  Emerald: 'flex flex-row justify-between bg-emerald-100 h-10 rounded-3xl items-center px-3 gap-4',
-  Orange: 'flex flex-row justify-between bg-orange-100 h-10 rounded-3xl items-center px-3 gap-4',
-  Rose: 'flex flex-row justify-between bg-rose-100 h-10 rounded-3xl items-center px-3 gap-4',
+  Slate: 'bg-slate-300',
+  Sky: 'bg-sky-100',
+  Emerald: 'bg-emerald-100',
+  Orange: 'bg-orange-100',
+  Rose: 'bg-rose-100',
 }
 
 const fgStylings = {
-  Slate: 'text-slate-50 font-sans font-bold text-xs mr-3',
-  Sky: 'text-sky-400 font-sans font-bold text-xs mr-3',
-  Emerald: 'text-emerald-400 font-sans font-bold text-xs mr-3',
-  Orange: 'text-orange-400 font-sans font-bold text-xs mr-3',
-  Rose: 'text-rose-400 font-sans font-bold text-xs mr-3',
+  Slate: 'text-slate-50 ',
+  Sky: 'text-sky-400',
+  Emerald: 'text-emerald-400',
+  Orange: 'text-orange-400',
+  Rose: 'text-rose-400',
 }
 
 export default function Navbar() {
-  const router = useRouter()
-  const [currentRoute] = useState(router.pathname)
+  const { pathname: currentRoute } = useRouter()
 
   return (
-    <div className={'flex flex-row justify-evenly w-full bg-slate-50 h-16 rounded-3xl items-center'}>
+    <div className="flex h-16 w-full flex-row items-center justify-evenly rounded-3xl bg-slate-50">
       <NavElement
-        title={'Home'}
+        title="Home"
         bgColor={bgStylings.Slate}
         fgColor={fgStylings.Slate}
-        route={'/'}
+        route="/"
         isActive={currentRoute === '/'}
       >
-        <FontAwesomeIcon size={'lg'} icon={faHouse} color={currentRoute === '/' ? Slate[50] : Slate[300]} />
+        <FontAwesomeIcon size="lg" icon={faHouse} color={currentRoute === '/' ? Slate[50] : Slate[300]} />
       </NavElement>
       <NavElement
-        title={'Chat'}
+        title="Chat"
         bgColor={bgStylings.Sky}
         fgColor={fgStylings.Sky}
-        route={'/chat'}
+        route="/chat"
         isActive={currentRoute === '/chat'}
       >
-        <FontAwesomeIcon size={'lg'} icon={faCommentDots} color={currentRoute === '/chat' ? Sky[400] : Slate[300]} />
+        <FontAwesomeIcon size="lg" icon={faCommentDots} color={currentRoute === '/chat' ? Sky[400] : Slate[300]} />
       </NavElement>
       <NavElement
-        title={'Savings'}
+        title="Savings"
         bgColor={bgStylings.Emerald}
         fgColor={fgStylings.Emerald}
-        route={'/savings'}
+        route="/savings"
         isActive={currentRoute === '/savings'}
       >
-        <FontAwesomeIcon
-          size={'lg'}
-          icon={faPiggyBank}
-          color={currentRoute === '/savings' ? Emerald[400] : Slate[300]}
-        />
+        <FontAwesomeIcon size="lg" icon={faPiggyBank} color={currentRoute === '/savings' ? Emerald[400] : Slate[300]} />
       </NavElement>
       <NavElement
-        title={'Rides'}
+        title="Rides"
         bgColor={bgStylings.Orange}
         fgColor={fgStylings.Orange}
-        route={'/rides'}
+        route="/rides"
         isActive={currentRoute === '/rides'}
       >
-        <FontAwesomeIcon size={'lg'} icon={faCarSide} color={currentRoute === '/rides' ? Orange[400] : Slate[300]} />
+        <FontAwesomeIcon size="lg" icon={faCarSide} color={currentRoute === '/rides' ? Orange[400] : Slate[300]} />
       </NavElement>
       <NavElement
-        title={'Profile'}
+        title="Profile"
         bgColor={bgStylings.Rose}
         fgColor={fgStylings.Rose}
-        route={'/profile'}
+        route="/profile"
         isActive={currentRoute === '/profile'}
       >
-        <FontAwesomeIcon size={'lg'} icon={faCircleUser} color={currentRoute === '/profile' ? Rose[400] : Slate[300]} />
+        <FontAwesomeIcon size="lg" icon={faCircleUser} color={currentRoute === '/profile' ? Rose[400] : Slate[300]} />
       </NavElement>
     </div>
   )
