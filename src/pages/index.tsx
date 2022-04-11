@@ -17,7 +17,7 @@ const Profile: NextPage = () => {
           <div className="">
             {session ? (
               <>
-                Signed in as {session.user?.name} <br />
+                Signed in as {session.user.color} <br />
                 <button className="font-bold text-blue-700 underline" onClick={() => signOut()}>
                   Sign out
                 </button>

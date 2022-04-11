@@ -1,8 +1,14 @@
 import NextAuth from 'next-auth/next'
+import { db } from 'src/firebase-config'
+import { doc, getDoc } from 'firebase/firestore'
+import type { Profile } from 'next-auth'
 
 export default NextAuth({
   theme: {
     colorScheme: 'light',
+  },
+  pages: {
+    newUser: '/auth/newuser',
   },
   providers: [
     {
@@ -25,13 +31,32 @@ export default NextAuth({
           return await res.json()
         },
       },
-      profile(profile) {
+      profile(profile: Profile) {
         return {
           id: profile.sub,
           name: `${profile.given_name} ${profile.family_name}`,
           email: profile.email,
+          studies: profile.studies,
         }
       },
     },
   ],
+  callbacks: {
+    async session({ session, token }) {
+      const uid = token.sub
+
+      if (uid) {
+        const userRef = doc(db, 'users', uid)
+        const userSnap = await getDoc(userRef)
+
+        if (userSnap.exists()) {
+          session.user.color = userSnap.data().color
+        } else {
+          console.log('No document')
+        }
+      }
+
+      return session
+    },
+  },
 })
