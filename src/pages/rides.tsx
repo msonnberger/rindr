@@ -1,6 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Layout from '../components/layout'
+import Heading from  '../components/heading'
+
 
 const Rides: NextPage = () => {
   return (
@@ -10,7 +12,7 @@ const Rides: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <h1 className="text-6xl font-bold">Rides</h1>
+        <Heading title={"Rides"} />
       </Layout>
     </>
   )
