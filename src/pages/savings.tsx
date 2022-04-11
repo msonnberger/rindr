@@ -3,7 +3,6 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Layout from '../components/layout'
 
-
 const Savings: NextPage = () => {
   return (
     <>
@@ -11,7 +10,7 @@ const Savings: NextPage = () => {
         <title>Savings</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-       <Layout>
+      <Layout>
         <h1 className="text-6xl font-bold">Savings</h1>
       </Layout>
     </>
