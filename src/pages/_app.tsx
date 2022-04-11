@@ -1,6 +1,7 @@
 import { SessionProvider } from 'next-auth/react'
-import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import '../styles/styles.css'
+import '@fortawesome/fontawesome-svg-core/styles.css'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
