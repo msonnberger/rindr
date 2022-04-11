@@ -20,6 +20,11 @@
 - TypeScript
 - Firebase
 
+## Git naming conventions
+
+- new feature branches: "feature/<feature_name>"
+- new components "component/<compoent_name>"
+
 ## [Live Version (Vercel)](https://rindr.vercel.app)
 
 ## [Figma](https://www.figma.com/file/mZ2G3EvSs2VLwsl7D0Mnbx/RideSharing?node-id=0%3A1)

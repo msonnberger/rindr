@@ -2,18 +2,19 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Layout from '../components/layout'
 
-const Profile: NextPage = () => {
+const Home: NextPage = () => {
+
   return (
     <>
       <Head>
-        <title>Profile</title>
+        <title>Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <h1 className="text-6xl font-bold">Profile</h1>
+        <h1 className="text-6xl font-bold">Home</h1>
       </Layout>
     </>
   )
 }
 
-export default Profile
+export default Home
