@@ -10,16 +10,21 @@ const Chat: NextPage = () => {
   const user = {
     name: "Juliane"
   }
+
+  const otherUser = {
+    name: "Pascal"
+  }
+
   return (
     <>
       <Head>
         <title>Chat</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
+      {/* <Layout>
         <Heading title={"Chat"} />
-        <ChatRoom user={user} database={db} />
-      </Layout>
+        <ChatRoom user={user} database={db} otherUser={otherUser}/>
+      </Layout> */}
     </>
   )
 }

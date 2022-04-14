@@ -7,38 +7,39 @@ interface User {
 }
 interface ChatRoomProps {
     user: User,
-    database: any
+    database: any,
+    otherUser: User
 }
 interface Message {
-    id: number,
+    id: string,
     text: string,
     from: string,
     createdAt: Timestamp,
     to: string
 }
 
-export default function ChatRoom({user, database}: ChatRoomProps) {
+export default function ChatRoom({user, database, otherUser}: ChatRoomProps) {
     const db = database;
     const { name } = user;
 
-    const dummySpace = useRef();
+    const dummySpace = useRef()
 
-    const [newMessage, setNewMessage] = useState("");
-    const [messages, setMessages] = useState([]);
+    const [newMessageValue, setNewMessageValue] = useState<string>();
+    const [messages, setMessages] = useState<Message[]>([]);
 
     async function handleSubmit(e: any){
         e.preventDefault();
 
         const newMessageObject = {
-            text: newMessage,
+            text: newMessageValue,
             createdAt: Date.now(),
             from: user.name,
-            to: "someone"
+            to: otherUser.name
         }
         
         await addDoc(collection(db, 'messages'), newMessageObject)
 
-        setNewMessage("");
+        setNewMessageValue('');
         
 
         // scroll down the chat
@@ -51,9 +52,15 @@ export default function ChatRoom({user, database}: ChatRoomProps) {
 
     const q = query(collection(db, "messages"), where("to", "==", "someone"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const newMessages: Array<object> = [];
+        const newMessages: Array<Message> = [];
         querySnapshot.forEach((doc) => {
-            newMessages.push({...doc.data()});
+            newMessages.push({
+              id: doc.id,
+              text: doc.data().text,
+              createdAt: doc.data().createdAt,
+              from: doc.data().from,
+              to: doc.data().to
+            });
         });
         const filteredMessages = newMessages.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : -1)
         setMessages(filteredMessages);
@@ -98,12 +105,12 @@ export default function ChatRoom({user, database}: ChatRoomProps) {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
+          value={newMessageValue}
+          onChange={(e) => setNewMessageValue(e.target.value)}
           placeholder="Type your message here..."
         />
 
-        <button type="submit" disabled={!newMessage}>
+        <button type="submit" disabled={!newMessageValue}>
           Send
         </button>
       </form>
