@@ -2,15 +2,10 @@ import { useRef, useState } from "react";
 import { addDoc, collection, getDocs, Timestamp, onSnapshot, doc, query, where } from "firebase/firestore";
 import ChatMessage from "./chatMessage";
 import { db } from '../firebase-config'
+import { User } from '../utils/types'
 
-
-interface User {
-    name: string
-    id: string
-}
 interface ChatRoomProps {
     user: User,
-    database: any,
     otherUser: User
 }
 interface Message {
@@ -21,7 +16,7 @@ interface Message {
     to: string
 }
 
-export default function ChatRoom({user, database, otherUser} : ChatRoomProps) {
+export default function ChatRoom({user, otherUser} : ChatRoomProps) {
  
     const dummySpace = useRef()
     const messagesRef = collection(db, 'messages')
@@ -89,9 +84,9 @@ export default function ChatRoom({user, database, otherUser} : ChatRoomProps) {
           placeholder="Type your message here..."
         />
 
-        <button type="submit" disabled={!newMessageValue}>
+        {newMessageValue != '' && <button type="submit" disabled={newMessageValue == ''}>
           Send
-        </button>
+        </button>}
       </form>
     </section>
   );

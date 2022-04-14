@@ -5,8 +5,17 @@ import Heading from  '../components/heading'
 import { db } from '../firebase-config'
 import { fgStylings } from 'src/styles/colors'
 import ChatRoom from '@components/chatRoom'
+import { useState } from 'react'
+import ChatPreview from '@components/chatPreview'
 
 const Chat: NextPage = () => {
+  const [chatRoom, setChatRoom] = useState<string>("")
+
+  const handleSelect = () => {
+    setChatRoom('1111')
+    console.log("Hallo")
+  }
+
 
   const user = {
     name: "Juliane",
@@ -14,7 +23,7 @@ const Chat: NextPage = () => {
   }
 
   const otherUser = {
-    name: "Pascal",
+    name: "Pascal Gottschling",
     id: "2222"
   }
 
@@ -25,8 +34,13 @@ const Chat: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Heading title={"Chat"} color={fgStylings.Sky}/>
-        <ChatRoom user={user} database={db} otherUser={otherUser}/>
+        <Heading title={"Messages"} color={fgStylings.Sky}/>
+        <div className={"flex flex-col gap-5"}>
+          <ChatPreview otherUser={otherUser} />
+          <ChatPreview otherUser={otherUser} />
+          <ChatPreview otherUser={otherUser} />
+        </div>
+        {/* <ChatRoom user={user} otherUser={otherUser}/> */}
       </Layout>
     </>
   )

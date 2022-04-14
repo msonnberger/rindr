@@ -15,7 +15,7 @@ export default function ChatMessage({text, createdAt, received} : ChatMessagePro
     const minutes = formatMinutes(`${date.getMinutes()}`)
     
   return (
-    <div className={received ? "justify-centers flex flex-row items-center justify-start mr-4" : "justify-centers flex flex-row items-center justify-end ml-4"}>
+    <div className={received ? "flex flex-row items-center justify-start mr-4" : "flex flex-row items-center justify-end ml-4"}>
         {!received && <p className={"font-light text-xs mr-3"}>{`${hours}:${minutes}`}</p>}
         <div className={received ? "bg-sky-50 rounded-t-3xl rounded-br-3xl p-5 w-full max-w-md" : "bg-sky-300 rounded-t-3xl rounded-bl-3xl p-5 w-full max-w-md"}>
             
