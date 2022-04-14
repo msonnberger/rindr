@@ -2,18 +2,20 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Layout from '../components/layout'
 import Heading from  '../components/heading'
-import ChatRoom from '../components/chatRoom'
 import { db } from '../firebase-config'
 import { fgStylings } from 'src/styles/colors'
+import ChatRoom from '@components/chatRoom'
 
 const Chat: NextPage = () => {
 
   const user = {
-    name: "Juliane"
+    name: "Juliane",
+    id: "1111"
   }
 
   const otherUser = {
-    name: "Pascal"
+    name: "Pascal",
+    id: "2222"
   }
 
   return (

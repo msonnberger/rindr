@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { addDoc, collection, getDocs, Timestamp, onSnapshot, doc, query, where } from "firebase/firestore";
-import { formatRelative } from "date-fns";
+import ChatMessage from "./chatMessage";
+import { db } from '../firebase-config'
+
 
 interface User {
     name: string
+    id: string
 }
 interface ChatRoomProps {
     user: User,
@@ -18,11 +21,10 @@ interface Message {
     to: string
 }
 
-export default function ChatRoom({user, database, otherUser}: ChatRoomProps) {
-    const db = database;
-    const { name } = user;
-
+export default function ChatRoom({user, database, otherUser} : ChatRoomProps) {
+ 
     const dummySpace = useRef()
+    const messagesRef = collection(db, 'messages')
 
     const [newMessageValue, setNewMessageValue] = useState<string>();
     const [messages, setMessages] = useState<Message[]>([]);
@@ -32,15 +34,13 @@ export default function ChatRoom({user, database, otherUser}: ChatRoomProps) {
 
         const newMessageObject = {
             text: newMessageValue,
-            createdAt: Date.now(),
-            from: user.name,
-            to: otherUser.name
+            createdAt: Timestamp.fromDate(new Date()),
+            from: user.id,
+            to: otherUser.id
         }
         
-        await addDoc(collection(db, 'messages'), newMessageObject)
-
         setNewMessageValue('');
-        
+        await addDoc(messagesRef, newMessageObject)
 
         // scroll down the chat
         // if(dummySpace.current !== undefined) {
@@ -49,11 +49,13 @@ export default function ChatRoom({user, database, otherUser}: ChatRoomProps) {
   };
 
 
+    const receivedMessages = query(messagesRef, where("to", "in", [user.id, otherUser.id]));
 
-    const q = query(collection(db, "messages"), where("to", "==", "someone"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const newMessages: Array<Message> = [];
+    //receivedMessages
+    onSnapshot(receivedMessages, (querySnapshot) => {
+        let newMessages: Array<Message> = [];
         querySnapshot.forEach((doc) => {
+          if(doc.data().from == user.id || doc.data().from == otherUser.id) { //push only messages between both
             newMessages.push({
               id: doc.id,
               text: doc.data().text,
@@ -61,42 +63,19 @@ export default function ChatRoom({user, database, otherUser}: ChatRoomProps) {
               from: doc.data().from,
               to: doc.data().to
             });
+          }
         });
-        const filteredMessages = newMessages.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : -1)
-        setMessages(filteredMessages);
+ 
+        const sortedMessages = newMessages.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : -1)
+        setMessages(sortedMessages);
     });
 
-    function compare( a: Message, b: Message) {
-        if ( a.createdAt < b.createdAt ){
-            return -1;
-        }
-        if ( a.createdAt > b.createdAt ){
-            return 1;
-        }
-        return 0;
-    }
-
-
-
   return (
-    <main id="chat_room">
-        <ul>
+    <section id="chat_room" className="flex flex-col">
+        <ul className="flex flex-col gap-7 mt-10">
         {messages.map((message: Message) => (
           <li key={message.id}>
-            <section>
-              <p>{message.text}</p>
-
-              {message.from ? <span className="bg-sky-300">{message.from}</span> : null}
-              <br />
-              {message.createdAt?.seconds ? (
-                <span>
-                  {formatRelative(
-                    new Date(message.createdAt.seconds * 1000),
-                    new Date()
-                  )}
-                </span>
-              ) : null}
-            </section>
+            <ChatMessage createdAt={message.createdAt} text={message.text} received={message.to == user.id}/>
           </li>
         ))}
       </ul>
@@ -105,7 +84,7 @@ export default function ChatRoom({user, database, otherUser}: ChatRoomProps) {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={newMessageValue}
+          value={newMessageValue || ''}
           onChange={(e) => setNewMessageValue(e.target.value)}
           placeholder="Type your message here..."
         />
@@ -114,6 +93,6 @@ export default function ChatRoom({user, database, otherUser}: ChatRoomProps) {
           Send
         </button>
       </form>
-    </main>
+    </section>
   );
 }

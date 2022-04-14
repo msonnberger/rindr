@@ -3,6 +3,6 @@ interface HeadingProps {
     color?: string;
 }
 export default function Heading({title, color} : HeadingProps) {
-  const className = `text-4xl font-bold ${color}`
+  const className = `text-4xl font-bold ${color} mt-10`
   return (<h1 className={className}>{title}</h1>)
 }
