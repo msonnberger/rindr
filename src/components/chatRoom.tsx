@@ -111,13 +111,17 @@ export default function ChatRoom({user, otherUser} : ChatRoomProps) {
             })
           }
         })
+
+        collectionByDate.forEach((dayMessages) => {
+          dayMessages.dateMessages.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : -1)
+        })
         return collectionByDate.sort((a, b) => (a.day > b.day) ? 1 : -1)
   }
 
 
     const receivedMessages = query(messagesRef, where("to", "in", [user.id, otherUser.id])); //two were aren't possible?
 
-    receivedMessages
+    //receivedMessages
     useEffect(() => {
       onSnapshot(receivedMessages, (querySnapshot) => {
         let newMessages: Message[] = [];
@@ -175,7 +179,7 @@ export default function ChatRoom({user, otherUser} : ChatRoomProps) {
           value={newMessageValue || ''}
           onChange={(e) => setNewMessageValue(e.target.value)}
           placeholder="Type something..."
-          className={"bg-transparent outline-none text-slate-50 placeholder-slate-50 font-light"}
+          className={"bg-transparent outline-none text-slate-50 placeholder-slate-50 font-light ml-3"}
         />
 
         {<button type="submit" className={"rounded-2xl bg-sky-50 h-8 w-8 items-center flex justify-center"} disabled={newMessageValue == undefined || newMessageValue == ''}>
