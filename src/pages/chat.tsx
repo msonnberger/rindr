@@ -8,22 +8,16 @@ import ChatRoom from '@components/chatRoom'
 import { useEffect, useState } from 'react'
 import ChatPreview from '@components/chatPreview'
 import { collection, where, getDocs, query, onSnapshot } from 'firebase/firestore'
-import { User } from '@utils/types'
+import { User, Channel} from '@utils/types'
 
-interface Channel {
-  id: string
-  users: string[]
-}
+
 
 const Chat: NextPage = () => {
-  const [chatRoom, setChatRoom] = useState<string>("")
+  const [chatRoom, setChatRoom] = useState<Channel>()
   const [channels, setChannels] = useState<Channel[]>([])
+  const [users, setUsers] = useState<User[]>([])
   const channelRef = collection(db, 'channels')
-
-  const handleSelect = () => {
-    setChatRoom('1111')
-  }
-
+  const usersRef = collection(db, 'users')
 
   const user : User = {
     name: "Juliane",
@@ -36,6 +30,7 @@ const Chat: NextPage = () => {
   }
 
   const channelQuery = query(channelRef, where("users", "array-contains", user.id));
+  const usersQuery = query(usersRef);
 
   function findBelongingChannel (otherUser: User){
     let foundChannel = ""
@@ -50,6 +45,16 @@ const Chat: NextPage = () => {
     return foundChannel
   }
 
+  function findOtherUser (){
+    const otherUserId = chatRoom?.users.find((currentUser: string) => currentUser != user.id)
+    console.log(otherUserId, "otherUserId")
+    console.log("users", users)
+    const found = users.find((currentUser) => currentUser.id == otherUserId)
+    console.log(found, "found")
+    return found
+  }
+  
+
   useEffect(() => {
       onSnapshot(channelQuery, (querySnapshot) => {
         let newChannels : Channel[] = [];
@@ -58,6 +63,16 @@ const Chat: NextPage = () => {
         })
         setChannels([...newChannels]);
         });        
+        console.log(chatRoom)
+
+      onSnapshot(usersQuery, (querySnapshot) => {
+        let newUsers : User[] = [];
+        querySnapshot.forEach((doc) => {
+          newUsers.push({name: doc.data().name, id: doc.data().id})
+        })
+        setUsers([...newUsers]);
+        });        
+        console.log(chatRoom)
   }, [])
 
   return (
@@ -67,13 +82,19 @@ const Chat: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        {/* <Heading title={"Messages"} color={fgStylings.Sky}/> */}
-        {/* <div className={"flex flex-col gap-5 mt-11"}>
-          <ChatPreview otherUser={otherUserObject} />
-          <ChatPreview otherUser={otherUserObject} />
-          <ChatPreview otherUser={otherUserObject} />
-        </div> */}
-        <ChatRoom user={user} otherUser={otherUserObject} channelId={findBelongingChannel(otherUserObject)}/>
+        {chatRoom == undefined &&
+        <>
+        <Heading title={"Messages"} color={fgStylings.Sky}/>
+        <div className={"flex flex-col gap-5 mt-11"}>
+          {channels.map((channel) => 
+            <ChatPreview key={channel.id} channel={channel} setChatRoom={setChatRoom}/>
+          )}
+        </div>
+        </>
+        }
+        {chatRoom != undefined &&
+          <ChatRoom user={user} otherUser={findOtherUser()} channelId={chatRoom.id} setChatRoom={setChatRoom}/>
+        }
       </Layout>
     </>
   )

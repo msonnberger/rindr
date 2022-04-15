@@ -1,16 +1,21 @@
-import { User } from '../utils/types'
+import { Dispatch, SetStateAction } from 'react'
+import { Channel, User } from '../utils/types'
 
 interface ChatPreviewProps {
-    otherUser: User
+    channel: Channel,
+    setChatRoom: any
 }
 
-export default function ChatPreview({otherUser} : ChatPreviewProps) {
-  
+export default function ChatPreview({channel, setChatRoom} : ChatPreviewProps) {
+  const handleClick = () => {
+      setChatRoom(channel)
+      console.log("clicked")
+  }
   return (
-    <div className={"bg-sky-50 rounded-3xl p-4 w-full max-w-md font-bold flex flex-row"}>
+    <button className={"bg-sky-50 rounded-3xl p-4 w-full max-w-md font-bold flex flex-row"} onClick={handleClick}>
         <div className={"bg-emerald-300 h-12 w-12 rounded-3xl mr-5"}></div>
         <div className='mx-0 w-8/12'>
-            <p className={"font-bold"}>{otherUser.name}</p>
+            <p className={"font-bold text-left"}>Pascal Gottschling</p>
             <p className={"font-light overflow-ellipsis overflow-hidden whitespace-nowrap"}>Bis später! Nimmst du einen Rucksack mit?</p>
         </div>
         <div className={"flex flex-col justify-between items-end mr-0 ml-auto"}>
@@ -19,6 +24,6 @@ export default function ChatPreview({otherUser} : ChatPreviewProps) {
                 <p className={"text-xs font-white text-slate-50"}>2</p>
             </div>
         </div>
-    </div>
+    </button>
   )
 }

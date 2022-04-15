@@ -9,8 +9,9 @@ import { Sky, Slate } from "src/styles/colors";
 
 interface ChatRoomProps {
     user: User,
-    otherUser: User,
-    channelId: string
+    otherUser: User | undefined,
+    channelId: string,
+    setChatRoom: any
 }
 
 interface Message {
@@ -49,7 +50,7 @@ const dummyArray : DateMessages = {
   ]
 }
 
-export default function ChatRoom({user, otherUser, channelId} : ChatRoomProps) {
+export default function ChatRoom({user, otherUser, channelId, setChatRoom} : ChatRoomProps) {
  
     const messagesEndRef = useRef<null | HTMLDivElement>(null); 
     const messagesRef = collection(db, 'messages')
@@ -64,7 +65,8 @@ export default function ChatRoom({user, otherUser, channelId} : ChatRoomProps) {
             text: newMessageValue,
             createdAt: Timestamp.fromDate(new Date()),
             from: user.id,
-            to: otherUser.id
+            to: otherUser?.id,
+            channelId: channelId
         }
         
         setNewMessageValue('');
@@ -75,6 +77,11 @@ export default function ChatRoom({user, otherUser, channelId} : ChatRoomProps) {
     if(messagesEndRef.current !== null) {
           messagesEndRef.current!.scrollIntoView({ behavior: "smooth" });
     }
+  }
+
+  const handleBack = () => {
+    setChatRoom(undefined)
+    console.log("back")
   }
 
   const printDate = (date: Date) => {
@@ -153,9 +160,11 @@ export default function ChatRoom({user, otherUser, channelId} : ChatRoomProps) {
   return (
     <section id="chat_room" className="flex flex-col">
       <div className={"flex flex-row items-center bg-sky-100 rounded-bl-3xl rounded-br-3xl fixed w-full top-0 left-0 h-20 px-3"}>
-        <FontAwesomeIcon icon={faAngleLeft} size="lg" color={Sky[400]}/> {/*TODO: Back Button*/}
+        <button onClick={handleBack}>
+          <FontAwesomeIcon icon={faAngleLeft} size="lg" color={Sky[400]}/> 
+        </button>
         <div className={"bg-emerald-300 h-12 w-12 rounded-3xl mr-5 ml-3"}></div>
-        <p className={"font-bold"}>{otherUser.name}</p>
+        <p className={"font-bold"}>{otherUser?.name}</p>
       </div>
       <div className={"mt-12"}>
       {messages.map((dateMessage: DateMessages) => {
@@ -165,7 +174,7 @@ export default function ChatRoom({user, otherUser, channelId} : ChatRoomProps) {
           <ul className="flex flex-col gap-7" key={dateMessage.day}>
             {(dateMessage.dateMessages).map((message: Message) => (
               <li key={message.id}>
-                <ChatMessage createdAt={message.createdAt} text={message.text} received={message.to == user.id}/>
+                <ChatMessage key={message.id} createdAt={message.createdAt} text={message.text} received={message.to == user.id}/>
               </li>
             ))}
           </ul>
