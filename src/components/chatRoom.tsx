@@ -4,8 +4,8 @@ import ChatMessage from "./chatMessage";
 import { db } from '../firebase-config'
 import { User } from '../utils/types'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
-import { Sky } from "src/styles/colors";
+import { faAngleLeft, faAnglesLeft, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { Sky, Slate } from "src/styles/colors";
 
 interface ChatRoomProps {
     user: User,
@@ -169,16 +169,17 @@ export default function ChatRoom({user, otherUser} : ChatRoomProps) {
       </div>
       <div ref={messagesEndRef}/>
         
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={"rounded-3xl flex flex-row justify-between bg-sky-500 h-12 items-center px-3 fixed bottom-20 left-4 right-4"}>
         <input
           type="text"
           value={newMessageValue || ''}
           onChange={(e) => setNewMessageValue(e.target.value)}
-          placeholder="Type your message here..."
+          placeholder="Type something..."
+          className={"bg-transparent outline-none text-slate-50 placeholder-slate-50 font-light"}
         />
 
-        {newMessageValue != '' && <button type="submit" disabled={newMessageValue == ''}>
-          Send
+        {<button type="submit" className={"rounded-2xl bg-sky-50 h-8 w-8 items-center flex justify-center"} disabled={newMessageValue == undefined || newMessageValue == ''}>
+          <FontAwesomeIcon icon={faPaperPlane} color={Sky[500]}/>
         </button>}
       </form>
     </section>
