@@ -24,10 +24,6 @@ const Chat: NextPage = () => {
     id: "1111"
   }
 
-  const otherUserObject : User = {
-    name: "Pascal Gottschling",
-    id: "2222"
-  }
 
   const channelQuery = query(channelRef, where("users", "array-contains", user.id));
   const usersQuery = query(usersRef);
