@@ -167,7 +167,7 @@ export default function ChatRoom({user, otherUser} : ChatRoomProps) {
         </>)
       })}
       </div>
-      <div ref={messagesEndRef}/>
+      <div ref={messagesEndRef} className={"mb-32"}></div>
         
       <form onSubmit={handleSubmit} className={"rounded-3xl flex flex-row justify-between bg-sky-500 h-12 items-center px-3 fixed bottom-20 left-4 right-4"}>
         <input
