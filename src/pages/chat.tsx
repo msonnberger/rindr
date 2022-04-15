@@ -45,8 +45,8 @@ const Chat: NextPage = () => {
     return foundChannel
   }
 
-  function findOtherUser (){
-    const otherUserId = chatRoom?.users.find((currentUser: string) => currentUser != user.id)
+  function findOtherUser (channel: Channel){
+    const otherUserId = channel?.users.find((currentUser: string) => currentUser != user.id)
     console.log(otherUserId, "otherUserId")
     console.log("users", users)
     const found = users.find((currentUser) => currentUser.id == otherUserId)
@@ -87,13 +87,13 @@ const Chat: NextPage = () => {
         <Heading title={"Messages"} color={fgStylings.Sky}/>
         <div className={"flex flex-col gap-5 mt-11"}>
           {channels.map((channel) => 
-            <ChatPreview key={channel.id} channel={channel} setChatRoom={setChatRoom}/>
+            <ChatPreview key={channel.id} channel={channel} otherUser={findOtherUser(channel)} setChatRoom={setChatRoom}/>
           )}
         </div>
         </>
         }
         {chatRoom != undefined &&
-          <ChatRoom user={user} otherUser={findOtherUser()} channelId={chatRoom.id} setChatRoom={setChatRoom}/>
+          <ChatRoom user={user} otherUser={findOtherUser(chatRoom)} channelId={chatRoom.id} setChatRoom={setChatRoom}/>
         }
       </Layout>
     </>
