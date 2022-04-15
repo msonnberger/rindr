@@ -24,7 +24,7 @@ export default function Navbar() {
   const { pathname: currentRoute } = useRouter()
 
   return (
-    <div className="flex h-16 w-full flex-row items-center justify-evenly rounded-3xl bg-slate-50">
+    <div className="flex h-16 flex-row items-center justify-evenly rounded-3xl bg-slate-50 fixed bottom-3 right-4 left-4">
       <NavElement
         title="Home"
         bgColor={bgStylings.Slate}
