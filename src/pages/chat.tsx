@@ -35,12 +35,12 @@ const Chat: NextPage = () => {
       </Head>
       <Layout>
         <Heading title={"Messages"} color={fgStylings.Sky}/>
-        <div className={"flex flex-col gap-5 mt-11"}>
+        {/* <div className={"flex flex-col gap-5 mt-11"}>
           <ChatPreview otherUser={otherUser} />
           <ChatPreview otherUser={otherUser} />
           <ChatPreview otherUser={otherUser} />
-        </div>
-        {/* <ChatRoom user={user} otherUser={otherUser}/> */}
+        </div> */}
+        <ChatRoom user={user} otherUser={otherUser}/>
       </Layout>
     </>
   )
