@@ -9,14 +9,17 @@ import { Sky, Slate } from "src/styles/colors";
 
 interface ChatRoomProps {
     user: User,
-    otherUser: User
+    otherUser: User,
+    channelId: string
 }
+
 interface Message {
     id: string,
     text: string,
     from: string,
     createdAt: Timestamp,
-    to: string
+    to: string,
+    channelId: string
 }
 
 interface DateMessages {
@@ -32,19 +35,21 @@ const dummyArray : DateMessages = {
       to: '1111',
       from: '2222',
       text: 'Hallo!',
-      createdAt: Timestamp.now()
+      createdAt: Timestamp.now(),
+      channelId: "1"
     },
     {
       id: '323324',
       to: '2222',
       from: '1111',
       text: 'Hi wie gehts?',
-      createdAt: Timestamp.now()
+      createdAt: Timestamp.now(),
+      channelId: "1"
     },
   ]
 }
 
-export default function ChatRoom({user, otherUser} : ChatRoomProps) {
+export default function ChatRoom({user, otherUser, channelId} : ChatRoomProps) {
  
     const messagesEndRef = useRef<null | HTMLDivElement>(null); 
     const messagesRef = collection(db, 'messages')
@@ -63,7 +68,6 @@ export default function ChatRoom({user, otherUser} : ChatRoomProps) {
         }
         
         setNewMessageValue('');
-        console.log(messages)
         await addDoc(messagesRef, newMessageObject)
   };
 
@@ -117,30 +121,27 @@ export default function ChatRoom({user, otherUser} : ChatRoomProps) {
         })
         return collectionByDate.sort((a, b) => (a.day > b.day) ? 1 : -1)
   }
-
-
-    const receivedMessages = query(messagesRef, where("to", "in", [user.id, otherUser.id])); //two were aren't possible?
+  
+    const receivedMessages = query(messagesRef, where("channelId", "==", channelId)); //two were aren't possible?
 
     //receivedMessages
     useEffect(() => {
       onSnapshot(receivedMessages, (querySnapshot) => {
         let newMessages: Message[] = [];
         querySnapshot.forEach((doc) => {
-          if(doc.data().from == user.id || doc.data().from == otherUser.id) { //push only messages between both
             newMessages.push({
               id: doc.id,
               text: doc.data().text,
               createdAt: doc.data().createdAt,
               from: doc.data().from,
-              to: doc.data().to
+              to: doc.data().to,
+              channelId: channelId
             });
-          }
+          
         });
  
         let sortByDate = sortMessages(newMessages)
         setMessages([...sortByDate]);
-        console.log(sortByDate)
-        console.log("messages updated")
     });
     }, [])
 
@@ -161,7 +162,7 @@ export default function ChatRoom({user, otherUser} : ChatRoomProps) {
         return(
         <>
         <p className={"text-xs w-full flex justify-center mb-5 mt-7 text-sky-700"}>{printDate(new Date(dateMessage.day))}</p>
-          <ul className="flex flex-col gap-7">
+          <ul className="flex flex-col gap-7" key={dateMessage.day}>
             {(dateMessage.dateMessages).map((message: Message) => (
               <li key={message.id}>
                 <ChatMessage createdAt={message.createdAt} text={message.text} received={message.to == user.id}/>
