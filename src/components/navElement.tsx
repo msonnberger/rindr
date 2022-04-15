@@ -23,7 +23,7 @@ export default function NavElement({ title, bgColor, fgColor, route, isActive, c
           onClick={handleClick}
         >
           {children}
-          <p className={`mr-3 font-sans text-xs font-bold items-center ${fgColor}`}>{title}</p>
+          <p className={`mr-3 font-sans text-xs font-bold ${fgColor}`}>{title}</p>
         </button>
       )}
       {!isActive && <button onClick={handleClick}>{children}</button>}
