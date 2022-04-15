@@ -34,7 +34,7 @@ const Chat: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Heading title={"Messages"} color={fgStylings.Sky}/>
+        {/* <Heading title={"Messages"} color={fgStylings.Sky}/> */}
         {/* <div className={"flex flex-col gap-5 mt-11"}>
           <ChatPreview otherUser={otherUser} />
           <ChatPreview otherUser={otherUser} />

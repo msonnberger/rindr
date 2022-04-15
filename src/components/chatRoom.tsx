@@ -1,8 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, createRef, useState, useRef } from "react";
 import { addDoc, collection, getDocs, Timestamp, onSnapshot, doc, query, where } from "firebase/firestore";
 import ChatMessage from "./chatMessage";
 import { db } from '../firebase-config'
 import { User } from '../utils/types'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
+import { Sky } from "src/styles/colors";
 
 interface ChatRoomProps {
     user: User,
@@ -43,7 +46,7 @@ const dummyArray : DateMessages = {
 
 export default function ChatRoom({user, otherUser} : ChatRoomProps) {
  
-    const dummySpace = useRef()
+    const messagesEndRef = useRef<null | HTMLDivElement>(null); 
     const messagesRef = collection(db, 'messages')
 
     const [newMessageValue, setNewMessageValue] = useState<string>();
@@ -62,12 +65,13 @@ export default function ChatRoom({user, otherUser} : ChatRoomProps) {
         setNewMessageValue('');
         console.log(messages)
         await addDoc(messagesRef, newMessageObject)
-
-        // scroll down the chat
-        // if(dummySpace.current !== undefined) {
-        //     dummySpace.current.scrollIntoView({ behavor: "smooth" });
-        // }
   };
+
+  const scrollToBottom = () => {
+    if(messagesEndRef.current !== null) {
+          messagesEndRef.current!.scrollIntoView({ behavior: "smooth" });
+    }
+  }
 
   const printDate = (date: Date) => {
     let todayDate = new Date()
@@ -135,10 +139,20 @@ export default function ChatRoom({user, otherUser} : ChatRoomProps) {
         console.log("messages updated")
     });
     }, [])
+
+    useEffect(() => {
+      scrollToBottom()
+    }, [messages])
     
 
   return (
     <section id="chat_room" className="flex flex-col">
+      <div className={"flex flex-row items-center bg-sky-100 rounded-bl-3xl rounded-br-3xl fixed w-full top-0 left-0 h-20 px-3"}>
+        <FontAwesomeIcon icon={faAngleLeft} size="lg" color={Sky[400]}/> {/*TODO: Back Button*/}
+        <div className={"bg-emerald-300 h-12 w-12 rounded-3xl mr-5 ml-3"}></div>
+        <p className={"font-bold"}>{otherUser.name}</p>
+      </div>
+      <div className={"mt-12"}>
       {messages.map((dateMessage: DateMessages) => {
         return(
         <>
@@ -152,9 +166,9 @@ export default function ChatRoom({user, otherUser} : ChatRoomProps) {
           </ul>
         </>)
       })}
+      </div>
+      <div ref={messagesEndRef}/>
         
-
-
       <form onSubmit={handleSubmit}>
         <input
           type="text"
