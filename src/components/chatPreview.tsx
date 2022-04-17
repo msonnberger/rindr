@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { db } from 'src/firebase-config'
 import { Channel, Message, User } from '../utils/types'
 import { formatDate, formatMinutes, formatTime } from '../utils/functions'
+import { userInfo } from 'os'
 
 
 interface ChatPreviewProps {
@@ -62,9 +63,11 @@ export default function ChatPreview({channel, setChatRoom, otherUser} : ChatPrev
             </div>
             <div className={"flex flex-col justify-between items-end mr-0 ml-auto"}>
                 {lastMessage && <p className={"font-light text-sm"}>{printDatePreview(new Date(lastMessage.createdAt.seconds*1000))}</p>}
+                {lastMessage?.from == otherUser?.id &&
                 <div className={"bg-sky-400 h-5 w-5 rounded-xl flex items-center justify-center ml-5"}>
                     <p className={"text-xs font-white text-slate-50"}>?</p>
                 </div>
+                }
             </div>
         </button>
     )
