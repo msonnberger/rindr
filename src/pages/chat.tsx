@@ -43,10 +43,7 @@ const Chat: NextPage = () => {
 
   function findOtherUser (channel: Channel){
     const otherUserId = channel?.users.find((currentUser: string) => currentUser != user.id)
-    console.log(otherUserId, "otherUserId")
-    console.log("users", users)
     const found = users.find((currentUser) => currentUser.id == otherUserId)
-    console.log(found, "found")
     return found
   }
   
@@ -59,7 +56,6 @@ const Chat: NextPage = () => {
         })
         setChannels([...newChannels]);
         });        
-        console.log(chatRoom)
 
       onSnapshot(usersQuery, (querySnapshot) => {
         let newUsers : User[] = [];
@@ -68,7 +64,6 @@ const Chat: NextPage = () => {
         })
         setUsers([...newUsers]);
         });        
-        console.log(chatRoom)
   }, [])
 
   return (

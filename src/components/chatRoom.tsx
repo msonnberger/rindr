@@ -2,7 +2,8 @@ import { useEffect, createRef, useState, useRef } from "react";
 import { addDoc, collection, getDocs, Timestamp, onSnapshot, doc, query, where } from "firebase/firestore";
 import ChatMessage from "./chatMessage";
 import { db } from '../firebase-config'
-import { User } from '../utils/types'
+import { User, Message } from '../utils/types'
+import { printDate } from '../utils/functions'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAnglesLeft, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { Sky, Slate } from "src/styles/colors";
@@ -14,14 +15,6 @@ interface ChatRoomProps {
     setChatRoom: any
 }
 
-interface Message {
-    id: string,
-    text: string,
-    from: string,
-    createdAt: Timestamp,
-    to: string,
-    channelId: string
-}
 
 interface DateMessages {
   day: string,
@@ -81,28 +74,9 @@ export default function ChatRoom({user, otherUser, channelId, setChatRoom} : Cha
 
   const handleBack = () => {
     setChatRoom(undefined)
-    console.log("back")
   }
 
-  const printDate = (date: Date) => {
-    let todayDate = new Date()
-    let todayFormatted = formatDate(todayDate)
-    let dateFormatted = formatDate(date)
-    if(dateFormatted === todayFormatted) {
-      return "today"
-    } else if(dateFormatted === formatDate(new Date(Date.now() - 86400000))) {
-      return "yesterday"
-    } else {
-      return dateFormatted
-    }
-  }
 
-  const formatDate = (date: Date) => {
-    let dayOfMonth = date.getDate()
-    let month = date.getMonth() + 1
-    let year = date.getFullYear()
-    return `${month}/${dayOfMonth}/${year}`
-  }
 
   const sortMessages = (allMessages: Message[]) => {
     let collectionByDate: DateMessages[] = []
