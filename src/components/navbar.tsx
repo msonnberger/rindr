@@ -1,30 +1,15 @@
-import { Emerald, Sky, Slate, Orange, Rose } from '../styles/colors'
-import NavElement from './navElement'
-import { useRouter } from 'next/router'
+import { faCarSide, faCircleUser, faCommentDots, faHouse, faPiggyBank } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse, faCommentDots, faPiggyBank, faCarSide, faCircleUser } from '@fortawesome/free-solid-svg-icons'
-
-const bgStylings = {
-  Slate: 'bg-slate-300',
-  Sky: 'bg-sky-100',
-  Emerald: 'bg-emerald-100',
-  Orange: 'bg-orange-100',
-  Rose: 'bg-rose-100',
-}
-
-const fgStylings = {
-  Slate: 'text-slate-50 ',
-  Sky: 'text-sky-400',
-  Emerald: 'text-emerald-400',
-  Orange: 'text-orange-400',
-  Rose: 'text-rose-400',
-}
+import { useRouter } from 'next/router'
+import { Emerald, Orange, Rose, Sky, Slate } from '@styles/colors'
+import { bgStylings, fgStylings } from '@styles/colors'
+import NavElement from './navElement'
 
 export default function Navbar() {
   const { pathname: currentRoute } = useRouter()
 
   return (
-    <div className="flex h-16 flex-row items-center justify-evenly rounded-3xl bg-slate-50 fixed bottom-3 right-4 left-4">
+    <div className="fixed bottom-3 right-4 left-4 flex h-16 flex-row items-center justify-evenly rounded-3xl bg-slate-50">
       <NavElement
         title="Home"
         bgColor={bgStylings.Slate}

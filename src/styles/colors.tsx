@@ -74,3 +74,19 @@ export const Orange: ColorPalette = {
   800: '#9a3412',
   900: '#7c2d12',
 }
+
+export const bgStylings = {
+  Slate: 'bg-slate-300',
+  Sky: 'bg-sky-100',
+  Emerald: 'bg-emerald-100',
+  Orange: 'bg-orange-100',
+  Rose: 'bg-rose-100',
+}
+
+export const fgStylings = {
+  Slate: 'text-slate-50 ',
+  Sky: 'text-sky-400',
+  Emerald: 'text-emerald-400',
+  Orange: 'text-orange-400',
+  Rose: 'text-rose-400',
+}

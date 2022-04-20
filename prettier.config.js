@@ -5,4 +5,13 @@ module.exports = {
   semi: false,
   singleQuote: true,
   printWidth: 120,
+  importOrder: [
+    '^@utils/(.*)$',
+    '^@firebase-config$',
+    '^@hooks/(.*)$',
+    '^@styles/(.*)$',
+    '^@components/(.*)$',
+    '^[./]',
+  ],
+  importOrderSortSpecifiers: true,
 }

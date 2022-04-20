@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Layout from '../components/layout'
-import Heading from  '../components/heading'
-
+import { fgStylings } from '@styles/colors'
+import Heading from '@components/heading'
+import Layout from '@components/layout'
 
 const Rides: NextPage = () => {
   return (
@@ -12,7 +12,7 @@ const Rides: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Heading title={"Rides"} />
+        <Heading title="Rides" color={fgStylings.Orange} />
       </Layout>
     </>
   )

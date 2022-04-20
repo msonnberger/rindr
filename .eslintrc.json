@@ -1,3 +1,28 @@
 {
-  "extends": ["next/core-web-vitals", "prettier"]
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "prettier"
+  ],
+  "plugins": ["import-alias"],
+  "rules": {
+    "react/jsx-curly-brace-presence": [
+      "error",
+      { "props": "never", "children": "never", "propElementValues": "always" }
+    ],
+    "import-alias/import-alias": [
+      "error",
+      {
+        "relativeDepth": 0,
+        "aliases": [
+          { "alias": "@components", "matcher": "^components" },
+          { "alias": "@hooks", "matcher": "^hooks" },
+          { "alias": "@utils", "matcher": "^utils" },
+          { "alias": "@styles", "matcher": "^styles" }
+        ]
+      }
+    ]
+  }
 }
