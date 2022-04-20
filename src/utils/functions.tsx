@@ -27,3 +27,16 @@ export const formatTime = (date: Date) => {
   const minutes = formatMinutes(`${date.getMinutes()}`)
   return `${hours}:${minutes}`
 }
+
+export const printDatePreview = (date: Date) => {
+  let todayDate = new Date()
+  let todayFormatted = formatDate(todayDate)
+  let dateFormatted = formatDate(date)
+  if (dateFormatted === todayFormatted) {
+    return formatMinutes(formatTime(date))
+  } else if (dateFormatted === formatDate(new Date(Date.now() - 86400000))) {
+    return 'yesterday'
+  } else {
+    return dateFormatted
+  }
+}

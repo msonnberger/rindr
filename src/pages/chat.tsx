@@ -25,19 +25,6 @@ const Chat: NextPage = () => {
   const channelQuery = query(channelRef, where('users', 'array-contains', user.id))
   const usersQuery = query(usersRef)
 
-  /* function findBelongingChannel(otherUser: User) {
-    let foundChannel = ''
-
-    channels.forEach((channel) => {
-      if (channel.users.find((currentUser) => currentUser == otherUser.id) != undefined) {
-        foundChannel = channel.id
-        return
-      }
-    })
-
-    return foundChannel
-  } */
-
   function findOtherUser(channel: Channel) {
     const otherUserId = channel?.users.find((currentUser: string) => currentUser != user.id)
     const found = users.find((currentUser) => currentUser.id == otherUserId)
@@ -79,6 +66,8 @@ const Chat: NextPage = () => {
                   channel={channel}
                   otherUser={findOtherUser(channel)}
                   setChatRoom={setChatRoom}
+                  setChannels={setChannels}
+                  channels={channels}
                 />
               ))}
             </div>

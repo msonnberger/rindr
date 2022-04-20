@@ -20,28 +20,6 @@ interface DateMessages {
   dateMessages: Message[]
 }
 
-/* const dummyArray: DateMessages = {
-  day: '4/14/2022',
-  dateMessages: [
-    {
-      id: '323232333',
-      to: '1111',
-      from: '2222',
-      text: 'Hallo!',
-      createdAt: Timestamp.now(),
-      channelId: '1',
-    },
-    {
-      id: '323324',
-      to: '2222',
-      from: '1111',
-      text: 'Hi wie gehts?',
-      createdAt: Timestamp.now(),
-      channelId: '1',
-    },
-  ],
-} */
-
 export default function ChatRoom({ user, otherUser, channelId, setChatRoom }: ChatRoomProps) {
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   const messagesRef = collection(db, 'messages')
