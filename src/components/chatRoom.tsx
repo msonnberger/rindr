@@ -20,7 +20,7 @@ interface DateMessages {
   dateMessages: Message[]
 }
 
-const dummyArray: DateMessages = {
+/* const dummyArray: DateMessages = {
   day: '4/14/2022',
   dateMessages: [
     {
@@ -40,7 +40,7 @@ const dummyArray: DateMessages = {
       channelId: '1',
     },
   ],
-}
+} */
 
 export default function ChatRoom({ user, otherUser, channelId, setChatRoom }: ChatRoomProps) {
   const messagesEndRef = useRef<null | HTMLDivElement>(null)

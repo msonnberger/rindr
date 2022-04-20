@@ -25,7 +25,7 @@ const Chat: NextPage = () => {
   const channelQuery = query(channelRef, where('users', 'array-contains', user.id))
   const usersQuery = query(usersRef)
 
-  function findBelongingChannel(otherUser: User) {
+  /* function findBelongingChannel(otherUser: User) {
     let foundChannel = ''
 
     channels.forEach((channel) => {
@@ -36,7 +36,7 @@ const Chat: NextPage = () => {
     })
 
     return foundChannel
-  }
+  } */
 
   function findOtherUser(channel: Channel) {
     const otherUserId = channel?.users.find((currentUser: string) => currentUser != user.id)
