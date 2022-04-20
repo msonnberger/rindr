@@ -1,5 +1,5 @@
 import { DefaultSession } from 'next-auth'
-import type { DefaultJWT, JWT as DJWT } from 'next-auth/jwt'
+import type { DefaultJWT } from 'next-auth/jwt'
 
 declare module 'next-auth' {
   export interface Profile {
@@ -16,7 +16,7 @@ declare module 'next-auth' {
     user_info_response: string
   }
 
-  export interface JWT extends DJWT {
+  export interface JWT extends DefaultJWT {
     user: {
       name: string
       id: string
