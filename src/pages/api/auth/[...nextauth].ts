@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth/next'
 import { db } from 'src/firebase-config'
 import { doc, getDoc } from 'firebase/firestore'
-import type { Profile } from 'next-auth'
+import type { Profile, JWT } from 'next-auth'
 
 export default NextAuth({
   theme: {
@@ -42,21 +42,26 @@ export default NextAuth({
     },
   ],
   callbacks: {
-    async session({ session, token }) {
+    async jwt({ token }) {
       const uid = token.sub
+      const userData = await fetchUserData(uid)
+      token.user = userData ?? {}
 
-      if (uid) {
-        const userRef = doc(db, 'users', uid)
-        const userSnap = await getDoc(userRef)
-
-        if (userSnap.exists()) {
-          session.user.color = userSnap.data().color
-        } else {
-          console.log('No document')
-        }
-      }
-
+      return token
+    },
+    async session({ session, token }) {
+      session.user = token.user
+      console.log(session.user)
       return session
     },
   },
 })
+
+const fetchUserData = async (uid?: string) => {
+  if (!uid) return undefined
+
+  const userRef = doc(db, 'users', uid)
+  const userSnap = await getDoc(userRef)
+
+  return userSnap.data()
+}

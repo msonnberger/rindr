@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
 const NewUser: NextPage = () => {
-  return <div>hi</div>
+  return <div>Setup Profile</div>
 }
 
 export default NewUser

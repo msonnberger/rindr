@@ -1,7 +1,8 @@
-import NextAuth, { DefaultSession } from 'next-auth'
+import { DefaultSession } from 'next-auth'
+import type { DefaultJWT, JWT as DJWT } from 'next-auth/jwt'
 
 declare module 'next-auth' {
-  interface Profile {
+  export interface Profile {
     sub: string
     created_at: number
     token_id: number
@@ -15,11 +16,19 @@ declare module 'next-auth' {
     user_info_response: string
   }
 
-  interface Session {
+  export interface JWT extends DJWT {
     user: {
       name: string
-      color: string
       id: string
-    } & DefaultSession['user']
+      profileSetupCompleted: boolean
+    }
+  }
+
+  export interface Session extends DefaultSession {
+    user: {
+      name: string
+      id: string
+      profileSetupCompleted: boolean
+    }
   }
 }
