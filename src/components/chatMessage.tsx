@@ -1,5 +1,5 @@
 import { Timestamp } from 'firebase/firestore'
-import { formatMinutes, formatTime } from '../utils/functions'
+import { formatTime } from '@utils/functions'
 
 interface ChatMessageProps {
   text: string

@@ -1,14 +1,14 @@
+import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Layout from '../components/layout'
-import Heading from '../components/heading'
-import { db } from '../firebase-config'
-import { fgStylings } from 'src/styles/colors'
-import ChatRoom from '@components/chatRoom'
 import { useEffect, useState } from 'react'
+import { Channel, User } from '@utils/types'
+import { db } from '@firebase-config'
+import { fgStylings } from '@styles/colors'
 import ChatPreview from '@components/chatPreview'
-import { collection, where, getDocs, query, onSnapshot } from 'firebase/firestore'
-import { User, Channel } from '@utils/types'
+import ChatRoom from '@components/chatRoom'
+import Heading from '@components/heading'
+import Layout from '@components/layout'
 
 const Chat: NextPage = () => {
   const [chatRoom, setChatRoom] = useState<Channel>()

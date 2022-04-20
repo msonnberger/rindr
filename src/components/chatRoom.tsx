@@ -1,12 +1,12 @@
-import { useEffect, createRef, useState, useRef } from 'react'
-import { addDoc, collection, getDocs, Timestamp, onSnapshot, doc, query, where } from 'firebase/firestore'
-import ChatMessage from './chatMessage'
-import { db } from '../firebase-config'
-import { User, Message } from '../utils/types'
-import { printDate } from '../utils/functions'
+import { faAngleLeft, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleLeft, faAnglesLeft, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import { Sky, Slate } from 'src/styles/colors'
+import { Timestamp, addDoc, collection, onSnapshot, query, where } from 'firebase/firestore'
+import { useEffect, useRef, useState } from 'react'
+import { printDate } from '@utils/functions'
+import { Message, User } from '@utils/types'
+import { db } from '@firebase-config'
+import { Sky } from '@styles/colors'
+import ChatMessage from '@components/chatMessage'
 
 interface ChatRoomProps {
   user: User
@@ -127,9 +127,7 @@ export default function ChatRoom({ user, otherUser, channelId, setChatRoom }: Ch
 
   return (
     <section id="chat_room" className="flex flex-col">
-      <div
-        className="fixed top-0 left-0 flex h-20 w-full flex-row items-center rounded-bl-3xl rounded-br-3xl bg-sky-100 px-3"
-      >
+      <div className="fixed top-0 left-0 flex h-20 w-full flex-row items-center rounded-bl-3xl rounded-br-3xl bg-sky-100 px-3">
         <button onClick={handleBack}>
           <FontAwesomeIcon icon={faAngleLeft} size="lg" color={Sky[400]} />
         </button>
@@ -174,12 +172,12 @@ export default function ChatRoom({ user, otherUser, channelId, setChatRoom }: Ch
         />
 
         <button
-            type="submit"
-            className="flex h-8 w-8 items-center justify-center rounded-2xl bg-sky-50"
-            disabled={newMessageValue == undefined || newMessageValue == ''}
-          >
-            <FontAwesomeIcon icon={faPaperPlane} color={Sky[500]} />
-          </button>
+          type="submit"
+          className="flex h-8 w-8 items-center justify-center rounded-2xl bg-sky-50"
+          disabled={newMessageValue == undefined || newMessageValue == ''}
+        >
+          <FontAwesomeIcon icon={faPaperPlane} color={Sky[500]} />
+        </button>
       </form>
     </section>
   )

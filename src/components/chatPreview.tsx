@@ -1,9 +1,8 @@
 import { collection, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { db } from 'src/firebase-config'
-import { Channel, Message, User } from '../utils/types'
-import { formatDate, formatMinutes, formatTime } from '../utils/functions'
-import { userInfo } from 'os'
+import { useEffect, useState } from 'react'
+import { formatDate, formatMinutes, formatTime } from '@utils/functions'
+import { Channel, Message, User } from '@utils/types'
+import { db } from '@firebase-config'
 
 interface ChatPreviewProps {
   channel: Channel
@@ -61,9 +60,7 @@ export default function ChatPreview({ channel, setChatRoom, otherUser }: ChatPre
       <div className="mr-5 h-12 w-12 rounded-3xl bg-emerald-300"></div>
       <div className="mx-0 w-8/12">
         <p className="text-left font-bold">{otherUser?.name}</p>
-        <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-left font-light">
-          {lastMessage?.text}
-        </p>
+        <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-left font-light">{lastMessage?.text}</p>
       </div>
       <div className="mr-0 ml-auto flex flex-col items-end justify-between">
         {lastMessage && (
