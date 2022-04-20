@@ -8,9 +8,11 @@ interface ChatPreviewProps {
   channel: Channel
   setChatRoom: any
   otherUser: User | undefined
+  setChannels: any
+  channels: Channel[]
 }
 
-export default function ChatPreview({ channel, setChatRoom, otherUser }: ChatPreviewProps) {
+export default function ChatPreview({ channel, setChatRoom, otherUser, setChannels, channels }: ChatPreviewProps) {
   const messagesRef = collection(db, 'messages')
   const [lastMessage, setLastMessage] = useState<Message>()
   const handleClick = () => {
@@ -52,7 +54,11 @@ export default function ChatPreview({ channel, setChatRoom, otherUser }: ChatPre
         })
       })
       setLastMessage(newMessages[0])
-      // setLastMessage([...newMessages]);
+      let activeChannels = channels
+      let currentChannel: Channel = activeChannels.find((element) => element.id == channel.id)
+      currentChannel.lastMessage = newMessages[0]
+      activeChannels.sort((a, b) => (a?.lastMessage.createdAt < b?.lastMessage.createdAt ? 1 : -1))
+      setChannels([...activeChannels])
     })
   }, [])
   return (

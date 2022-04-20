@@ -8,6 +8,7 @@ export interface User {
 export interface Channel {
   id: string
   users: string[]
+  lastMessage?: Message
 }
 
 export interface Message {
