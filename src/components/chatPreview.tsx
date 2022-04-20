@@ -1,6 +1,6 @@
 import { collection, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import { formatDate, formatMinutes, formatTime } from '@utils/functions'
+import { printDatePreview } from '@utils/functions'
 import { Channel, Message, User } from '@utils/types'
 import { db } from '@firebase-config'
 
@@ -17,19 +17,6 @@ export default function ChatPreview({ channel, setChatRoom, otherUser, setChanne
   const [lastMessage, setLastMessage] = useState<Message>()
   const handleClick = () => {
     setChatRoom(channel)
-  }
-
-  const printDatePreview = (date: Date) => {
-    let todayDate = new Date()
-    let todayFormatted = formatDate(todayDate)
-    let dateFormatted = formatDate(date)
-    if (dateFormatted === todayFormatted) {
-      return formatMinutes(formatTime(date))
-    } else if (dateFormatted === formatDate(new Date(Date.now() - 86400000))) {
-      return 'yesterday'
-    } else {
-      return dateFormatted
-    }
   }
 
   const receivedMessages = query(
@@ -57,9 +44,7 @@ export default function ChatPreview({ channel, setChatRoom, otherUser, setChanne
       let activeChannels = channels
       let currentChannel: Channel = activeChannels.find((element) => element.id == channel.id)
       currentChannel.lastMessage = newMessages[0]
-      if (activeChannels != undefined) {
-        activeChannels.sort((a, b) => (a?.lastMessage.createdAt < b?.lastMessage.createdAt ? 1 : -1))
-      }
+      activeChannels.sort((a, b) => (a.lastMessage?.createdAt < b.lastMessage?.createdAt ? 1 : -1))
       setChannels([...activeChannels])
     })
   }, [])
