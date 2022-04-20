@@ -1,7 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # IDEs
-.vscode
+# ignore everything in .vscode folder except recommended extensions and project-specific settings
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
 .idea
 
 # dependencies
