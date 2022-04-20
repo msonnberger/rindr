@@ -57,7 +57,9 @@ export default function ChatPreview({ channel, setChatRoom, otherUser, setChanne
       let activeChannels = channels
       let currentChannel: Channel = activeChannels.find((element) => element.id == channel.id)
       currentChannel.lastMessage = newMessages[0]
-      activeChannels.sort((a, b) => (a?.lastMessage.createdAt < b?.lastMessage.createdAt ? 1 : -1))
+      if (activeChannels != undefined) {
+        activeChannels.sort((a, b) => (a?.lastMessage.createdAt < b?.lastMessage.createdAt ? 1 : -1))
+      }
       setChannels([...activeChannels])
     })
   }, [])
