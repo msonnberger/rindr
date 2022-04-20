@@ -5,12 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faCommentDots, faPiggyBank, faCarSide, faCircleUser } from '@fortawesome/free-solid-svg-icons'
 import { fgStylings, bgStylings } from '../styles/colors'
 
-
 export default function Navbar() {
   const { pathname: currentRoute } = useRouter()
 
   return (
-    <div className="flex h-16 flex-row items-center justify-evenly rounded-3xl bg-slate-50 fixed bottom-3 right-4 left-4">
+    <div className="fixed bottom-3 right-4 left-4 flex h-16 flex-row items-center justify-evenly rounded-3xl bg-slate-50">
       <NavElement
         title="Home"
         bgColor={bgStylings.Slate}

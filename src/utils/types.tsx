@@ -1,8 +1,8 @@
-import { Timestamp } from "firebase/firestore"
+import { Timestamp } from 'firebase/firestore'
 
 export interface User {
-    name: string
-    id: string
+  name: string
+  id: string
 }
 
 export interface Channel {
@@ -11,10 +11,10 @@ export interface Channel {
 }
 
 export interface Message {
-    id: string,
-    text: string,
-    from: string,
-    createdAt: Timestamp,
-    to: string,
-    channelId: string
+  id: string
+  text: string
+  from: string
+  createdAt: Timestamp
+  to: string
+  channelId: string
 }

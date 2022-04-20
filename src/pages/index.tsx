@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Layout from '../components/layout'
-import Heading from  '../components/heading'
+import Heading from '../components/heading'
 import { fgStylings } from 'src/styles/colors'
 
 const Home: NextPage = () => {
@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Heading title={"Hi <name>!"} color={fgStylings.Sky}/>
+        <Heading title="Hi <name>!" color={fgStylings.Sky} />
       </Layout>
     </>
   )
