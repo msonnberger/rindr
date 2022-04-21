@@ -6,18 +6,14 @@ import { db } from '@firebase-config'
 
 interface ChatPreviewProps {
   channel: Channel
-  setChatRoom: any
   otherUser: User | undefined
   setChannels: any
   channels: Channel[]
 }
 
-export default function ChatPreview({ channel, setChatRoom, otherUser, setChannels, channels }: ChatPreviewProps) {
+export default function ChatPreview({ channel, otherUser, setChannels, channels }: ChatPreviewProps) {
   const messagesRef = collection(db, 'messages')
   const [lastMessage, setLastMessage] = useState<Message>()
-  const handleClick = () => {
-    setChatRoom(channel)
-  }
 
   const receivedMessages = query(
     messagesRef,
@@ -55,7 +51,7 @@ export default function ChatPreview({ channel, setChatRoom, otherUser, setChanne
     })
   }, [])
   return (
-    <button className="flex w-full max-w-md flex-row rounded-3xl bg-sky-50 p-4 font-bold" onClick={handleClick}>
+    <button className="flex w-full max-w-md flex-row rounded-3xl bg-sky-50 p-4 font-bold">
       <div className="mr-5 h-12 w-12 rounded-3xl bg-emerald-300"></div>
       <div className="mx-0 w-8/12">
         <p className="text-left font-bold">{otherUser?.name}</p>

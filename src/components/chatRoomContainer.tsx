@@ -1,6 +1,7 @@
 import { faAngleLeft, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Timestamp, addDoc, collection, onSnapshot, query, where } from 'firebase/firestore'
+import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { printDate } from '@utils/functions'
 import { Message, User } from '@utils/types'
@@ -8,11 +9,10 @@ import { db } from '@firebase-config'
 import { Sky } from '@styles/colors'
 import ChatMessage from '@components/chatMessage'
 
-interface ChatRoomProps {
+interface ChatRoomContainerProps {
   user: User
   otherUser: User | undefined
   channelId: string
-  setChatRoom: any
 }
 
 interface DateMessages {
@@ -20,12 +20,15 @@ interface DateMessages {
   dateMessages: Message[]
 }
 
-export default function ChatRoom({ user, otherUser, channelId, setChatRoom }: ChatRoomProps) {
+export default function ChatRoomContainer({ user, otherUser, channelId }: ChatRoomContainerProps) {
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   const messagesRef = collection(db, 'messages')
+  const router = useRouter()
 
   const [newMessageValue, setNewMessageValue] = useState<string>()
   const [messages, setMessages] = useState<DateMessages[]>([])
+
+  console.log(channelId, 'channelId')
 
   async function handleSubmit(e: any) {
     e.preventDefault()
@@ -46,10 +49,6 @@ export default function ChatRoom({ user, otherUser, channelId, setChatRoom }: Ch
     if (messagesEndRef.current !== null) {
       messagesEndRef.current!.scrollIntoView({ behavior: 'smooth' })
     }
-  }
-
-  const handleBack = () => {
-    setChatRoom(undefined)
   }
 
   const sortMessages = (allMessages: Message[]) => {
@@ -93,6 +92,7 @@ export default function ChatRoom({ user, otherUser, channelId, setChatRoom }: Ch
           channelId: channelId,
         })
       })
+      console.log(channelId)
 
       let sortByDate = sortMessages(newMessages)
       setMessages([...sortByDate])
@@ -106,7 +106,7 @@ export default function ChatRoom({ user, otherUser, channelId, setChatRoom }: Ch
   return (
     <section id="chat_room" className="flex flex-col">
       <div className="fixed top-0 left-0 flex h-20 w-full flex-row items-center rounded-bl-3xl rounded-br-3xl bg-sky-100 px-3">
-        <button onClick={handleBack}>
+        <button onClick={() => router.back()}>
           <FontAwesomeIcon icon={faAngleLeft} size="lg" color={Sky[400]} />
         </button>
         <div className="mr-5 ml-3 h-12 w-12 rounded-3xl bg-emerald-300"></div>

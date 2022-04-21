@@ -9,13 +9,11 @@ import { Channel, User } from '@utils/types'
 import { db } from '@firebase-config'
 import { Sky, fgStylings } from '@styles/colors'
 import ChatPreview from '@components/chatPreview'
-import ChatRoom from '@components/chatRoom'
 import Heading from '@components/heading'
 import Layout from '@components/layout'
 import SearchField from '@components/searchField'
 
 const Chat: NextPage = () => {
-  const [chatRoom, setChatRoom] = useState<Channel>()
   const [channels, setChannels] = useState<Channel[]>([])
   const [users, setUsers] = useState<User[]>([])
   const channelRef = collection(db, 'channels')
@@ -71,26 +69,20 @@ const Chat: NextPage = () => {
             </button>
           </Link>
         </div>
-        {chatRoom == undefined && (
-          <>
-            <Heading title="Messages" color={fgStylings.Sky} />
-            <div className="mt-11 flex flex-col gap-5">
-              {channels.map((channel) => (
-                <ChatPreview
-                  key={channel.id}
-                  channel={channel}
-                  otherUser={findOtherUser(channel)}
-                  setChatRoom={setChatRoom}
-                  setChannels={setChannels}
-                  channels={channels}
-                />
-              ))}
-            </div>
-          </>
-        )}
-        {chatRoom != undefined && (
-          <ChatRoom user={user} otherUser={findOtherUser(chatRoom)} channelId={chatRoom.id} setChatRoom={setChatRoom} />
-        )}
+        <Heading title="Messages" color={fgStylings.Sky} />
+        <div className="mt-11 flex flex-col gap-5">
+          {channels.map((channel) => (
+            <Link key={channel.id} href={`/chatroom/${findOtherUser(channel)?.id}`} passHref>
+              <ChatPreview
+                key={channel.id}
+                channel={channel}
+                otherUser={findOtherUser(channel)}
+                setChannels={setChannels}
+                channels={channels}
+              />
+            </Link>
+          ))}
+        </div>
       </Layout>
     </>
   )
