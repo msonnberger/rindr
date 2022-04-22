@@ -12,7 +12,7 @@ const Rides: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Heading title="Rides" color={fgStylings.Orange} />
+        <Heading title="Rides" color={fgStylings.Orange} marginTop="mt-10" />
       </Layout>
     </>
   )
