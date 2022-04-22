@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 import React from 'react'
 
 interface NavElementProps {
@@ -11,23 +11,21 @@ interface NavElementProps {
 }
 
 export default function NavElement({ title, bgColor, fgColor, route, isActive, children }: NavElementProps) {
-  const router = useRouter()
-  const handleClick = () => {
-    router.push(route)
-  }
-
   return (
     <>
       {isActive && (
-        <button
-          className={`flex h-10 flex-row items-center justify-between gap-4 rounded-3xl px-3 ${bgColor}`}
-          onClick={handleClick}
-        >
-          {children}
-          <p className={`mr-3 font-sans text-xs font-bold ${fgColor}`}>{title}</p>
-        </button>
+        <Link href={route} passHref>
+          <button className={`flex h-10 flex-row items-center justify-between gap-4 rounded-3xl px-3 ${bgColor}`}>
+            {children}
+            <p className={`mr-3 font-sans text-xs font-bold ${fgColor}`}>{title}</p>
+          </button>
+        </Link>
       )}
-      {!isActive && <button onClick={handleClick}>{children}</button>}
+      {!isActive && (
+        <Link href={route} passHref>
+          <button>{children}</button>
+        </Link>
+      )}
     </>
   )
 }

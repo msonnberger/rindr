@@ -1,17 +1,19 @@
+import { faMagnifyingGlass, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Channel, User } from '@utils/types'
 import { db } from '@firebase-config'
-import { fgStylings } from '@styles/colors'
+import { Sky, fgStylings } from '@styles/colors'
 import ChatPreview from '@components/chatPreview'
-import ChatRoom from '@components/chatRoom'
 import Heading from '@components/heading'
 import Layout from '@components/layout'
+import SearchField from '@components/searchField'
 
 const Chat: NextPage = () => {
-  const [chatRoom, setChatRoom] = useState<Channel>()
   const [channels, setChannels] = useState<Channel[]>([])
   const [users, setUsers] = useState<User[]>([])
   const channelRef = collection(db, 'channels')
@@ -56,26 +58,29 @@ const Chat: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        {chatRoom == undefined && (
-          <>
-            <Heading title="Messages" color={fgStylings.Sky} marginTop="mt-10" />
-            <div className="mt-11 flex flex-col gap-5">
-              {channels.map((channel) => (
-                <ChatPreview
-                  key={channel.id}
-                  channel={channel}
-                  otherUser={findOtherUser(channel)}
-                  setChatRoom={setChatRoom}
-                  setChannels={setChannels}
-                  channels={channels}
-                />
-              ))}
-            </div>
-          </>
-        )}
-        {chatRoom != undefined && (
-          <ChatRoom user={user} otherUser={findOtherUser(chatRoom)} channelId={chatRoom.id} setChatRoom={setChatRoom} />
-        )}
+        <div className="flex flex-row items-center w-full justify-between max-w-md">
+          <SearchField size="w-10/12">
+            <FontAwesomeIcon size="lg" icon={faMagnifyingGlass} color={Sky[400]} />
+            <p className="text-left font-light text-sky-800 ml-6">Type something...</p>
+          </SearchField>
+          <Link href="/new-chat" passHref>
+            <button className="h-12 bg-sky-400 w-12 rounded-3xl flex flex-row items-center justify-center">
+              <FontAwesomeIcon icon={faPencil} color="white" size="lg" />
+            </button>
+          </Link>
+        </div>
+        <Heading title="Messages" color={fgStylings.Sky} />
+        <div className="mt-11 flex flex-col gap-5">
+          {channels.map((channel) => (
+            <ChatPreview
+              key={channel.id}
+              channel={channel}
+              otherUser={findOtherUser(channel)}
+              setChannels={setChannels}
+              channels={channels}
+            />
+          ))}
+        </div>
       </Layout>
     </>
   )

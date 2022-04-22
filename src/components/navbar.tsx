@@ -24,9 +24,13 @@ export default function Navbar() {
         bgColor={bgStylings.Sky}
         fgColor={fgStylings.Sky}
         route="/chat"
-        isActive={currentRoute === '/chat'}
+        isActive={currentRoute === '/chat' || currentRoute === '/new-chat'}
       >
-        <FontAwesomeIcon size="lg" icon={faCommentDots} color={currentRoute === '/chat' ? Sky[400] : Slate[300]} />
+        <FontAwesomeIcon
+          size="lg"
+          icon={faCommentDots}
+          color={currentRoute === '/chat' || currentRoute === '/new-chat' ? Sky[400] : Slate[300]}
+        />
       </NavElement>
       <NavElement
         title="Savings"
