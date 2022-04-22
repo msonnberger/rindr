@@ -28,8 +28,6 @@ export default function ChatRoomContainer({ user, otherUser, channelId }: ChatRo
   const [newMessageValue, setNewMessageValue] = useState<string>()
   const [messages, setMessages] = useState<DateMessages[]>([])
 
-  console.log(channelId, 'channelId')
-
   async function handleSubmit(e: any) {
     e.preventDefault()
 
@@ -92,7 +90,6 @@ export default function ChatRoomContainer({ user, otherUser, channelId }: ChatRo
           channelId: channelId,
         })
       })
-      console.log(channelId)
 
       let sortByDate = sortMessages(newMessages)
       setMessages([...sortByDate])

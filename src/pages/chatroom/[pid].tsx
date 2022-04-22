@@ -16,6 +16,8 @@ const user: User = {
 const Chatroom: NextPage = () => {
   const [channels, setChannels] = useState<Channel[]>([])
   const [users, setUsers] = useState<User[]>([])
+  const [foundChannel, setFoundChannel] = useState<string>()
+  const [otherUser, setOtherUser] = useState<string>()
   const router = useRouter()
   const { pid } = router.query
   const channelRef = collection(db, 'channels')
@@ -28,12 +30,10 @@ const Chatroom: NextPage = () => {
     let found = channels.find((channel) => {
       return channel.users.find((current) => current == otherUser)
     })
-
     if (found == undefined) {
-      console.log('ddd')
       //create new channel
       const newChannel = {
-        users: [otherUser, user.id],
+        users: [user.id, otherUser],
       }
       addDoc(channelRef, newChannel)
       return channels.find((channel) => {
@@ -43,6 +43,13 @@ const Chatroom: NextPage = () => {
       return found.id
     }
   }
+
+  useEffect(() => {
+    setOtherUser(pid)
+    if (otherUser != undefined) {
+      setFoundChannel(findChannelId(otherUser))
+    }
+  }, [channels])
 
   useEffect(() => {
     onSnapshot(channelQuery, (querySnapshot) => {
@@ -70,12 +77,14 @@ const Chatroom: NextPage = () => {
       </Head>
       <Layout>
         <p>{pid}</p>
-        {pid != undefined && (
+        {channels != undefined && foundChannel != undefined ? (
           <ChatRoomContainer
             user={user}
             otherUser={users.find((current) => current.id == pid)}
-            channelId={findChannelId(pid)}
+            channelId={foundChannel}
           />
+        ) : (
+          <p>Channel not available.</p>
         )}
       </Layout>
     </>

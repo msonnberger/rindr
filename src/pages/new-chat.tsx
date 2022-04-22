@@ -1,12 +1,12 @@
 import { faAngleLeft, faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
+import { collection, onSnapshot, query } from 'firebase/firestore'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Channel, User } from '@utils/types'
+import { User } from '@utils/types'
 import { db } from '@firebase-config'
 import { Sky } from '@styles/colors'
 import AutoComplete from '@components/autocomplete'
@@ -24,20 +24,14 @@ interface UserAlphabet {
 
 const NewChat: NextPage = () => {
   const [users, setUsers] = useState<UserAlphabet[]>([])
-  const [channels, setChannels] = useState<Channel[]>([])
   const [options, setOptions] = useState<User[]>([])
   const [search, setSearch] = useState('')
   const usersRef = collection(db, 'users')
-  const channelRef = collection(db, 'channels')
   const usersQuery = query(usersRef)
-  const channelQuery = query(channelRef, where('users', 'array-contains', user.id))
 
   const handleChange = (event: any) => {
     setSearch(event?.target.value)
-    console.log(event?.target.value)
   }
-
-  console.log(channels)
 
   useEffect(() => {
     onSnapshot(usersQuery, (querySnapshot) => {
@@ -59,14 +53,6 @@ const NewChat: NextPage = () => {
       setOptions([...newUsers])
       setUsers([...newUsersAlphabet])
     })
-
-    onSnapshot(channelQuery, (querySnapshot) => {
-      let newChannels: Channel[] = []
-      querySnapshot.forEach((doc) => {
-        newChannels.push({ id: doc.id, users: doc.data().users })
-      })
-      setChannels([...newChannels])
-    })
   }, [])
 
   return (
@@ -82,12 +68,7 @@ const NewChat: NextPage = () => {
           </Link>
           <p className="font-bold w-full text-center">New Message</p>
         </div>
-        <form
-          onSubmit={() => {
-            console.log('hallo')
-          }}
-          className="flex w-full h-14 flex-row rounded-3xl bg-sky-50 p-4 items-center mt-4 relative"
-        >
+        <div className="flex w-full h-14 flex-row rounded-3xl bg-sky-50 p-4 items-center mt-4 relative">
           <FontAwesomeIcon size="lg" icon={faMagnifyingGlass} color={Sky[400]} />
           <input
             placeholder="search user..."
@@ -99,7 +80,7 @@ const NewChat: NextPage = () => {
           {search != '' && (
             <AutoComplete options={options.filter((option) => option.name.toLowerCase().indexOf(`${search}`) != -1)} />
           )}
-        </form>
+        </div>
 
         <section className="mt-12 flex flex-col gap-4">
           {users &&
