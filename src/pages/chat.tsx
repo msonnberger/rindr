@@ -1,12 +1,10 @@
 import { faMagnifyingGlass, faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Channel, User } from '@utils/types'
-import { db } from '@firebase-config'
+import { supabase } from '@utils/supabaseClient'
 import { Sky, fgStylings } from '@styles/colors'
 import ChatPreview from '@components/chatPreview'
 import Heading from '@components/heading'
@@ -14,8 +12,9 @@ import Layout from '@components/layout'
 import SearchField from '@components/searchField'
 
 const Chat: NextPage = () => {
-  const [channels, setChannels] = useState<Channel[]>([])
-  const [users, setUsers] = useState<User[]>([])
+  const [channels, setChannels] = useState<any[]>([])
+  console.log(channels)
+  /* const [users, setUsers] = useState<User[]>([])
   const channelRef = collection(db, 'channels')
   const usersRef = collection(db, 'users')
 
@@ -49,6 +48,32 @@ const Chat: NextPage = () => {
       })
       setUsers([...newUsers])
     })
+  }, []) */
+
+  const ownId = '4b824c28-6ac4-45ff-b175-56624c287706'
+
+  useEffect(() => {
+    async function fetchChannels() {
+      const { data } = await supabase.from('chat_channels').select().or(`user1_id.eq.${ownId},user2_id.eq.${ownId}`)
+      if (data) setChannels(data)
+    }
+
+    fetchChannels()
+
+    const channelsSubscription = supabase
+      .from('chat_channels')
+      .on('INSERT', (payload) => {
+        const { user1_id, user2_id } = payload.new
+
+        if (user1_id === ownId || user2_id === ownId) {
+          setChannels((oldChannels) => [payload.new, ...oldChannels])
+        }
+      })
+      .subscribe()
+
+    return () => {
+      supabase.removeSubscription(channelsSubscription)
+    }
   }, [])
 
   return (
@@ -75,7 +100,7 @@ const Chat: NextPage = () => {
             <ChatPreview
               key={channel.id}
               channel={channel}
-              otherUser={findOtherUser(channel)}
+              otherUser={{ name: 'Oliver', id: '1111' }}
               setChannels={setChannels}
               channels={channels}
             />
