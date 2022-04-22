@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Heading title="Hi <name>!" color={fgStylings.Sky} />
+        <Heading title="Hi <name>!" color={fgStylings.Sky} marginTop="mt-10" />
       </Layout>
     </>
   )

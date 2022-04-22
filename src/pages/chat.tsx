@@ -58,7 +58,7 @@ const Chat: NextPage = () => {
       <Layout>
         {chatRoom == undefined && (
           <>
-            <Heading title="Messages" color={fgStylings.Sky} />
+            <Heading title="Messages" color={fgStylings.Sky} marginTop="mt-10" />
             <div className="mt-11 flex flex-col gap-5">
               {channels.map((channel) => (
                 <ChatPreview

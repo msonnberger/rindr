@@ -12,7 +12,7 @@ const Profile: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Heading title="Profile" color={fgStylings.Rose} />
+        <Heading title="Profile" color={fgStylings.Rose} marginTop="mt-10" />
       </Layout>
     </>
   )
