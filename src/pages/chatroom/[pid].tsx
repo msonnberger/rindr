@@ -1,11 +1,17 @@
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { addDoc, collection, onSnapshot, query, where } from 'firebase/firestore'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Channel, User } from '@utils/types'
 import { db } from '@firebase-config'
+import { Sky } from '@styles/colors'
+import Button from '@components/button'
 import ChatRoomContainer from '@components/chatRoomContainer'
+import ErrorMessage from '@components/errorMessage'
 import Layout from '@components/layout'
 
 const user: User = {
@@ -83,7 +89,14 @@ const Chatroom: NextPage = () => {
             channelId={foundChannel}
           />
         ) : (
-          <p>Channel not available.</p>
+          <ErrorMessage headline="Error" text="Channel not found" colors="sky">
+            <button onClick={() => router.back()}>
+              <FontAwesomeIcon icon={faAngleLeft} color={Sky[500]} size="lg" />
+            </button>
+            <Link href="/" passHref>
+              <Button bgColor="bg-sky-500" text="Back to home" textColor="text-white" />
+            </Link>
+          </ErrorMessage>
         )}
       </Layout>
     </>
