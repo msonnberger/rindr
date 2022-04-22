@@ -76,7 +76,6 @@ const Chatroom: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <p>{pid}</p>
         {channels != undefined && foundChannel != undefined ? (
           <ChatRoomContainer
             user={user}

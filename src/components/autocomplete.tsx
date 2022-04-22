@@ -1,5 +1,8 @@
+import Link from 'next/link'
+import { User } from '@utils/types'
+
 interface AutocompleteProps {
-  options: any[]
+  options: User[]
 }
 
 export default function AutoComplete({ options }: AutocompleteProps) {
@@ -8,13 +11,12 @@ export default function AutoComplete({ options }: AutocompleteProps) {
       {options.length > 0 ? (
         options.map((option, key) => {
           return (
-            <div
-              key={key}
-              className="h-16 flex items-center text-start flex-start hover:bg-sky-100 cursor-pointer w-full rounded-3xl"
-            >
-              <div className="mr-5 ml-3 h-12 w-12 rounded-3xl bg-emerald-300"></div>
-              <p className="font-light">{option.name}</p>
-            </div>
+            <Link key={key} href={`/chatroom/${option.id}`} passHref>
+              <div className="h-16 flex items-center text-start flex-start hover:bg-sky-100 cursor-pointer w-full rounded-3xl">
+                <div className="mr-5 ml-3 h-12 w-12 rounded-3xl bg-emerald-300"></div>
+                <p className="font-light">{option.name}</p>
+              </div>
+            </Link>
           )
         })
       ) : (

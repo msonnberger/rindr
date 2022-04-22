@@ -110,21 +110,16 @@ export default function ChatRoomContainer({ user, otherUser, channelId }: ChatRo
         <p className="font-bold">{otherUser?.name}</p>
       </div>
       <div className="mt-12">
-        {messages.map((dateMessage: DateMessages) => {
+        {messages.map((dateMessage: DateMessages, keyOuter) => {
           return (
             <>
-              <p className="mb-5 mt-7 flex w-full justify-center text-xs text-sky-700">
+              <p key={keyOuter} className="mb-5 mt-7 flex w-full justify-center text-xs text-sky-700">
                 {printDate(new Date(dateMessage.day))}
               </p>
-              <ul className="flex flex-col gap-7" key={dateMessage.day}>
-                {dateMessage.dateMessages.map((message: Message) => (
-                  <li key={message.id}>
-                    <ChatMessage
-                      key={message.id}
-                      createdAt={message.createdAt}
-                      text={message.text}
-                      received={message.to == user.id}
-                    />
+              <ul className="flex flex-col gap-7">
+                {dateMessage.dateMessages.map((message: Message, key) => (
+                  <li key={key}>
+                    <ChatMessage createdAt={message.createdAt} text={message.text} received={message.to == user.id} />
                   </li>
                 ))}
               </ul>

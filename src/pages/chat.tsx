@@ -72,15 +72,13 @@ const Chat: NextPage = () => {
         <Heading title="Messages" color={fgStylings.Sky} />
         <div className="mt-11 flex flex-col gap-5">
           {channels.map((channel) => (
-            <Link key={channel.id} href={`/chatroom/${findOtherUser(channel)?.id}`} passHref>
-              <ChatPreview
-                key={channel.id}
-                channel={channel}
-                otherUser={findOtherUser(channel)}
-                setChannels={setChannels}
-                channels={channels}
-              />
-            </Link>
+            <ChatPreview
+              key={channel.id}
+              channel={channel}
+              otherUser={findOtherUser(channel)}
+              setChannels={setChannels}
+              channels={channels}
+            />
           ))}
         </div>
       </Layout>

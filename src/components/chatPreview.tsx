@@ -1,4 +1,5 @@
 import { collection, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { printDatePreview } from '@utils/functions'
 import { Channel, Message, User } from '@utils/types'
@@ -51,22 +52,26 @@ export default function ChatPreview({ channel, otherUser, setChannels, channels 
     })
   }, [])
   return (
-    <button className="flex w-full max-w-md flex-row rounded-3xl bg-sky-50 p-4 font-bold">
-      <div className="mr-5 h-12 w-12 rounded-3xl bg-emerald-300"></div>
-      <div className="mx-0 w-8/12">
-        <p className="text-left font-bold">{otherUser?.name}</p>
-        <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-left font-light">{lastMessage?.text}</p>
-      </div>
-      <div className="mr-0 ml-auto flex flex-col items-end justify-between">
-        {lastMessage && (
-          <p className="text-sm font-light">{printDatePreview(new Date(lastMessage.createdAt.seconds * 1000))}</p>
-        )}
-        {lastMessage?.from == otherUser?.id && (
-          <div className="ml-5 flex h-5 w-5 items-center justify-center rounded-xl bg-sky-400">
-            <p className="font-white text-xs text-slate-50">?</p>
-          </div>
-        )}
-      </div>
-    </button>
+    <Link href={`/chatroom/${otherUser?.id}`} passHref>
+      <button className="flex w-full max-w-md flex-row rounded-3xl bg-sky-50 p-4 font-bold">
+        <div className="mr-5 h-12 w-12 rounded-3xl bg-emerald-300"></div>
+        <div className="mx-0 w-8/12">
+          <p className="text-left font-bold">{otherUser?.name}</p>
+          <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-left font-light">
+            {lastMessage?.text}
+          </p>
+        </div>
+        <div className="mr-0 ml-auto flex flex-col items-end justify-between">
+          {lastMessage && (
+            <p className="text-sm font-light">{printDatePreview(new Date(lastMessage.createdAt.seconds * 1000))}</p>
+          )}
+          {lastMessage?.from == otherUser?.id && (
+            <div className="ml-5 flex h-5 w-5 items-center justify-center rounded-xl bg-sky-400">
+              <p className="font-white text-xs text-slate-50">?</p>
+            </div>
+          )}
+        </div>
+      </button>
+    </Link>
   )
 }
