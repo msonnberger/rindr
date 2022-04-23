@@ -11,8 +11,7 @@ import Heading from '@components/heading'
 import Layout from '@components/layout'
 import SearchField from '@components/searchField'
 
-const Chat: NextPage = () => {
-  const [channels, setChannels] = useState<any[]>([])
+const Chat: NextPage = ({ channels }) => {
   console.log(channels)
   /* const [users, setUsers] = useState<User[]>([])
   const channelRef = collection(db, 'channels')
@@ -50,22 +49,18 @@ const Chat: NextPage = () => {
     })
   }, []) */
 
-  const ownId = '4b824c28-6ac4-45ff-b175-56624c287706'
+  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
+
+  //const [loading, setLoading] = useState<boolean>(true)
+  const [schannels, setChannels] = useState<any[]>([])
 
   useEffect(() => {
-    async function fetchChannels() {
-      const { data } = await supabase.from('chat_channels').select().or(`user1_id.eq.${ownId},user2_id.eq.${ownId}`)
-      if (data) setChannels(data)
-    }
-
-    fetchChannels()
-
     const channelsSubscription = supabase
       .from('chat_channels')
       .on('INSERT', (payload) => {
         const { user1_id, user2_id } = payload.new
 
-        if (user1_id === ownId || user2_id === ownId) {
+        if (user1_id === user.id || user2_id === user.id) {
           setChannels((oldChannels) => [payload.new, ...oldChannels])
         }
       })
@@ -109,6 +104,31 @@ const Chat: NextPage = () => {
       </Layout>
     </>
   )
+}
+
+export async function getServerSideProps() {
+  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
+
+  const { data: channels, error } = await supabase
+    .from('chat_channels')
+    .select(
+      `
+      id,
+      user1:user1_id ( first_name, last_name ),
+      user2:user2_id ( first_name, last_name )
+    `
+    )
+    .or(`user1_id.eq.${user.id},user2_id.eq.${user.id}`)
+
+  if (error) {
+    throw error
+  }
+
+  if (!channels) {
+    throw new Error()
+  }
+
+  return { props: { channels } }
 }
 
 export default Chat

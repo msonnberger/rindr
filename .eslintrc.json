@@ -23,6 +23,7 @@
           { "alias": "@styles", "matcher": "^styles" }
         ]
       }
-    ]
+    ],
+    "react-hooks/exhaustive-deps": "off"
   }
 }
