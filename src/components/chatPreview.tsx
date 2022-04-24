@@ -14,7 +14,7 @@ export default function ChatPreview({ content, otherUser, timestamp, channelId }
               alt={`Profile picture of ${otherUser.firstName} ${otherUser.lastName}`}
               objectFit="cover"
               layout="fill"
-              className="rounded-full mr-5 h-12 w-12"
+              className="rounded-full h-12 w-12"
             />
           )}
         </div>

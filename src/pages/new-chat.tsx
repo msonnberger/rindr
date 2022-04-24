@@ -41,7 +41,9 @@ const NewChat: NextPage = () => {
         if (user.id != doc.data().id) {
           let newUser = { name: doc.data().name, id: doc.data().id }
           newUsers.push(newUser)
-          let userLetter = newUsersAlphabet.find((element: UserAlphabet) => element.letter == doc.data().name.charAt(0))
+          let userLetter = newUsersAlphabet.find(
+            (element: UserAlphabet) => element.letter == doc.data().name.charAt(0)
+          )
           if (userLetter != undefined) {
             userLetter.users.push(newUser)
           } else {
@@ -64,7 +66,12 @@ const NewChat: NextPage = () => {
       <Layout>
         <div className="flex flex-row items-center">
           <Link href="/chat" passHref>
-            <FontAwesomeIcon icon={faAngleLeft} size="lg" color={Sky[400]} className="cursor-pointer absolute" />
+            <FontAwesomeIcon
+              icon={faAngleLeft}
+              size="lg"
+              color={Sky[400]}
+              className="cursor-pointer absolute"
+            />
           </Link>
           <p className="font-bold w-full text-center">New Message</p>
         </div>
@@ -78,7 +85,11 @@ const NewChat: NextPage = () => {
             onChange={handleChange}
           />
           {search != '' && (
-            <AutoComplete options={options.filter((option) => option.name.toLowerCase().indexOf(`${search}`) != -1)} />
+            <AutoComplete
+              options={options.filter(
+                (option) => option.name.toLowerCase().indexOf(`${search}`) != -1
+              )}
+            />
           )}
         </div>
 

@@ -40,3 +40,11 @@ export const printDatePreview = (date: Date) => {
     return dateFormatted
   }
 }
+
+export const formatTimestamp = (timestamp: string) => {
+  return new Date(timestamp).toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+}
