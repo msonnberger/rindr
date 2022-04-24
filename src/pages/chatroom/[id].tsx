@@ -18,6 +18,7 @@ const user: User = {
 
 interface ChatRoomProps {
   otherUser: {
+    id: string
     firstName: string
     lastName: string
     pictureUrl: string
@@ -75,8 +76,8 @@ const ChatRoom: NextPage<ChatRoomProps> = ({ otherUser, initialMessagesByDate }:
           lastName={otherUser.lastName}
           pictureUrl={otherUser.pictureUrl}
         />
-        <ChatMessages messagesByDate={messagesByDate} />
-        <ChatMessageForm channelId={id as string} />
+        {messagesByDate && <ChatMessages messagesByDate={messagesByDate} />}
+        <ChatMessageForm channelId={id as string} receiverId={otherUser.id} />
         <div ref={messagesEndRef} className="mb-32"></div>
       </Layout>
     </>
@@ -146,15 +147,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let otherUser = {}
   if (channel.user1.id === user.id) {
     otherUser = {
-      firstName: channel.user1.first_name,
-      lastName: channel.user1.last_name,
-      pictureUrl: channel.user1.picture_url,
-    }
-  } else {
-    otherUser = {
+      id: channel.user2.id,
       firstName: channel.user2.first_name,
       lastName: channel.user2.last_name,
       pictureUrl: channel.user2.picture_url,
+    }
+  } else {
+    otherUser = {
+      id: channel.user1.id,
+      firstName: channel.user1.first_name,
+      lastName: channel.user1.last_name,
+      pictureUrl: channel.user1.picture_url,
     }
   }
 

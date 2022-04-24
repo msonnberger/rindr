@@ -80,6 +80,7 @@ async function fetchPreviews(userId: string): Promise<ChatPreviewType[]> {
     .select('*')
     .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`)
     .eq('row_num', 1)
+    .order('created_at', { ascending: false })
 
   if (error) {
     throw error
