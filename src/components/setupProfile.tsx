@@ -2,25 +2,19 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUser, faPlus, faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import { TextInput, TagsInput } from '@components/inputs'
-
-interface SetupProfileFormValues {
-  picture: FileList
-  location: string
-  bio: string
-  carModel: string
-  carColor: string
-  availableSeats: number
-  interests: string[]
-  music: string
-}
+import { SetupProfileFormValues } from '@utils/types'
 
 export default function SetupProfile() {
-  const { register, handleSubmit, watch } = useForm<SetupProfileFormValues>()
+  const { register, handleSubmit, watch, control } = useForm<SetupProfileFormValues>({
+    defaultValues: {
+      interests: [],
+    },
+  })
+
   const watchPicture = watch('picture')
   let picturePreview = ''
 
   if (watchPicture && watchPicture[0]) {
-    console.log(typeof watchPicture[0])
     picturePreview = URL.createObjectURL(watchPicture[0])
   }
 
@@ -32,8 +26,8 @@ export default function SetupProfile() {
     <div className="flex flex-col items-start">
       <h1 className="text-4xl font-bold text-rose-500">Welcome, Martin!</h1>
       <h2 className="mt-3 text-lg">Please finish setting up your profile.</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-8 flex flex-col items-center gap-5 border-2 border-red-500">
-        <label className="relative cursor-pointer" htmlFor="picture">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-12 flex max-w-lg flex-col items-start gap-8">
+        <label className="relative cursor-pointer self-center" htmlFor="picture">
           {picturePreview ? (
             <img src={picturePreview} alt="Profile picture" className="h-48 w-48 rounded-full" />
           ) : (
@@ -61,9 +55,8 @@ export default function SetupProfile() {
         </div>
 
         <div>
-          <h3 className="font-bold">Interests</h3>
-          <input type="text" placeholder="new tag" {...register('interests')} />
-          <TagsInput />
+          <h3 className="mb-3 text-left font-bold">Interests</h3>
+          <TagsInput control={control} register={register} />
         </div>
         <input type="submit" value="Done" />
       </form>

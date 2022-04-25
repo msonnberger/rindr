@@ -17,7 +17,9 @@ export default withAuth((request: NextAuthRequest) => {
     return NextResponse.next()
   }
 
-  if (!request.nextauth.token.user.profileSetupCompleted) {
+  const { profileSetupCompleted } = request.nextauth.token
+
+  if (!profileSetupCompleted) {
     url.pathname = '/auth/newuser'
     return NextResponse.redirect(url)
   }
