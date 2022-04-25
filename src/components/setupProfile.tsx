@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUser, faPlus, faLocationDot } from '@fortawesome/free-solid-svg-icons'
-import { TextInput } from '@components/inputs'
+import { TextInput, TagsInput } from '@components/inputs'
 
 interface SetupProfileFormValues {
   picture: FileList
@@ -51,7 +51,7 @@ export default function SetupProfile() {
           icon={<FontAwesomeIcon icon={faLocationDot} color="white" />}
           placeholder="Where do you commute from?"
         />
-        <input type="textarea" id="bio" placeholder="Tell us something about you" {...register('bio')} />
+        <textarea id="bio" placeholder="Tell us something about you" {...register('bio')}></textarea>
 
         <div>
           <h3 className="font-bold">My car</h3>
@@ -63,6 +63,7 @@ export default function SetupProfile() {
         <div>
           <h3 className="font-bold">Interests</h3>
           <input type="text" placeholder="new tag" {...register('interests')} />
+          <TagsInput />
         </div>
         <input type="submit" value="Done" />
       </form>
