@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { fgStylings } from '@styles/colors'
 import Heading from '@components/Heading'
 import Layout from '@components/Layout'
+import Map from '@components/Map'
 
 const Home: NextPage = () => {
   return (
@@ -15,6 +16,7 @@ const Home: NextPage = () => {
       <Layout>
         <Heading title="Hi <name>!" color={fgStylings.Sky} marginTop="mt-10" />
         <Image alt="logo" src="/logo.svg" height={300} width={300} />
+        <Map />
       </Layout>
     </>
   )
