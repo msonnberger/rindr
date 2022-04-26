@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { fgStylings } from '@styles/colors'
-import Heading from '@components/heading2'
-import Layout from '@components/layout2'
+import Heading from '@components/Heading'
+import Layout from '@components/Layout'
 
 const Savings: NextPage = () => {
   return (
