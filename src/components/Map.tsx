@@ -17,6 +17,7 @@ export default function Map() {
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [lng, lat],
       zoom: zoom,
+      attributionControl: false,
     })
   })
 
