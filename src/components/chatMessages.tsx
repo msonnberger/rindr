@@ -7,7 +7,7 @@ export default function ChatMessages({ messagesByDate }: { messagesByDate: Messa
     <div>
       {Object.keys(messagesByDate).map((date) => (
         <Fragment key={date}>
-          <p className="mb-5 mt-7 flex w-full justify-center text-xs text-sky-700">{date}</p>
+          <p className="mb-5 mt-7 flex w-full justify-center text-xs text-sky-700 mt-20">{date}</p>
           <ul className="flex flex-col gap-7">
             {messagesByDate[date].map((message) => (
               <li key={message.id}>

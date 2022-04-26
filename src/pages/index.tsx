@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Image from 'next/image'
 import { fgStylings } from '@styles/colors'
 import Heading from '@components/heading'
 import Layout from '@components/layout'
@@ -13,6 +14,7 @@ const Home: NextPage = () => {
       </Head>
       <Layout>
         <Heading title="Hi <name>!" color={fgStylings.Sky} marginTop="mt-10" />
+        <Image alt="logo-rindr" src="/logo-rindr.svg" height={300} width={300} />
       </Layout>
     </>
   )

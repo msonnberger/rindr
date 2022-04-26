@@ -12,7 +12,7 @@ interface HeaderProps {
 
 export default function ChatRoomHeader({ firstName, lastName, pictureUrl }: HeaderProps) {
   return (
-    <div className="sticky top-0 left-0 mb-10 flex h-20 w-full flex-row items-center rounded-bl-3xl rounded-br-3xl bg-sky-100 px-3">
+    <div className="fixed top-0 left-0 mb-10 flex h-20 w-full flex-row items-center rounded-bl-3xl rounded-br-3xl bg-sky-100 px-3">
       <Link href="/chat" passHref>
         <FontAwesomeIcon icon={faAngleLeft} size="lg" color={Sky[400]} className="cursor-pointer" />
       </Link>
