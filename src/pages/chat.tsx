@@ -43,7 +43,7 @@ const Chat: NextPage<{ initialPreviews: ChatPreviewType[] }> = ({ initialPreview
     <>
       <Head>
         <title>Chat</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.svg" />
       </Head>
       <Layout>
         <div className="flex flex-row items-center w-full justify-between max-w-md">

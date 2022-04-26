@@ -9,7 +9,7 @@ const Savings: NextPage = () => {
     <>
       <Head>
         <title>Savings</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.svg" />
       </Head>
       <Layout>
         <Heading title="Savings" color={fgStylings.Emerald} marginTop="mt-10" />

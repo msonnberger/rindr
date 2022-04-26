@@ -31,7 +31,7 @@ const NewChat: NextPage<NewChatProps> = ({ users, usersByFirstLetter }: NewChatP
     <>
       <Head>
         <title>New Chat</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.svg" />
       </Head>
       <Layout>
         <div className="flex flex-row items-center">

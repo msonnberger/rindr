@@ -10,7 +10,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Home</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.svg" />
       </Head>
       <Layout>
         <Heading title="Hi <name>!" color={fgStylings.Sky} marginTop="mt-10" />
