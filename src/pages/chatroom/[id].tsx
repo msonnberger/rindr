@@ -38,7 +38,7 @@ const ChatRoom: NextPage<ChatRoomProps> = ({ otherUser, initialMessagesByDate }:
     }
   }
 
-  const handleNewMassage = (payload: any) => {
+  const handleNewMessage = (payload: any) => {
     const { id, content, created_at: timestamp, sender_id } = payload.new
     const received = sender_id !== user.id
     setMessagesByDate((dateGroups) => {
@@ -54,7 +54,7 @@ const ChatRoom: NextPage<ChatRoomProps> = ({ otherUser, initialMessagesByDate }:
   useEffect(() => {
     const messagesSubscription = supabase
       .from(`chat_messages:channel_id=eq.${id}`)
-      .on('INSERT', handleNewMassage)
+      .on('INSERT', handleNewMessage)
       .subscribe()
 
     return () => {
