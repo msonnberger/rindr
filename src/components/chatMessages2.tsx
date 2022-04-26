@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { printDate } from '@utils/functions'
 import { MessagesByDate } from '@utils/types'
-import ChatMessage from '@components/chatMessage'
+import ChatMessage from '@components/chatMessage2'
 
 export default function ChatMessages({ messagesByDate }: { messagesByDate: MessagesByDate }) {
   return (

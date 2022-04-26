@@ -9,8 +9,8 @@ import { Fragment, useState } from 'react'
 import { camelizeKeys } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
 import { Sky } from '@styles/colors'
-import AutoComplete from '@components/autocomplete'
-import Layout from '@components/layout'
+import AutoComplete from '@components/autocomplete2'
+import Layout from '@components/layout2'
 
 interface UserPreview {
   id: string

@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from 'react'
 import { formatTimestamp } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
 import { MessagesByDate, SupabaseChatMessages, User } from '@utils/types'
-import ChatMessageForm from '@components/chatMessageForm'
-import ChatMessages from '@components/chatMessages'
-import ChatRoomHeader from '@components/chatRoomHeader'
-import Layout from '@components/layout'
+import ChatMessageForm from '@components/chatMessageForm2'
+import ChatMessages from '@components/chatMessages2'
+import ChatRoomHeader from '@components/chatRoomHeader2'
+import Layout from '@components/layout2'
 
 const user: User = {
   name: 'Juliane',

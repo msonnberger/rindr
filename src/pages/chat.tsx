@@ -7,10 +7,10 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@utils/supabaseClient'
 import type { ChatPreviewType, SupabaseLatestMessages } from '@utils/types'
 import { Sky, fgStylings } from '@styles/colors'
-import ChatPreview from '@components/chatPreview'
-import Heading from '@components/heading'
-import Layout from '@components/layout'
-import SearchField from '@components/searchField'
+import ChatPreview from '@components/chatPreview2'
+import Heading from '@components/heading2'
+import Layout from '@components/layout2'
+import SearchField from '@components/searchField2'
 
 // eslint-disable-next-line react/prop-types
 const Chat: NextPage<{ initialPreviews: ChatPreviewType[] }> = ({ initialPreviews }) => {

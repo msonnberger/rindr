@@ -1,5 +1,5 @@
 import React from 'react'
-import Heading from './heading'
+import Heading from './heading2'
 
 interface ErrorMessageProps {
   headline: string

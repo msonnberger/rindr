@@ -1,5 +1,5 @@
 import React from 'react'
-import Footer from './footer'
+import Footer from './footer2'
 
 interface NavElementProps {
   children: React.ReactNode
