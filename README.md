@@ -18,7 +18,7 @@
 - Next.js
 - Tailwind CSS
 - TypeScript
-- Firebase
+- Supabase
 
 ## Git naming conventions
 
@@ -27,7 +27,7 @@
 
 # How to run this project
 
-- add ".env.local" file with variables for sign-in and firebase) --> pay attention on the proper naming of this file (env.local without dot in the beginning will fail)
+- add ".env.local" file with variables for sign-in and supabase) --> pay attention on the proper naming of this file (env.local without dot in the beginning will fail)
 - npm install
 - npm run dev
 

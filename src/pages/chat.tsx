@@ -1,54 +1,42 @@
 import { faMagnifyingGlass, faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Channel, User } from '@utils/types'
-import { db } from '@firebase-config'
+import { supabase } from '@utils/supabaseClient'
+import type { ChatPreviewType, SupabaseLatestMessages } from '@utils/types'
 import { Sky, fgStylings } from '@styles/colors'
 import ChatPreview from '@components/chatPreview'
 import Heading from '@components/heading'
 import Layout from '@components/layout'
 import SearchField from '@components/searchField'
 
-const Chat: NextPage = () => {
-  const [channels, setChannels] = useState<Channel[]>([])
-  const [users, setUsers] = useState<User[]>([])
-  const channelRef = collection(db, 'channels')
-  const usersRef = collection(db, 'users')
+// eslint-disable-next-line react/prop-types
+const Chat: NextPage<{ initialPreviews: ChatPreviewType[] }> = ({ initialPreviews }) => {
+  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
 
-  const user: User = {
-    name: 'Juliane',
-    id: '1111',
-  }
-
-  const channelQuery = query(channelRef, where('users', 'array-contains', user.id))
-  const usersQuery = query(usersRef)
-
-  function findOtherUser(channel: Channel) {
-    const otherUserId = channel?.users.find((currentUser: string) => currentUser != user.id)
-    const found = users.find((currentUser) => currentUser.id == otherUserId)
-    return found
-  }
+  const [previews, setPreviews] = useState(initialPreviews)
 
   useEffect(() => {
-    onSnapshot(channelQuery, (querySnapshot) => {
-      let newChannels: Channel[] = []
-      querySnapshot.forEach((doc) => {
-        newChannels.push({ id: doc.id, users: doc.data().users })
+    const channelsSubscription = supabase
+      .from('chat_messages')
+      .on('INSERT', (payload) => {
+        const { receiver_id, sender_id } = payload.new
+        if (receiver_id === user.id || sender_id === user.id) {
+          updatePreviews()
+        }
       })
-      setChannels([...newChannels])
-    })
+      .subscribe()
 
-    onSnapshot(usersQuery, (querySnapshot) => {
-      let newUsers: User[] = []
-      querySnapshot.forEach((doc) => {
-        newUsers.push({ name: doc.data().name, id: doc.data().id })
-      })
-      setUsers([...newUsers])
-    })
+    async function updatePreviews() {
+      const newPreviews = await fetchPreviews(user.id)
+      setPreviews(newPreviews)
+    }
+
+    return () => {
+      supabase.removeSubscription(channelsSubscription)
+    }
   }, [])
 
   return (
@@ -71,19 +59,70 @@ const Chat: NextPage = () => {
         </div>
         <Heading title="Messages" color={fgStylings.Sky} marginTop="mt-10" />
         <div className="mt-11 flex flex-col gap-5">
-          {channels.map((channel) => (
+          {previews.map((channel) => (
             <ChatPreview
-              key={channel.id}
-              channel={channel}
-              otherUser={findOtherUser(channel)}
-              setChannels={setChannels}
-              channels={channels}
+              key={channel.channelId}
+              otherUser={channel.otherUser}
+              content={channel.content}
+              timestamp={channel.timestamp}
+              channelId={channel.channelId}
             />
           ))}
         </div>
       </Layout>
     </>
   )
+}
+
+async function fetchPreviews(userId: string): Promise<ChatPreviewType[]> {
+  const { data, error } = await supabase
+    .from<SupabaseLatestMessages>('latest_messages')
+    .select('*')
+    .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`)
+    .eq('row_num', 1)
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    throw error
+  }
+
+  if (!data) {
+    throw new Error()
+  }
+
+  const previews = data.map((message) => {
+    let otherUser = {} as ChatPreviewType['otherUser']
+
+    if (message.sender_id === userId) {
+      otherUser = {
+        firstName: message.receiver_first_name,
+        lastName: message.receiver_last_name,
+        pictureUrl: message.receiver_picture_url,
+      }
+    } else {
+      otherUser = {
+        firstName: message.sender_first_name,
+        lastName: message.sender_last_name,
+        pictureUrl: message.sender_picture_url,
+      }
+    }
+
+    return {
+      channelId: message.id,
+      content: message.content,
+      timestamp: message.created_at,
+      otherUser,
+    }
+  })
+
+  return previews
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
+  const initialPreviews = await fetchPreviews(user.id)
+
+  return { props: { initialPreviews } }
 }
 
 export default Chat

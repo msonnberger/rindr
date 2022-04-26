@@ -1,4 +1,10 @@
-import { formatDate, formatMinutes, formatTime, printDate, printDatePreview } from '../src/utils/functions'
+import {
+  formatDate,
+  formatMinutes,
+  formatTime,
+  printDate,
+  printDatePreview,
+} from '../src/utils/functions'
 
 let date = new Date('April 15, 2022 23:15:00')
 let today = new Date()
