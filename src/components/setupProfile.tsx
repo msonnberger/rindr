@@ -1,11 +1,11 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleUser, faPlus, faLocationDot } from '@fortawesome/free-solid-svg-icons'
-import { TextInput, TagsInput } from '@components/inputs'
+import { faCircleUser, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { TagsInput, LocationInput } from '@components/inputs'
 import { SetupProfileFormValues } from '@utils/types'
 
 export default function SetupProfile() {
-  const { register, handleSubmit, watch, control } = useForm<SetupProfileFormValues>({
+  const { register, handleSubmit, watch, control, setValue } = useForm<SetupProfileFormValues>({
     defaultValues: {
       interests: [],
     },
@@ -38,13 +38,7 @@ export default function SetupProfile() {
             <FontAwesomeIcon icon={faPlus} className="text-md text-white" />
           </div>
         </label>
-        <TextInput
-          register={register}
-          name="location"
-          tailwindBgClass="bg-rose-500"
-          icon={<FontAwesomeIcon icon={faLocationDot} color="white" />}
-          placeholder="Where do you commute from?"
-        />
+        <LocationInput register={register} setValue={setValue} />
         <textarea id="bio" placeholder="Tell us something about you" {...register('bio')}></textarea>
 
         <div>

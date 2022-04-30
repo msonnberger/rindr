@@ -1,5 +1,5 @@
 import Layout from '@components/layout'
-import SetupProfile from '@components/setupProfile'
+import SetupProfile from '@components/SetupProfile'
 import { NextPage } from 'next'
 import Head from 'next/head'
 

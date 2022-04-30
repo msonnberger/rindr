@@ -20,7 +20,7 @@ export default function TextInput({ placeholder, icon, tailwindBgClass, name, re
         id={name}
         placeholder={placeholder}
         {...register(name)}
-        className="bg-slate-100"
+        className="bg-inherit focus:outline-none"
       />
     </div>
   )

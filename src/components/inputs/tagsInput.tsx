@@ -49,7 +49,7 @@ export default function TagsInput({ control, register }: TagsInputProps) {
             setNewTagValue(e.target.value)
           }}
           placeholder="new tag"
-          className="max-w-[6rem] bg-slate-100"
+          className="max-w-[6rem] bg-slate-100 focus:outline-none"
         />
       </div>
       {fields.map((field, index) => {
