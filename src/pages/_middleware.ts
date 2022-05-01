@@ -9,8 +9,13 @@ type NextAuthRequest = NextRequest & {
   }
 }
 
-// @ts-ignore
-export default withAuth((request: NextAuthRequest) => {
+export default withAuth(middleware, {
+  pages: {
+    signIn: '/auth/signin',
+  },
+})
+
+function middleware(request: NextAuthRequest) {
   const url = request.nextUrl.clone()
 
   if (url.pathname === '/auth/newuser') {
@@ -25,4 +30,4 @@ export default withAuth((request: NextAuthRequest) => {
   }
 
   return NextResponse.next()
-})
+}

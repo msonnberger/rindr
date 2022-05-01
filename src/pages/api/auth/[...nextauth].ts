@@ -1,14 +1,14 @@
-import type { Profile } from 'next-auth'
 import NextAuth from 'next-auth/next'
 import { supabase } from '@utils/supabaseClient'
 import { camelizeKeys } from '@utils/functions'
+import { Profile } from 'next-auth'
 
 export default NextAuth({
   theme: {
     colorScheme: 'light',
   },
   pages: {
-    newUser: '/auth/newuser',
+    signIn: '/auth/signin',
   },
   providers: [
     {
@@ -31,6 +31,11 @@ export default NextAuth({
           return await res.json()
         },
       },
+      profile(profile: Profile) {
+        return {
+          id: profile.sub,
+        }
+      },
     },
   ],
   callbacks: {
@@ -42,13 +47,17 @@ export default NextAuth({
       return token
     },
     async session({ session, token }) {
-      // @ts-ignore
-      session.user.id = token.sub
-      session.user.firstName = token.name?.split(' ')[0]
-      session.user.lastName = token.name?.split(' ')[1]
+      session.user.id = token.sub as string
+      session.user.firstName = token.name?.split(' ')[0] as string
+      session.user.lastName = token.name?.split(' ')[1] as string
 
       if (token.profileSetupCompleted) {
         const userData = await fetchUserData(token.sub as string)
+
+        if (!userData) {
+          throw new Error('Could not fetch user data.')
+        }
+
         session.user = camelizeKeys(userData)
       }
 

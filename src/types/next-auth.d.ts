@@ -1,5 +1,6 @@
 import { DefaultSession } from 'next-auth'
 import type { DefaultJWT } from 'next-auth/jwt'
+import { User } from './main'
 
 declare module 'next-auth' {
   export interface Profile {
@@ -17,18 +18,10 @@ declare module 'next-auth' {
   }
 
   export interface JWT extends DefaultJWT {
-    user: {
-      name: string
-      id: string
-      profileSetupCompleted: boolean
-    }
+    profileSetupCompleted: boolean
   }
 
   export interface Session extends DefaultSession {
-    user: {
-      name: string
-      id: string
-      profileSetupCompleted: boolean
-    }
+    user: User
   }
 }

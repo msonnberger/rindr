@@ -25,12 +25,13 @@ export default function SetupProfile() {
   }
 
   const onSubmit: SubmitHandler<SetupProfileFormValues> = async (formData) => {
-    console.log(session)
-    console.log(formData)
+    if (!session) return
 
     const uid = session.user.id
 
-    const { error: uploadError } = await supabase.storage.from('profile-pictures').upload(uid, formData.picture[0])
+    const { error: uploadError } = await supabase.storage
+      .from('profile-pictures')
+      .upload(uid, formData.picture[0])
 
     if (uploadError) throw uploadError
 
@@ -63,22 +64,37 @@ export default function SetupProfile() {
 
   return (
     <div className="flex flex-col items-start">
-      <h1 className="text-4xl font-bold text-rose-500">Welcome, {session && session.user.firstName}!</h1>
+      <h1 className="text-4xl font-bold text-rose-500">
+        Welcome, {session && session.user.firstName}!
+      </h1>
       <h2 className="mt-3 text-lg">Please finish setting up your profile.</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-12 flex max-w-lg flex-col items-start gap-8">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mt-12 flex max-w-lg flex-col items-start gap-8"
+      >
         <label className="relative cursor-pointer self-center" htmlFor="picture">
           {picturePreview ? (
             <img src={picturePreview} alt="Profile picture" className="h-48 w-48 rounded-full" />
           ) : (
             <FontAwesomeIcon icon={faCircleUser} className="text-[12rem] text-rose-200" />
           )}
-          <input id="picture" type="file" accept="image/*" className="hidden" {...register('picture')} />
+          <input
+            id="picture"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            {...register('picture')}
+          />
           <div className="absolute bottom-3 right-2 grid h-7 w-7 place-items-center rounded-full border-2 border-white bg-rose-500">
             <FontAwesomeIcon icon={faPlus} className="text-md text-white" />
           </div>
         </label>
         <LocationInput register={register} setValue={setValue} />
-        <textarea id="bio" placeholder="Tell us something about you" {...register('bio')}></textarea>
+        <textarea
+          id="bio"
+          placeholder="Tell us something about you"
+          {...register('bio')}
+        ></textarea>
 
         <div>
           <h3 className="mb-3 text-left font-bold">My car</h3>
@@ -110,7 +126,11 @@ export default function SetupProfile() {
             disabled={watch('hasNoCar')}
           />
         </div>
-        <input className="cursor-pointer rounded-lg bg-rose-500 py-2 px-3 text-white" type="submit" value="Done" />
+        <input
+          className="cursor-pointer rounded-lg bg-rose-500 py-2 px-3 text-white"
+          type="submit"
+          value="Done"
+        />
       </form>
     </div>
   )
