@@ -1,8 +1,8 @@
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Sky } from '@styles/colors'
+import Image from '@components/Image'
 
 interface HeaderProps {
   firstName: string
@@ -21,9 +21,7 @@ export default function ChatRoomHeader({ firstName, lastName, pictureUrl }: Head
           <Image
             src={pictureUrl}
             alt={`Profile picture of ${firstName} ${lastName}`}
-            objectFit="cover"
-            layout="fill"
-            className="rounded-full h-12 w-12"
+            className="rounded-full h-12 w-12 object-cover"
           />
         )}
       </div>

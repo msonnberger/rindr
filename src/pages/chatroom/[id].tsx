@@ -3,16 +3,16 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
 import { useEffect, useRef, useState } from 'react'
+import { MessagesByDate, SupabaseChatMessages, User } from 'src/types/main'
 import { formatTimestamp } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
-import { MessagesByDate, SupabaseChatMessages, User } from '@utils/types'
 import ChatMessageForm from '@components/ChatMessageForm'
 import ChatMessages from '@components/ChatMessages'
 import ChatRoomHeader from '@components/ChatRoomHeader'
 import Layout from '@components/Layout'
 
-const user: User = {
-  name: 'Juliane',
+const user: Partial<User> = {
+  firstName: 'Juliane',
   id: '4b824c28-6ac4-45ff-b175-56624c287706',
 }
 

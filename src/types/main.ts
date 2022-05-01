@@ -1,6 +1,36 @@
 export interface User {
-  name: string
   id: string
+  email: string
+  firstName: string
+  lastName: string
+  pictureUrl: string
+  bio: string
+  interests: string[]
+  music: string
+  latitude: number
+  longitude: number
+  department?: string
+  carModel?: string
+  carColor?: string
+  availableSeats?: number
+  savingsCo2?: number
+  savingsEuro?: number
+  thumbsUpCount?: number
+  thumbsDownCount?: number
+}
+
+export interface SetupProfileFormValues {
+  picture: FileList
+  location: string
+  bio: string
+  hasNoCar: boolean
+  carModel: string | null
+  carColor: string | null
+  availableSeats: number | null
+  interests: {
+    tag: string
+  }[]
+  music: string
 }
 
 export interface Channel {
@@ -16,7 +46,7 @@ export interface Message {
   received: boolean
 }
 
-export type MessagesByDate = Record<string, Message[]>
+export declare type MessagesByDate = Record<string, Message[]>
 
 export interface ChatPreviewType {
   channelId: string
