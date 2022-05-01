@@ -2,9 +2,10 @@ export interface SetupProfileFormValues {
   picture: FileList
   location: string
   bio: string
-  carModel: string
-  carColor: string
-  availableSeats: number
+  hasNoCar: boolean
+  carModel: string | null
+  carColor: string | null
+  availableSeats: number | null
   interests: {
     tag: string
   }[]

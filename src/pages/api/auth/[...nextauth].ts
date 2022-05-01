@@ -1,5 +1,7 @@
 import type { Profile } from 'next-auth'
 import NextAuth from 'next-auth/next'
+import { supabase } from '@utils/supabaseClient'
+import { camelizeKeys } from '@utils/functions'
 
 export default NextAuth({
   theme: {
@@ -29,37 +31,34 @@ export default NextAuth({
           return await res.json()
         },
       },
-      profile(profile: Profile) {
-        return {
-          id: profile.sub,
-          name: `${profile.given_name} ${profile.family_name}`,
-          email: profile.email,
-          studies: profile.studies,
-        }
-      },
     },
   ],
-  /* callbacks: {
+  callbacks: {
     async jwt({ token }) {
-      const uid = token.sub
+      const uid = token.sub as string
       const userData = await fetchUserData(uid)
-      token.user = userData
+      token.profileSetupCompleted = Boolean(userData)
 
       return token
     },
     async session({ session, token }) {
       // @ts-ignore
-      session.user = token.user
+      session.user.id = token.sub
+      session.user.firstName = token.name?.split(' ')[0]
+      session.user.lastName = token.name?.split(' ')[1]
+
+      if (token.profileSetupCompleted) {
+        const userData = await fetchUserData(token.sub as string)
+        session.user = camelizeKeys(userData)
+      }
+
       return session
     },
-  }, */
+  },
 })
 
-/* const fetchUserData = async (uid?: string) => {
-  if (!uid) return undefined
+const fetchUserData = async (uid: string) => {
+  const { data } = await supabase.from('users').select('*').eq('id', uid).single()
 
-  const userRef = doc(db, 'users', uid)
-  const userSnap = await getDoc(userRef)
-
-  return userSnap.data()
-} */
+  return data
+}

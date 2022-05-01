@@ -32,7 +32,8 @@ export default function TagsInput({ control, register }: TagsInputProps) {
       <div className="flex w-fit gap-2 rounded-full bg-slate-100 p-2 pr-8">
         <button
           disabled={newTagValue === ''}
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault()
             const [bgColor, textColor] = randomColor()
             setTagColors([{ bgColor, textColor }, ...tagColors])
             prepend({ tag: newTagValue })
