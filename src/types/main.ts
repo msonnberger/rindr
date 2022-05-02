@@ -7,6 +7,7 @@ export interface User {
   bio: string
   interests: string[]
   music: string
+  location: string
   latitude: number
   longitude: number
   department?: string
@@ -22,6 +23,8 @@ export interface User {
 export interface SetupProfileFormValues {
   picture: FileList
   location: string
+  longitude: number
+  latitude: number
   bio: string
   hasNoCar: boolean
   carModel: string | null
