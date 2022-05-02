@@ -59,7 +59,7 @@ export default function LocationInput({ register, setValue }: LocationInputProps
               <FontAwesomeIcon icon={faMapMarkerAlt} color="white" />
             </div>
             <Combobox.Input
-              placeholder="Where do you commute from?"
+              placeholder="Where do you come from?"
               className="truncate bg-inherit focus:outline-none"
               displayValue={(location: Location) => location.name}
               onChange={onInputChange}
