@@ -23,6 +23,8 @@
           { "alias": "@styles", "matcher": "^styles" }
         ]
       }
-    ]
+    ],
+    "react-hooks/exhaustive-deps": "off",
+    "@next/next/no-img-element": "off"
   }
 }

@@ -4,14 +4,7 @@ module.exports = {
   useTabs: false,
   semi: false,
   singleQuote: true,
-  printWidth: 120,
-  importOrder: [
-    '^@utils/(.*)$',
-    '^@firebase-config$',
-    '^@hooks/(.*)$',
-    '^@styles/(.*)$',
-    '^@components/(.*)$',
-    '^[./]',
-  ],
+  printWidth: 100,
+  importOrder: ['^@utils/(.*)$', '^@hooks/(.*)$', '^@styles/(.*)$', '^@components/(.*)$', '^[./]'],
   importOrderSortSpecifiers: true,
 }

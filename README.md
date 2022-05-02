@@ -18,7 +18,7 @@
 - Next.js
 - Tailwind CSS
 - TypeScript
-- Firebase
+- Supabase
 
 ## Git naming conventions
 
@@ -27,10 +27,12 @@
 
 # How to run this project
 
-- add ".env.local" file with variables for sign-in and firebase) --> pay attention on the proper naming of this file (env.local without dot in the beginning will fail)
+- add ".env.local" file with variables for sign-in and Supabase) --> pay attention on the proper naming of this file (env.local without dot in the beginning will fail)
 - npm install
 - npm run dev
 
 ## [Live Version (Vercel)](https://rindr.vercel.app)
 
 ## [Figma](https://www.figma.com/file/mZ2G3EvSs2VLwsl7D0Mnbx/RideSharing?node-id=0%3A1)
+
+## [Supabase] (https://app.supabase.io/project/epipzztphtjupkzwxmsj)

@@ -1,21 +1,58 @@
 import type { NextPage } from 'next'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { fgStylings } from '@styles/colors'
-import Heading from '@components/heading'
-import Layout from '@components/layout'
+import Heading from '@components/Heading'
+import Image from '@components/Image'
+import Layout from '@components/Layout'
 
-const Home: NextPage = () => {
+const Profile: NextPage = () => {
+  const { data: session } = useSession()
+
   return (
     <>
       <Head>
         <title>Home</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.svg" />
       </Head>
       <Layout>
-        <Heading title="Hi <name>!" color={fgStylings.Sky} />
+        <Image alt="logo" src="/logo.svg" height={100} width={100} />
+
+        <main className="flex w-full flex-1 flex-col items-center justify-center gap-8 px-20 text-center">
+          <div className="">
+            {session ? (
+              <>
+                <Heading
+                  title={`Hi, ${session.user.firstName}!`}
+                  color={fgStylings.Sky}
+                  marginTop="mt-10"
+                />
+                <div className="flex items-center gap-5 mt-8">
+                  <Image
+                    src={session.user.pictureUrl}
+                    width={50}
+                    height={50}
+                    alt="Your profile picture"
+                  />
+
+                  <button className="font-bold text-blue-700 underline" onClick={() => signOut()}>
+                    Sign out
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <button className="font-bold text-blue-700 underline" onClick={() => signIn()}>
+                  Sign in
+                </button>
+              </>
+            )}
+          </div>
+          <h1 className="text-6xl font-bold">Rindr</h1>
+        </main>
       </Layout>
     </>
   )
 }
 
-export default Home
+export default Profile

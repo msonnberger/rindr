@@ -1,8 +1,14 @@
-import { faCarSide, faCircleUser, faCommentDots, faHouse, faPiggyBank } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCarSide,
+  faCircleUser,
+  faCommentDots,
+  faHouse,
+  faPiggyBank,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/router'
 import { Emerald, Orange, Rose, Sky, Slate, bgStylings, fgStylings } from '@styles/colors'
-import NavElement from './navElement'
+import NavElement from './NavElement'
 
 export default function Navbar() {
   const { pathname: currentRoute } = useRouter()
@@ -16,16 +22,24 @@ export default function Navbar() {
         route="/"
         isActive={currentRoute === '/'}
       >
-        <FontAwesomeIcon size="lg" icon={faHouse} color={currentRoute === '/' ? Slate[50] : Slate[300]} />
+        <FontAwesomeIcon
+          size="lg"
+          icon={faHouse}
+          color={currentRoute === '/' ? Slate[50] : Slate[300]}
+        />
       </NavElement>
       <NavElement
         title="Chat"
         bgColor={bgStylings.Sky}
         fgColor={fgStylings.Sky}
         route="/chat"
-        isActive={currentRoute === '/chat'}
+        isActive={currentRoute === '/chat' || currentRoute === '/new-chat'}
       >
-        <FontAwesomeIcon size="lg" icon={faCommentDots} color={currentRoute === '/chat' ? Sky[400] : Slate[300]} />
+        <FontAwesomeIcon
+          size="lg"
+          icon={faCommentDots}
+          color={currentRoute === '/chat' || currentRoute === '/new-chat' ? Sky[400] : Slate[300]}
+        />
       </NavElement>
       <NavElement
         title="Savings"
@@ -34,7 +48,11 @@ export default function Navbar() {
         route="/savings"
         isActive={currentRoute === '/savings'}
       >
-        <FontAwesomeIcon size="lg" icon={faPiggyBank} color={currentRoute === '/savings' ? Emerald[400] : Slate[300]} />
+        <FontAwesomeIcon
+          size="lg"
+          icon={faPiggyBank}
+          color={currentRoute === '/savings' ? Emerald[400] : Slate[300]}
+        />
       </NavElement>
       <NavElement
         title="Rides"
@@ -43,7 +61,11 @@ export default function Navbar() {
         route="/rides"
         isActive={currentRoute === '/rides'}
       >
-        <FontAwesomeIcon size="lg" icon={faCarSide} color={currentRoute === '/rides' ? Orange[400] : Slate[300]} />
+        <FontAwesomeIcon
+          size="lg"
+          icon={faCarSide}
+          color={currentRoute === '/rides' ? Orange[400] : Slate[300]}
+        />
       </NavElement>
       <NavElement
         title="Profile"
@@ -52,7 +74,11 @@ export default function Navbar() {
         route="/profile"
         isActive={currentRoute === '/profile'}
       >
-        <FontAwesomeIcon size="lg" icon={faCircleUser} color={currentRoute === '/profile' ? Rose[400] : Slate[300]} />
+        <FontAwesomeIcon
+          size="lg"
+          icon={faCircleUser}
+          color={currentRoute === '/profile' ? Rose[400] : Slate[300]}
+        />
       </NavElement>
     </div>
   )
