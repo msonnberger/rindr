@@ -11,6 +11,15 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      animation: {
+        slideIn: '1s ease-out 0s 1 slideIn',
+      },
+      keyframes: {
+        slideIn: {
+          '0%': { transform: 'translateX(-30%)' },
+          '100%': { transform: 'translateX(0%)' },
+        },
+      },
     },
   },
   plugins: [],
