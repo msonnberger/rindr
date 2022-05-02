@@ -13,6 +13,7 @@ module.exports = {
       },
       maxHeight: {
         '90v': '90vh',
+      },
       animation: {
         slideIn: '1s ease-out 0s 1 slideIn',
       },

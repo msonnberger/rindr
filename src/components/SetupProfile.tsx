@@ -1,9 +1,9 @@
 import {
   faCarAlt,
   faCircleUser,
+  faCouch,
   faHeadphones,
   faPlus,
-  faCouch,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { SetupProfileFormValues } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
-import { LocationInput, TagsInput, TextInput, NumberInput } from '@components/inputs'
+import { LocationInput, NumberInput, TagsInput, TextInput } from '@components/inputs'
 import Button from './Button'
 
 export default function SetupProfile() {
@@ -146,7 +146,6 @@ export default function SetupProfile() {
               disabled={watch('hasNoCar')}
             />
 
-            <input type="color" {...register('carColor')} disabled={watch('hasNoCar')} />
             {/*<input type="number" {...register('availableSeats')} disabled={watch('hasNoCar')} /> */}
             <NumberInput
               placeholder="2"
