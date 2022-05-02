@@ -73,9 +73,13 @@ const NewChat: NextPage<NewChatProps> = ({ users, usersByFirstLetter }: NewChatP
                   return (
                     <Link key={user.id} href={`/new-chat/${user.id}`} passHref>
                       <div className="bg-sky-50 rounded-3xl h-16 flex flex-row items-center max-w-md w-full relative cursor-pointer">
-                        <div className="mr-5 ml-3 h-12 w-12 rounded-3xl bg-emerald-300 object-cover overflow-hidden">
+                        <div className="mr-5 ml-5 h-12 w-12 rounded-full bg-emerald-300 relative">
                           {user.pictureUrl && (
-                            <Image src={user.pictureUrl} alt="Profile picture" className="mb-10" />
+                            <Image
+                              src={user.pictureUrl}
+                              alt="Profile picture"
+                              className="rounded-full h-12 w-12 object-cover"
+                            />
                           )}
                         </div>
                         <p>
