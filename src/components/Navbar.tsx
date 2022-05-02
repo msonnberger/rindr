@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/router'
 import { Emerald, Orange, Rose, Sky, Slate } from '@styles/colors'
 import { bgStylings, fgStylings } from '@styles/colors'
-import NavElement from './NavElement'
+import NavElement from './NavElement2'
 
 export default function Navbar() {
   const { pathname: currentRoute } = useRouter()
