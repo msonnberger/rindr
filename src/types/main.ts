@@ -27,10 +27,10 @@ export interface SetupProfileFormValues {
   latitude: number
   bio: string
   hasNoCar: boolean
-  carModel: string | null
-  carColor: string | null
-  availableSeats: number | null
-  interests: {
+  carModel?: string
+  carColor?: string
+  availableSeats?: number
+  interests?: {
     tag: string
   }[]
   music: string

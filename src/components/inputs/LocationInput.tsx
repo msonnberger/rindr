@@ -64,7 +64,11 @@ export default function LocationInput({ register, setValue }: LocationInputProps
               placeholder="Where do you commute from?"
               className="truncate bg-inherit focus:outline-none"
               displayValue={(location: Location) => location.name}
-              {...register('location', { onChange: onInputChange })}
+              {...register('location', {
+                onChange: onInputChange,
+                required:
+                  'Please enter the location you commute from. Rindr uses it to calculate the best available rides for you.',
+              })}
             />
           </div>
 

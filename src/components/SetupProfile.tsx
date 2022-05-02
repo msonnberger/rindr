@@ -11,7 +11,14 @@ export default function SetupProfile() {
   const { data: session } = useSession()
   const router = useRouter()
 
-  const { register, handleSubmit, watch, control, setValue } = useForm<SetupProfileFormValues>({
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+    control,
+    setValue,
+  } = useForm<SetupProfileFormValues>({
     defaultValues: {
       interests: [],
     },
@@ -25,7 +32,10 @@ export default function SetupProfile() {
   }
 
   const onSubmit: SubmitHandler<SetupProfileFormValues> = async (formData) => {
-    if (!session) return
+    if (!session) {
+      alert('Looks like you are not logged in. Please try reloading the page.')
+      return
+    }
 
     const uid = session.user.id
 
@@ -33,14 +43,18 @@ export default function SetupProfile() {
       .from('profile-pictures')
       .upload(uid, formData.picture[0])
 
-    if (uploadError) throw uploadError
+    if (uploadError) {
+      console.log(uploadError)
+      alert('Something went wrong when uploading your image. Please try again later.')
+      return
+    }
 
     const { publicURL } = supabase.storage.from('profile-pictures').getPublicUrl(uid)
 
     if (formData.hasNoCar) {
-      formData.carModel = null
-      formData.carColor = null
-      formData.availableSeats = null
+      formData.carModel = undefined
+      formData.carColor = undefined
+      formData.availableSeats = undefined
     }
 
     const { data, error } = await supabase.from('users').insert({
@@ -50,7 +64,7 @@ export default function SetupProfile() {
       last_name: session.user.lastName,
       bio: formData.bio,
       picture_url: publicURL,
-      interests: formData.interests.map((interest) => interest.tag),
+      interests: formData.interests?.map((interest) => interest.tag),
       music: formData.music,
       car_model: formData.carModel,
       available_seats: formData.availableSeats,
@@ -60,8 +74,12 @@ export default function SetupProfile() {
       location: formData.location,
     })
 
-    if (error) console.error(error)
-    if (data && !error) router.replace('/')
+    if (error || !data) {
+      alert('Something went wrong. Please try again later.')
+      return
+    }
+
+    router.replace('/')
   }
 
   return (
@@ -85,18 +103,27 @@ export default function SetupProfile() {
             type="file"
             accept="image/*"
             className="hidden"
-            {...register('picture')}
+            {...register('picture', {
+              required:
+                'Please upload a photo of yourself. We do this to ensure everybody feels safe on Rindr.',
+            })}
           />
           <div className="absolute bottom-3 right-2 grid h-7 w-7 place-items-center rounded-full border-2 border-white bg-rose-500">
             <FontAwesomeIcon icon={faPlus} className="text-md text-white" />
           </div>
         </label>
+        {errors.picture && <FormError message={errors.picture.message} />}
         <LocationInput register={register} setValue={setValue} />
+        {errors.location && <FormError message={errors.location.message} />}
         <textarea
           id="bio"
           placeholder="Tell us something about you"
-          {...register('bio')}
+          {...register('bio', {
+            required:
+              'Please tell us a little bit about yourself, so that others know something about the person they share a ride with.',
+          })}
         ></textarea>
+        {errors.bio && <FormError message={errors.bio.message} />}
 
         <div>
           <h3 className="mb-3 text-left font-bold">My car</h3>
@@ -119,14 +146,20 @@ export default function SetupProfile() {
         <div>
           <h3 className="mb-3 text-left font-bold">Interests</h3>
           <TagsInput control={control} register={register} />
+
           <TextInput
             placeholder="What music do you listen to?"
             register={register}
+            registerOptions={{
+              required:
+                'Please tell us about some music you listen to. We use it to match witch users which have similar interests.',
+            }}
             name="music"
             tailwindBgClass="bg-rose-500"
             icon={<FontAwesomeIcon icon={faHeadphones} color="white" />}
             disabled={watch('hasNoCar')}
           />
+          {errors.music && <FormError message={errors.music.message} />}
         </div>
         <input
           className="cursor-pointer rounded-lg bg-rose-500 py-2 px-3 text-white"
@@ -135,5 +168,13 @@ export default function SetupProfile() {
         />
       </form>
     </div>
+  )
+}
+
+function FormError({ message }: { message?: string }) {
+  return (
+    <p className="px-5 py-3 -mt-4 rounded-md border-l-4 border-l-red-700 bg-red-100 text-sm">
+      {message || 'Something went wrong. Please try again later.'}
+    </p>
   )
 }
