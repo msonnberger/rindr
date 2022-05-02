@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import Image from '@components/Image'
+import RideFilterInput from './RideFilterInput'
 
 interface FindRideFilterProps {
   setOpenFilter: any
@@ -25,30 +27,28 @@ export default function FindRideFilter({
   }
   return (
     <>
-      <input
-        className="bg-emerald-400"
-        type="text"
+      <RideFilterInput
         name="location"
-        onChange={(ev) => setLocationInput(ev.target.value)}
+        setInput={setLocationInput}
+        type="destination"
+        label="from"
       />
-      <input
-        className="bg-sky-400"
-        type="text"
+      <RideFilterInput
         name="destination"
-        onChange={(ev) => setDestinationInput(ev.target.value)}
+        setInput={setDestinationInput}
+        type="destination"
+        label="to"
       />
-      <input
-        className="bg-orange-400"
-        type="text"
-        name="date"
-        onChange={(ev) => setDateInput(ev.target.value)}
-      />
-      <button
-        className="rounded-3xl flex items-center justify-center bg-sky-400 py-1 pl-4 pr-4 font-bold text-white fit-content w-max"
-        onClick={() => handleSubmit()}
-      >
-        FIND MATCH
-      </button>
+      <RideFilterInput name="date" setInput={setDateInput} type="date" label="date" />
+      <div className="w-full flex flex-col items-center mt-10">
+        <button
+          className="rounded-3xl flex items-center justify-center bg-sky-400 py-3 pl-4 pr-4 font-bold text-white fit-content w-max"
+          onClick={() => handleSubmit()}
+        >
+          FIND MATCH
+        </button>
+        <Image src="/car-find-ride.svg" alt="Cow in the car" className="mt-10" />
+      </div>
     </>
   )
 }
