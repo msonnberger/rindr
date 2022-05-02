@@ -85,5 +85,5 @@ export interface SupabaseChatMessages {
 export interface RideRequest {
   ride_id: string
   passenger_id: string
-  status: string //declined or pending
+  status: 'declined' | 'pending' | 'accepted'
 }
