@@ -1,3 +1,3 @@
-export { default as TextInput } from './TextInput2'
-export { default as TagsInput } from './TagsInput2'
+export { default as TextInput } from './TextInput'
+export { default as TagsInput } from './TagsInput'
 export { default as LocationInput } from './LocationInput'

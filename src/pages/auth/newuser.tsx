@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
-import SetupProfile from '@components/SetupProfile2'
+import SetupProfile from '@components/SetupProfile'
 import Layout from '@components/layout'
 
 const NewUser: NextPage = () => {
