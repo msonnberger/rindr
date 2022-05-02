@@ -1,7 +1,7 @@
-import NextAuth from 'next-auth/next'
-import { supabase } from '@utils/supabaseClient'
-import { camelizeKeys } from '@utils/functions'
 import { Profile } from 'next-auth'
+import NextAuth from 'next-auth/next'
+import { camelizeKeys } from '@utils/functions'
+import { supabase } from '@utils/supabaseClient'
 
 export default NextAuth({
   theme: {
@@ -34,6 +34,8 @@ export default NextAuth({
       profile(profile: Profile) {
         return {
           id: profile.sub,
+          email: profile.email,
+          name: `${profile.given_name} ${profile.family_name}`,
         }
       },
     },
