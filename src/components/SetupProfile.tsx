@@ -1,11 +1,17 @@
-import { faCarAlt, faCircleUser, faHeadphones, faPlus } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCarAlt,
+  faCircleUser,
+  faHeadphones,
+  faPlus,
+  faCouch,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { SetupProfileFormValues } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
-import { LocationInput, TagsInput, TextInput } from '@components/inputs'
+import { LocationInput, TagsInput, TextInput, NumberInput } from '@components/inputs'
 import Button from './Button'
 
 export default function SetupProfile() {
@@ -100,7 +106,9 @@ export default function SetupProfile() {
 
         <div>
           <h3 className="mb-3 text-left font-bold">My car</h3>
-          <div className="flex items-start">
+          <div className="flex flex-wrap items-start">
+            <input type="checkbox" {...register('hasNoCar')} className="accent-rose-500" />
+            <label>No car</label>
             <TextInput
               placeholder="Which car do you have?"
               register={register}
@@ -109,10 +117,17 @@ export default function SetupProfile() {
               icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
               disabled={watch('hasNoCar')}
             />
-            <input type="checkbox" {...register('hasNoCar')} className="accent-rose-500" />
-            <label>I don&apos;t have a car</label>
+
             <input type="color" {...register('carColor')} disabled={watch('hasNoCar')} />
-            <input type="number" {...register('availableSeats')} disabled={watch('hasNoCar')} />
+            {/*<input type="number" {...register('availableSeats')} disabled={watch('hasNoCar')} /> */}
+            <NumberInput
+              placeholder="2"
+              register={register}
+              name="availableSeats"
+              tailwindBgClass="bg-rose-500"
+              icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+              disabled={watch('hasNoCar')}
+            />
           </div>
         </div>
 
