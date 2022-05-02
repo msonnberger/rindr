@@ -1,3 +1,5 @@
+import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import Image from '@components/Image'
 import RideFilterInput from './RideFilterInput'
@@ -33,6 +35,9 @@ export default function FindRideFilter({
         type="destination"
         label="from"
       />
+      <button className="w-6 h-6 bg-sky-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3">
+        <FontAwesomeIcon icon={faRightLeft} color="white" rotation={90} />
+      </button>
       <RideFilterInput
         name="destination"
         setInput={setDestinationInput}
