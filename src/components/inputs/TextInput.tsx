@@ -1,5 +1,5 @@
 import React from 'react'
-import { UseFormRegister } from 'react-hook-form'
+import { RegisterOptions, UseFormRegister } from 'react-hook-form'
 
 interface TextInputProps {
   placeholder: string
@@ -7,6 +7,7 @@ interface TextInputProps {
   icon?: React.ReactNode
   tailwindBgClass?: string
   register: UseFormRegister<any>
+  registerOptions?: RegisterOptions
   disabled?: boolean
 }
 
@@ -16,6 +17,7 @@ export default function TextInput({
   tailwindBgClass,
   name,
   register,
+  registerOptions,
   disabled,
 }: TextInputProps) {
   return (
@@ -30,7 +32,7 @@ export default function TextInput({
         disabled={disabled}
         id={name}
         placeholder={placeholder}
-        {...register(name)}
+        {...register(name, registerOptions)}
         className="bg-inherit focus:outline-none"
       />
     </div>
