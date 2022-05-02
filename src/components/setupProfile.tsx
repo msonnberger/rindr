@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { SetupProfileFormValues } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
 import { LocationInput, TagsInput, TextInput } from '@components/inputs'
+import Button from './Button'
 
 export default function SetupProfile() {
   const { data: session } = useSession()
@@ -126,11 +127,8 @@ export default function SetupProfile() {
             disabled={watch('hasNoCar')}
           />
         </div>
-        <input
-          className="cursor-pointer rounded-lg bg-rose-500 py-2 px-3 text-white"
-          type="submit"
-          value="Done"
-        />
+
+        <Button buttonType="submit" text="Done" bgColor="bg-rose-700" textColor="text-white" />
       </form>
     </div>
   )
