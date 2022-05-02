@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { SetupProfileFormValues } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
-import { LocationInput, NumberInput, TagsInput, TextInput } from '@components/inputs'
+import { LocationInput, NumberInput, TagsInput, TextAreaInput, TextInput } from '@components/inputs'
 import Button from './Button'
 
 export default function SetupProfile() {
@@ -122,14 +122,8 @@ export default function SetupProfile() {
         {errors.picture && <FormError message={errors.picture.message} />}
         <LocationInput register={register} setValue={setValue} />
         {errors.location && <FormError message={errors.location.message} />}
-        <textarea
-          id="bio"
-          placeholder="Tell us something about you"
-          {...register('bio', {
-            required:
-              'Please tell us a little bit about yourself, so that others know something about the person they share a ride with.',
-          })}
-        ></textarea>
+
+        <TextAreaInput placeholder="Tell us something about you" register={register} id="bio" />
         {errors.bio && <FormError message={errors.bio.message} />}
 
         <div>
