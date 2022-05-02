@@ -11,6 +11,9 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      height: {
+        '600px': '600px',
+      },
       animation: {
         slideIn: '1s ease-out 0s 1 slideIn',
       },
