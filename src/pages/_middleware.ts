@@ -26,9 +26,9 @@ async function middleware(request: NextAuthRequest) {
   const { sub, profileSetupCompleted } = request.nextauth.token
 
   if (!profileSetupCompleted) {
-    const userData = await fetchUserData(sub || '')
+    const userData = await fetchUserData(sub as string)
 
-    if (!Boolean(userData)) {
+    if (!userData) {
       url.pathname = '/auth/newuser'
       return NextResponse.redirect(url)
     }

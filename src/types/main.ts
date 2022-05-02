@@ -7,6 +7,7 @@ export interface User {
   bio: string
   interests: string[]
   music: string
+  location: string
   latitude: number
   longitude: number
   department?: string
@@ -22,12 +23,14 @@ export interface User {
 export interface SetupProfileFormValues {
   picture: FileList
   location: string
+  longitude: number
+  latitude: number
   bio: string
   hasNoCar: boolean
-  carModel: string | null
-  carColor: string | null
-  availableSeats: number | null
-  interests: {
+  carModel?: string
+  carColor?: string
+  availableSeats?: number
+  interests?: {
     tag: string
   }[]
   music: string
@@ -80,4 +83,10 @@ export interface SupabaseChatMessages {
   sender_id: string
   receiver_id: string
   created_at: string
+}
+
+export interface RideRequest {
+  ride_id: string
+  passenger_id: string
+  status: 'declined' | 'pending' | 'accepted'
 }

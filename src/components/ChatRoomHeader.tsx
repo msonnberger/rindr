@@ -1,6 +1,6 @@
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { Sky } from '@styles/colors'
 import Image from '@components/Image'
 
@@ -11,11 +11,16 @@ interface HeaderProps {
 }
 
 export default function ChatRoomHeader({ firstName, lastName, pictureUrl }: HeaderProps) {
+  const router = useRouter()
+
+  const handleBack = () => {
+    router.back()
+  }
   return (
     <div className="fixed top-0 left-0 mb-10 flex h-20 w-full flex-row items-center rounded-bl-3xl rounded-br-3xl bg-sky-100 px-3">
-      <Link href="/chat" passHref>
+      <button onClick={handleBack}>
         <FontAwesomeIcon icon={faAngleLeft} size="lg" color={Sky[400]} className="cursor-pointer" />
-      </Link>
+      </button>
       <div className="mr-5 ml-5 h-12 w-12 rounded-full bg-emerald-300 relative">
         {pictureUrl && (
           <Image
