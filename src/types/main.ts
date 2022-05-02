@@ -7,6 +7,7 @@ export interface User {
   bio: string
   interests: string[]
   music: string
+  location: string
   latitude: number
   longitude: number
   department?: string
