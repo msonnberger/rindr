@@ -7,8 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/router'
-import { Emerald, Orange, Rose, Sky, Slate } from '@styles/colors'
-import { bgStylings, fgStylings } from '@styles/colors'
+import { Emerald, Orange, Rose, Sky, Slate, bgStylings, fgStylings } from '@styles/colors'
 import NavElement from './NavElement'
 
 export default function Navbar() {

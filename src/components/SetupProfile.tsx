@@ -60,6 +60,7 @@ export default function SetupProfile() {
       longitude: Number(formData.location.split(',')[0]),
     })
 
+    if (error) console.error(error)
     if (data && !error) router.replace('/')
   }
 
