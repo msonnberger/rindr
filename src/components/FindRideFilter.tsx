@@ -27,6 +27,12 @@ export default function FindRideFilter({
     setLocation(locationInput)
     setOpenFilter(false)
   }
+
+  const ExchangeLocation = (ev: Event) => {
+    ev.preventDefault()
+    setDestinationInput(locationInput)
+    setLocationInput(destinationInput)
+  }
   return (
     <>
       <RideFilterInput
@@ -34,8 +40,12 @@ export default function FindRideFilter({
         setInput={setLocationInput}
         type="destination"
         label="from"
+        inputValue={locationInput}
       />
-      <button className="w-6 h-6 bg-sky-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3">
+      <button
+        className="w-6 h-6 bg-sky-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3"
+        onClick={(ev) => ExchangeLocation(ev)}
+      >
         <FontAwesomeIcon icon={faRightLeft} color="white" rotation={90} />
       </button>
       <RideFilterInput
@@ -43,8 +53,15 @@ export default function FindRideFilter({
         setInput={setDestinationInput}
         type="destination"
         label="to"
+        inputValue={destinationInput}
       />
-      <RideFilterInput name="date" setInput={setDateInput} type="date" label="date" />
+      <RideFilterInput
+        name="date"
+        setInput={setDateInput}
+        type="date"
+        label="date"
+        inputValue={dateInput}
+      />
       <div className="w-full flex flex-col items-center mt-10">
         <button
           className="rounded-3xl flex items-center justify-center bg-sky-400 py-3 pl-4 pr-4 font-bold text-white fit-content w-max"

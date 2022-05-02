@@ -22,9 +22,9 @@ const FindRide: NextPage = () => {
   }
 
   useEffect(() => {
-    console.log(destination)
-    console.log(date)
-    console.log(location)
+    console.log(location, 'from')
+    console.log(destination, 'to')
+    console.log(date, 'date')
   }, [destination, date, location])
   return (
     <>

@@ -3,8 +3,15 @@ interface RideFilterInputProps {
   name: string
   setInput: any
   label: string
+  inputValue: string
 }
-export default function ErrorMessage({ type, name, setInput, label }: RideFilterInputProps) {
+export default function ErrorMessage({
+  type,
+  name,
+  setInput,
+  label,
+  inputValue,
+}: RideFilterInputProps) {
   return (
     <>
       {type == 'destination' && (
@@ -15,6 +22,7 @@ export default function ErrorMessage({ type, name, setInput, label }: RideFilter
             type="text"
             name={name}
             onChange={(ev) => setInput(ev.target.value)}
+            value={inputValue}
           />
         </label>
       )}
@@ -26,6 +34,7 @@ export default function ErrorMessage({ type, name, setInput, label }: RideFilter
             type="date"
             name={name}
             onChange={(ev) => setInput(ev.target.value)}
+            value={inputValue}
           />
         </label>
       )}
