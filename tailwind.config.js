@@ -17,6 +17,9 @@ module.exports = {
       animation: {
         slideIn: '1s ease-out 0s 1 slideIn',
       },
+      width: {
+        'fit-content': 'fit-content',
+      },
       keyframes: {
         slideIn: {
           '0%': { transform: 'translateX(-30%)' },
