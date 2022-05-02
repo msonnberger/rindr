@@ -55,8 +55,9 @@ export default function SetupProfile() {
       car_model: formData.carModel,
       available_seats: formData.availableSeats,
       car_color: formData.carColor,
-      latitude: Number(formData.location.split(',')[1]),
-      longitude: Number(formData.location.split(',')[0]),
+      latitude: formData.latitude,
+      longitude: formData.longitude,
+      location: formData.location,
     })
 
     if (error) console.error(error)

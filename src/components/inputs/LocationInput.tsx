@@ -46,12 +46,14 @@ export default function LocationInput({ register, setValue }: LocationInputProps
 
   const onSelectedChange = (selected: Location) => {
     setSelected(selected)
-    setValue('location', selected.coordinates.join(','))
+    setValue('longitude', Number(selected.coordinates[0]))
+    setValue('latitude', Number(selected.coordinates[1]))
   }
 
   return (
     <div>
-      <input type="hidden" {...register('location')} />
+      <input type="hidden" {...register('longitude')} />
+      <input type="hidden" {...register('latitude')} />
       <Combobox value={selected} onChange={onSelectedChange}>
         <div className="relative">
           <div className="flex gap-4 rounded-full bg-slate-100 p-2 pr-6">
@@ -62,7 +64,7 @@ export default function LocationInput({ register, setValue }: LocationInputProps
               placeholder="Where do you commute from?"
               className="truncate bg-inherit focus:outline-none"
               displayValue={(location: Location) => location.name}
-              onChange={onInputChange}
+              {...register('location', { onChange: onInputChange })}
             />
           </div>
 
