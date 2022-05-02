@@ -1,7 +1,7 @@
-import Image from 'next/image'
 import Link from 'next/link'
+import { ChatPreviewType } from 'src/types/main'
 import { printDatePreview } from '@utils/functions'
-import { ChatPreviewType } from '@utils/types'
+import Image from '@components/Image'
 
 export default function ChatPreview({ content, otherUser, timestamp, channelId }: ChatPreviewType) {
   return (
@@ -12,9 +12,7 @@ export default function ChatPreview({ content, otherUser, timestamp, channelId }
             <Image
               src={otherUser.pictureUrl}
               alt={`Profile picture of ${otherUser.firstName} ${otherUser.lastName}`}
-              objectFit="cover"
-              layout="fill"
-              className="rounded-full h-12 w-12"
+              className="rounded-full h-12 w-12 object-cover"
             />
           )}
         </div>

@@ -1,6 +1,39 @@
 export interface User {
-  name: string
   id: string
+  email: string
+  firstName: string
+  lastName: string
+  pictureUrl: string
+  bio: string
+  interests: string[]
+  music: string
+  location: string
+  latitude: number
+  longitude: number
+  department?: string
+  carModel?: string
+  carColor?: string
+  availableSeats?: number
+  savingsCo2?: number
+  savingsEuro?: number
+  thumbsUpCount?: number
+  thumbsDownCount?: number
+}
+
+export interface SetupProfileFormValues {
+  picture: FileList
+  location: string
+  longitude: number
+  latitude: number
+  bio: string
+  hasNoCar: boolean
+  carModel?: string
+  carColor?: string
+  availableSeats?: number
+  interests?: {
+    tag: string
+  }[]
+  music: string
 }
 
 export interface Channel {
@@ -16,7 +49,7 @@ export interface Message {
   received: boolean
 }
 
-export type MessagesByDate = Record<string, Message[]>
+export declare type MessagesByDate = Record<string, Message[]>
 
 export interface ChatPreviewType {
   channelId: string
@@ -50,4 +83,10 @@ export interface SupabaseChatMessages {
   sender_id: string
   receiver_id: string
   created_at: string
+}
+
+export interface RideRequest {
+  ride_id: string
+  passenger_id: string
+  status: 'declined' | 'pending' | 'accepted'
 }

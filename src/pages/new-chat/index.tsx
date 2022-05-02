@@ -3,13 +3,13 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Fragment, useState } from 'react'
 import { camelizeKeys } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
 import { Sky } from '@styles/colors'
 import AutoComplete from '@components/Autocomplete'
+import Image from '@components/Image'
 import Layout from '@components/Layout'
 
 interface UserPreview {
@@ -73,8 +73,14 @@ const NewChat: NextPage<NewChatProps> = ({ users, usersByFirstLetter }: NewChatP
                   return (
                     <Link key={user.id} href={`/new-chat/${user.id}`} passHref>
                       <div className="bg-sky-50 rounded-3xl h-16 flex flex-row items-center max-w-md w-full relative cursor-pointer">
-                        <div className="mr-5 ml-3 h-12 w-12 rounded-3xl bg-emerald-300">
-                          {user.pictureUrl && <Image src={user.pictureUrl} alt="Profile picture" />}
+                        <div className="mr-5 ml-5 h-12 w-12 rounded-full bg-emerald-300 relative">
+                          {user.pictureUrl && (
+                            <Image
+                              src={user.pictureUrl}
+                              alt="Profile picture"
+                              className="rounded-full h-12 w-12 object-cover"
+                            />
+                          )}
                         </div>
                         <p>
                           {user.firstName} {user.lastName}
