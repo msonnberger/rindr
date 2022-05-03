@@ -1,4 +1,10 @@
-import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCarSide,
+  faClose,
+  faCommentDots,
+  faThumbsDown,
+  faThumbsUp,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { User } from 'src/types/main'
 import { Emerald, Orange } from '@styles/colors'
@@ -24,8 +30,8 @@ interface SwiperCardProps {
 
 export const SwiperCard = ({ user, ride }: SwiperCardProps) => {
   return (
-    <div className="w-96 rounded-3xl bg-slate-100 h-600px">
-      <div className="h-96 bg-sky-300 rounded-3xl shadow-xl h-450px relative">
+    <div className="w-96 rounded-3xl bg-slate-100 h-600px flex flex-col shadow-xl">
+      <div className="bg-sky-300 rounded-3xl shadow-xl h-520px relative">
         <div className="absolute bg-slate-50 bg-opacity-50 h-20 bottom-0 rounded-3xl mb-2 left-2 right-2 p-3 flex flex-row justify-between items-center">
           <div className="flex flex-col">
             <p className="font-bold text-2xl text-slate-800">
@@ -52,7 +58,17 @@ export const SwiperCard = ({ user, ride }: SwiperCardProps) => {
           )}
         </div>
       </div>
-      <div className="flex flex-row"></div>
+      <div className="flex flex-row justify-center items-center gap-5 mt-2">
+        <button className="h-12 w-12 bg-slate-400 rounded-3xl">
+          <FontAwesomeIcon icon={faClose} size="lg" color="white" />
+        </button>
+        <button className="h-16 w-16 bg-sky-400 rounded-4xl">
+          <FontAwesomeIcon icon={faCommentDots} size="2x" color="white" />
+        </button>
+        <button className="h-12 w-12 bg-emerald-400 rounded-3xl">
+          <FontAwesomeIcon icon={faCarSide} size="lg" color="white" />
+        </button>
+      </div>
     </div>
   )
 }
