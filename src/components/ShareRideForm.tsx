@@ -99,7 +99,7 @@ export default function ShareRideForm({
           min="0"
           max="50"
           value={thresholdInput}
-          className="w-full"
+          className="w-full appearance-none bg-slate-200 h-4"
           id="threshold"
           onInput={(ev) => setThresholdInput(ev.target.value)}
         />
