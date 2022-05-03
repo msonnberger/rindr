@@ -102,10 +102,8 @@ export default function ShareRideForm({
           className="w-full appearance-none bg-slate-200 h-4"
           id="threshold"
           onInput={(ev) => {
-            return (
-              // @ts-ignore
-              setThresholdInput(ev.target.value)
-            )
+            // @ts-ignore
+            return setThresholdInput(ev.target.value)
           }}
         />
       </label>
