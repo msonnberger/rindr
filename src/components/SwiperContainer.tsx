@@ -17,7 +17,7 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
   const swiperCard = {
     user: session?.user,
     ride: {
-      id: 1234,
+      id: '1234',
       driver_id: session?.user.id,
       passenger_id: '',
       start_latitude: Campuses[0].latitude,
@@ -60,22 +60,19 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
         <p className="ml-3 font-bold">Filter</p>
       </button>
       <div className="relative flex justify-center mt-4">
-        <TinderCard
-          className="absolute z-0"
-          onSwipe={(dir) => onSwipe(dir, 1)}
-          onCardLeftScreen={() => onCardLeftScreen('1')}
-          preventSwipe={['up', 'down']}
-        >
-          <SwiperCard user={swiperCard.user} ride={swiperCard.ride} />
-        </TinderCard>
-        <TinderCard
-          className="absolute z-0"
-          onSwipe={(dir) => onSwipe(dir, 2)}
-          onCardLeftScreen={() => onCardLeftScreen('2')}
-          preventSwipe={['up', 'down']}
-        >
-          <SwiperCard user={swiperCard.user} ride={swiperCard.ride} />
-        </TinderCard>
+        {[swiperCard, swiperCard].map((card, key) => {
+          return (
+            <TinderCard
+              key={key}
+              className="absolute z-0"
+              onSwipe={(dir) => onSwipe(dir, key)}
+              onCardLeftScreen={() => onCardLeftScreen('1')}
+              preventSwipe={['up', 'down']}
+            >
+              <SwiperCard user={card.user} ride={card.ride} />
+            </TinderCard>
+          )
+        })}
       </div>
     </>
   )

@@ -6,6 +6,7 @@ import {
   faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Link from 'next/link'
 import { User } from 'src/types/main'
 import { Emerald, Orange } from '@styles/colors'
 import Image from '@components/Image'
@@ -29,6 +30,16 @@ interface SwiperCardProps {
 }
 
 export const SwiperCard = ({ user, ride }: SwiperCardProps) => {
+  const handleClickRequest = () => {
+    console.log('Clicked on request')
+    //TODO: API - send RideRequest, use same function as on swiping right or call SwipeRight
+  }
+
+  const handleClickClose = () => {
+    console.log('Clicked on close')
+    //TODO: call SwipeLeft
+  }
+
   return (
     <div className="w-96 rounded-3xl bg-slate-100 h-600px flex flex-col shadow-xl">
       <div className="bg-sky-300 rounded-3xl shadow-xl h-520px relative">
@@ -59,13 +70,16 @@ export const SwiperCard = ({ user, ride }: SwiperCardProps) => {
         </div>
       </div>
       <div className="flex flex-row justify-center items-center gap-5 mt-2">
-        <button className="h-12 w-12 bg-slate-400 rounded-3xl">
+        <button className="h-12 w-12 bg-slate-400 rounded-3xl" onClick={handleClickClose}>
           <FontAwesomeIcon icon={faClose} size="lg" color="white" />
         </button>
-        <button className="h-16 w-16 bg-sky-400 rounded-4xl">
-          <FontAwesomeIcon icon={faCommentDots} size="2x" color="white" />
-        </button>
-        <button className="h-12 w-12 bg-emerald-400 rounded-3xl">
+        {/*TODO: fetch correct channelId and redirect to chatRoom */}
+        <Link href="/" passHref>
+          <button className="h-16 w-16 bg-sky-400 rounded-4xl">
+            <FontAwesomeIcon icon={faCommentDots} size="2x" color="white" />
+          </button>
+        </Link>
+        <button className="h-12 w-12 bg-emerald-400 rounded-3xl" onClick={handleClickRequest}>
           <FontAwesomeIcon icon={faCarSide} size="lg" color="white" />
         </button>
       </div>
