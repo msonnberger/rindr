@@ -1,7 +1,7 @@
 import { faRoute } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { createRef, useMemo, useRef, useState } from 'react'
 import TinderCard from 'react-tinder-card'
 import { Campuses } from 'src/types/main'
 import { SwiperCard } from './SwiperCard'
@@ -10,8 +10,6 @@ interface SwiperContainerProps {
   setOpenFilter: any
 }
 export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
-  const [newRequests, setNewRequests] = useState(1)
-  const [swipeRight, setSwipeRight] = useState('test')
   const { data: session } = useSession()
 
   const swiperCard = {
@@ -31,25 +29,53 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
       duration: 30,
     },
   }
+  const [swiperCards, setSwiperCards] = useState([swiperCard, swiperCard])
+  const [currentIndex, setCurrentIndex] = useState(swiperCards.length - 1)
+  const currentIndexRef = useRef(currentIndex)
 
   //TODO: get all filtered Rides and show them as a swiper-tindercard and commit the proper user object
 
   const onSwipe = (direction: string, index: number) => {
     console.log('You swiped: ' + direction)
+    updateCurrentIndex(index - 1)
     if (direction === 'right') {
       //debugger
-      setNewRequests(2)
       //setNewRequests([index, ...newRequests])
-      setSwipeRight('hallo')
       console.log('RIGHT', index)
     }
   }
 
-  const onCardLeftScreen = (myIdentifier: string) => {
-    console.log(myIdentifier + ' left the screen')
-    console.log(newRequests, 'state')
-    console.log(swipeRight, 'swipeRight')
+  const childRefs = useMemo(
+    () =>
+      Array(swiperCards.length)
+        .fill(0)
+        .map((i) => createRef()),
+    []
+  )
+
+  const updateCurrentIndex = (val: number) => {
+    setCurrentIndex(val)
+    currentIndexRef.current = val
   }
+  const canSwipe = currentIndex >= 0
+
+  const swipe = async (dir: string) => {
+    console.log(childRefs, 'childRefs')
+    console.log(dir, 'DIR')
+    if (canSwipe && currentIndex < swiperCards.length) {
+      await childRefs[currentIndex].current.swipe(dir) // Swipe the card!
+    }
+  }
+
+  const outOfFrame = (name, idx) => {
+    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
+    // handle the case in which go back is pressed before card goes outOfFrame
+    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
+    // TODO: when quickly swipe and restore multiple times the same card,
+    // it happens multiple outOfFrame events are queued and the card disappear
+    // during latest swipes. Only the last outOfFrame event should be considered valid
+  }
+
   return (
     <>
       <button
@@ -66,10 +92,15 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
               key={key}
               className="absolute z-0"
               onSwipe={(dir) => onSwipe(dir, key)}
-              onCardLeftScreen={() => onCardLeftScreen('1')}
+              onCardLeftScreen={() => outOfFrame(card.user?.firstName, key)}
               preventSwipe={['up', 'down']}
             >
-              <SwiperCard user={card.user} ride={card.ride} />
+              <SwiperCard
+                user={card.user}
+                ride={card.ride}
+                swipeRight={() => swipe('right')}
+                swipeLeft={() => swipe('left')}
+              />
             </TinderCard>
           )
         })}

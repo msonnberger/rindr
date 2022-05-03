@@ -21,17 +21,15 @@ interface SwiperCardProps {
     arrival: string
     duration: number
   }
+  swipeRight: any
+  swipeLeft: any
 }
 
-export const SwiperCard = ({ user, ride }: SwiperCardProps) => {
+export const SwiperCard = ({ user, ride, swipeRight, swipeLeft }: SwiperCardProps) => {
   const handleClickRequest = () => {
     console.log('Clicked on request')
+    swipeRight()
     //TODO: API - send RideRequest, use same function as on swiping right or call SwipeRight
-  }
-
-  const handleClickClose = () => {
-    console.log('Clicked on close')
-    //TODO: call SwipeLeft
   }
 
   return (
@@ -56,7 +54,7 @@ export const SwiperCard = ({ user, ride }: SwiperCardProps) => {
         />
       </div>
       <div className="flex flex-row justify-center items-center gap-5 mt-2">
-        <button className="h-12 w-12 bg-slate-400 rounded-3xl" onClick={handleClickClose}>
+        <button className="h-12 w-12 bg-slate-400 rounded-3xl" onClick={swipeLeft}>
           <FontAwesomeIcon icon={faClose} size="lg" color="white" />
         </button>
         {/*TODO: fetch correct channelId and redirect to chatRoom */}
@@ -65,7 +63,10 @@ export const SwiperCard = ({ user, ride }: SwiperCardProps) => {
             <FontAwesomeIcon icon={faCommentDots} size="2x" color="white" />
           </button>
         </Link>
-        <button className="h-12 w-12 bg-emerald-400 rounded-3xl" onClick={handleClickRequest}>
+        <button
+          className="h-12 w-12 bg-emerald-400 rounded-3xl"
+          onClick={() => handleClickRequest()}
+        >
           <FontAwesomeIcon icon={faCarSide} size="lg" color="white" />
         </button>
       </div>
