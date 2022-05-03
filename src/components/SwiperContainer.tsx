@@ -49,7 +49,7 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
     () =>
       Array(swiperCards.length)
         .fill(0)
-        .map((i) => createRef()),
+        .map(() => createRef()),
     []
   )
 
@@ -67,7 +67,7 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
     }
   }
 
-  const outOfFrame = (name, idx) => {
+  const outOfFrame = (name: string | undefined, idx: number) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
     // handle the case in which go back is pressed before card goes outOfFrame
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
@@ -86,15 +86,18 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
         <p className="ml-3 font-bold">Filter</p>
       </button>
       <div className="relative flex justify-center mt-8">
+        {currentIndexRef.current == -1 && (
+          <p className="text-sky-400 mt-14 text-lg">No Rides left...</p>
+        )}
         {[swiperCard, swiperCard].map((card, key) => {
           return (
             <TinderCard
+              ref={childRefs[key]}
               key={key}
               className="absolute z-0"
               onSwipe={(dir) => onSwipe(dir, key)}
               onCardLeftScreen={() => outOfFrame(card.user?.firstName, key)}
               preventSwipe={['up', 'down']}
-              ref={childRefs[key]}
             >
               <SwiperCard
                 user={card.user}
