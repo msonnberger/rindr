@@ -59,7 +59,7 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
         <FontAwesomeIcon icon={faRoute} size="lg" />
         <p className="ml-3 font-bold">Filter</p>
       </button>
-      <div className="relative flex justify-center mt-4">
+      <div className="relative flex justify-center mt-8">
         {[swiperCard, swiperCard].map((card, key) => {
           return (
             <TinderCard
