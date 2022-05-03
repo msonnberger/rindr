@@ -90,3 +90,32 @@ export interface RideRequest {
   passenger_id: string
   status: 'declined' | 'pending' | 'accepted'
 }
+
+export const Campuses: Array<Location> = [
+  { name: 'Campus Urstein', latitude: 47.72350695668047, longitude: 13.087123685074921 },
+  { name: 'Campus Kuchl', latitude: 47.63056265693036, longitude: 13.15139572735022 },
+  { name: 'Campus Salzburg/SALK', latitude: 47.80726340063991, longitude: 13.032867527354465 },
+  { name: 'Campus Schwarzach', latitude: 47.32120150312281, longitude: 13.156957342687942 },
+]
+
+export interface Location {
+  name: string
+  latitude: number
+  longitude: number
+}
+
+export interface SupabaseRide {
+  id: string
+  driver_id: string
+  passenger_id: string
+  start_latitude: number
+  start_longitude: number
+  start_location: string
+  destination_latitude: number
+  destination_longitude: number
+  destination_location: string
+  departure: string
+  arrival: string
+  duration: number
+  threshold: number
+}

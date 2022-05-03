@@ -1,14 +1,13 @@
 import Image from 'next/image'
-import React from 'react'
 
-interface BubbleProps {
+interface HeaderBubbleProps {
   color: string
   text: string
   path: string
   alt: string
 }
 
-const Bubble = ({ color, text, path, alt }: BubbleProps) => {
+const HeaderBubble = ({ color, text, path, alt }: HeaderBubbleProps) => {
   return (
     <div
       className={`absolute top-0 -ml-5 w-full max-w-4xl flex items-center gap-x-6 h-16 rounded-b-2xl ${color} px-8`}
@@ -19,4 +18,4 @@ const Bubble = ({ color, text, path, alt }: BubbleProps) => {
   )
 }
 
-export default Bubble
+export default HeaderBubble
