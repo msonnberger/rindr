@@ -100,6 +100,22 @@ export const Campuses: Array<Location> = [
 
 export interface Location {
   name: string
-  latitude: number | undefined
-  longitude: number | undefined
+  latitude: number
+  longitude: number
+}
+
+export interface SupabaseRide {
+  id: string
+  driver_id: string
+  passenger_id: string
+  start_latitude: number
+  start_longitude: number
+  start_location: string
+  destination_latitude: number
+  destination_longitude: number
+  destination_location: string
+  departure: string
+  arrival: string
+  duration: number
+  threshold: number
 }
