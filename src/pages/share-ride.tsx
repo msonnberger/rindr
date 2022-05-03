@@ -13,6 +13,7 @@ const ShareRide: NextPage = () => {
   const [destination, setDestination] = useState('')
   const [date, setDate] = useState('')
   const [location, setLocation] = useState([])
+  const [threshold, setThreshold] = useState([])
 
   const router = useRouter()
   const handleBack = () => {
@@ -23,7 +24,8 @@ const ShareRide: NextPage = () => {
     console.log(location, 'from')
     console.log(destination, 'to')
     console.log(date, 'date')
-  }, [destination, date, location])
+    console.log(threshold, 'threshold')
+  }, [destination, date, location, threshold])
   return (
     <>
       <Head>
@@ -45,6 +47,7 @@ const ShareRide: NextPage = () => {
             setDate={setDate}
             setDestination={setDestination}
             setLocation={setLocation}
+            setThreshold={setThreshold}
           />
         </div>
       </Layout>

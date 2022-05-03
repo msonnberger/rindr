@@ -8,15 +8,18 @@ interface ShareRideFormProps {
   setDate: any
   setDestination: any
   setLocation: any
+  setThreshold: any
 }
 
 export default function ShareRideForm({
   setDate,
   setDestination,
   setLocation,
+  setThreshold,
 }: ShareRideFormProps) {
   const [destinationInput, setDestinationInput] = useState<Location>()
   const [dateInput, setDateInput] = useState('')
+  const [thresholdInput, setThresholdInput] = useState(25)
   const [locationInput, setLocationInput] = useState<Location>()
   const { data: session } = useSession()
 
@@ -30,6 +33,7 @@ export default function ShareRideForm({
     setDate(dateInput)
     setDestination(destinationInput)
     setLocation(locationInput)
+    setThreshold(thresholdInput)
   }
 
   useEffect(() => {
@@ -84,6 +88,22 @@ export default function ShareRideForm({
           />
         </label>
       </div>
+      <label htmlFor="threshold" className="mt-5">
+        <div className="flex flex-row mt-6 mb-2 justify-between w-full">
+          <p className="font-light">threshold</p>
+          <p className="font-bold text-emerald-400">+{thresholdInput} km</p>
+        </div>
+        <input
+          name="threshold"
+          type="range"
+          min="0"
+          max="50"
+          value={thresholdInput}
+          className="w-full"
+          id="threshold"
+          onInput={(ev) => setThresholdInput(ev.target.value)}
+        />
+      </label>
       <div className="w-full flex flex-col items-center mt-10">
         <button
           className="rounded-3xl flex items-center justify-center bg-emerald-400 py-3 pl-4 pr-4 font-bold text-white fit-content w-max"
