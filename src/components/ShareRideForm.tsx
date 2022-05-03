@@ -101,7 +101,10 @@ export default function ShareRideForm({
           value={thresholdInput}
           className="w-full appearance-none bg-slate-200 h-4"
           id="threshold"
-          onInput={(ev) => setThresholdInput(ev.target.value)}
+          onInput={(ev) => {
+            // @ts-ignore
+            setThresholdInput(ev.target.value)
+          }}
         />
       </label>
       <div className="w-full flex flex-col items-center mt-10">
@@ -109,6 +112,7 @@ export default function ShareRideForm({
           className="rounded-3xl flex items-center justify-center bg-emerald-400 py-3 pl-4 pr-4 font-bold text-white fit-content w-max"
           onClick={() => handleSubmit()}
         >
+          {/*TODO use Button Primary*/}
           SHARE RIDE
         </button>
         <Image src="/car-share-ride.svg" alt="Cow in the car" className="mt-10" />
