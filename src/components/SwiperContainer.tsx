@@ -39,8 +39,8 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
     console.log('You swiped: ' + direction)
     updateCurrentIndex(index - 1)
     if (direction === 'right') {
-      //debugger
       //setNewRequests([index, ...newRequests])
+      //TODO: API new RideRequest
       console.log('RIGHT', index)
     }
   }
@@ -94,6 +94,7 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
               onSwipe={(dir) => onSwipe(dir, key)}
               onCardLeftScreen={() => outOfFrame(card.user?.firstName, key)}
               preventSwipe={['up', 'down']}
+              ref={childRefs[key]}
             >
               <SwiperCard
                 user={card.user}
