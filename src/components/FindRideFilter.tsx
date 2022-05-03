@@ -1,5 +1,6 @@
 import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { Campuses } from 'src/types/main'
 import Image from '@components/Image'
@@ -18,9 +19,16 @@ export default function FindRideFilter({
   setDestination,
   setLocation,
 }: FindRideFilterProps) {
-  const [destinationInput, setDestinationInput] = useState('')
+  const [destinationInput, setDestinationInput] = useState<Location>()
   const [dateInput, setDateInput] = useState('')
-  const [locationInput, setLocationInput] = useState('')
+  const [locationInput, setLocationInput] = useState<Location>()
+  const { data: session } = useSession()
+
+  const Home = {
+    name: 'home',
+    latitude: session?.user.latitude,
+    longitude: session?.user.longitude,
+  }
 
   const handleSubmit = () => {
     setDate(dateInput)
@@ -51,7 +59,7 @@ export default function FindRideFilter({
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">from</p>
         {Campuses && (
-          <SelectSuggestions setInput={setLocationInput} options={[...Campuses, 'home']} />
+          <SelectSuggestions setInput={setLocationInput} options={[...Campuses, Home]} />
         )}
       </div>
       <button
@@ -63,7 +71,7 @@ export default function FindRideFilter({
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">to</p>
         {Campuses && (
-          <SelectSuggestions setInput={setDestinationInput} options={[...Campuses, 'home']} />
+          <SelectSuggestions setInput={setDestinationInput} options={[...Campuses, Home]} />
         )}
       </div>
       <label htmlFor="date" className="mt-5">

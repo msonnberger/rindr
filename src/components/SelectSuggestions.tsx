@@ -1,12 +1,13 @@
 import { useState } from 'react'
+import { Location } from 'src/types/main'
 
 interface SelectSuggestionsProps {
-  options: Array<string>
+  options: Array<Location>
   setInput: any
 }
 export default function SelectSuggestions({ options, setInput }: SelectSuggestionsProps) {
-  const [selectedOption, setSelectedOption] = useState<null | string>(null)
-  const handleClick = (optionName: string) => {
+  const [selectedOption, setSelectedOption] = useState<null | Location>(null)
+  const handleClick = (optionName: Location) => {
     setSelectedOption(optionName)
     console.log(optionName, 'input')
     setInput(optionName)
@@ -24,7 +25,7 @@ export default function SelectSuggestions({ options, setInput }: SelectSuggestio
                 selectedOption === option ? 'bg-sky-400' : 'bg-sky-200'
               }`}
             >
-              {option}
+              {option.name}
             </button>
           )
         })}
