@@ -6,7 +6,7 @@ type Coordinates = {
   longitude: number
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<string[]>) {
   const session = await getSession({ req })
 
   if (!session) {
@@ -14,13 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return
   }
 
-  const from = { longitude: 13.254923393796085, latitude: 47.98067277832721 }
-  const to = { longitude: 13.086791861894637, latitude: 47.723227207131735 }
-  const via = { longitude: session.user.longitude, latitude: session.user.latitude }
-
-  const extraDistance = await calculateExtraDistanceNeeded(47000, from, to, via)
-
-  res.status(200).json({ extraDistance })
+  const { start, destination, date } = req.query
 }
 
 function combineCoordinates(locations: Coordinates[]) {
@@ -28,8 +22,8 @@ function combineCoordinates(locations: Coordinates[]) {
   return stringLocations.join(';')
 }
 
-async function calculateExtraDistanceNeeded(
-  distance: number,
+async function calculateExtraTimeNeeded(
+  duration: number,
   from: Coordinates,
   to: Coordinates,
   via: Coordinates
@@ -45,5 +39,5 @@ async function calculateExtraDistanceNeeded(
   const response = await fetch(url)
   const data = await response.json()
 
-  return (data.routes[0].distance - distance) / 1000
+  return data.routes[0].duration - duration
 }
