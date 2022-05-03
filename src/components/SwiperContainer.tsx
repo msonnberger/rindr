@@ -1,3 +1,4 @@
+//inspired by: https://github.com/3DJakob/react-tinder-card-demo/blob/master/src/examples/Advanced.js
 import { faRoute } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
@@ -69,11 +70,7 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
 
   const outOfFrame = (name: string | undefined, idx: number) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
-    // handle the case in which go back is pressed before card goes outOfFrame
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
-    // TODO: when quickly swipe and restore multiple times the same card,
-    // it happens multiple outOfFrame events are queued and the card disappear
-    // during latest swipes. Only the last outOfFrame event should be considered valid
   }
 
   return (
