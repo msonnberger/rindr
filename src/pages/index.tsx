@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { fgStylings } from '@styles/colors'
 import Heading from '@components/Heading'
 import Image from '@components/Image'
@@ -19,6 +20,8 @@ const Profile: NextPage = () => {
         <Image alt="logo" src="/logo.svg" height={100} width={100} />
 
         <main className="flex w-full flex-1 flex-col items-center justify-center gap-8 px-20 text-center">
+          <Link href="/find-ride">Find Ride</Link>
+          <Link href="/share-ride">Share Ride</Link>
           <div className="">
             {session ? (
               <>
