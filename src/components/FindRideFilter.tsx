@@ -1,8 +1,9 @@
 import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Campuses } from 'src/types/main'
 import Image from '@components/Image'
-import RideFilterInput from './RideFilterInput'
+import SelectSuggestions from './SelectSuggestions'
 
 interface FindRideFilterProps {
   setOpenFilter: any
@@ -33,6 +34,12 @@ export default function FindRideFilter({
     setDestinationInput(locationInput)
     setLocationInput(destinationInput)
   }
+  useEffect(() => {
+    console.log(locationInput, 'from')
+    console.log(destinationInput, 'to')
+    console.log(dateInput, 'date')
+  }, [destinationInput, dateInput, locationInput])
+
   return (
     <>
       <button
@@ -41,33 +48,34 @@ export default function FindRideFilter({
       >
         Back
       </button>
-      <RideFilterInput
-        name="location"
-        setInput={setLocationInput}
-        type="destination"
-        label="from"
-        inputValue={locationInput}
-      />
+      <div className="mt-5">
+        <p className="font-light mt-6 mb-2">from</p>
+        {Campuses && (
+          <SelectSuggestions setInput={setLocationInput} options={[...Campuses, 'home']} />
+        )}
+      </div>
       <button
         className="w-6 h-6 bg-sky-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3"
         onClick={(ev) => ExchangeLocation(ev)}
       >
         <FontAwesomeIcon icon={faRightLeft} color="white" rotation={90} />
       </button>
-      <RideFilterInput
-        name="destination"
-        setInput={setDestinationInput}
-        type="destination"
-        label="to"
-        inputValue={destinationInput}
-      />
-      <RideFilterInput
-        name="date"
-        setInput={setDateInput}
-        type="date"
-        label="date"
-        inputValue={dateInput}
-      />
+      <div className="mt-5">
+        <p className="font-light mt-6 mb-2">to</p>
+        {Campuses && (
+          <SelectSuggestions setInput={setDestinationInput} options={[...Campuses, 'home']} />
+        )}
+      </div>
+      <label htmlFor="date" className="mt-5">
+        <p className="font-light mt-6 mb-2">date</p>
+        <input
+          className="bg-slate-50 flex gap-4 rounded-full bg-slate-100 p-3 focus:outline-none text-slate-600 font-light"
+          type="date"
+          name="date"
+          onChange={(ev) => setDateInput(ev.target.value)}
+          value={dateInput}
+        />
+      </label>
       <div className="w-full flex flex-col items-center mt-10">
         <button
           className="rounded-3xl flex items-center justify-center bg-sky-400 py-3 pl-4 pr-4 font-bold text-white fit-content w-max"

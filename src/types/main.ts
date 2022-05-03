@@ -90,3 +90,10 @@ export interface RideRequest {
   passenger_id: string
   status: 'declined' | 'pending' | 'accepted'
 }
+
+export const Campuses = [
+  'Campus Urstein',
+  'Campus Kuch',
+  'Campus Salzburg/SALK',
+  'Campus Schwarzach',
+]
