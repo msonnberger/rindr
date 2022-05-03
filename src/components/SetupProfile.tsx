@@ -8,6 +8,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { SetupProfileFormValues } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
@@ -89,6 +90,16 @@ export default function SetupProfile() {
     router.replace('/')
   }
 
+  const [hasCar, setHasCar] = useState(true)
+
+  const changeCarYes = () => {
+    setHasCar(true)
+  }
+
+  const changeCarNo = () => {
+    setHasCar(false)
+  }
+
   return (
     <div className="flex flex-col items-start">
       <h1 className="text-4xl font-bold text-rose-500">
@@ -97,7 +108,7 @@ export default function SetupProfile() {
       <h2 className="mt-3 text-lg">Please finish setting up your profile.</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-12 flex max-w-lg flex-col items-start gap-8"
+        className="mt-12 flex max-w-lg flex-col items-start gap-8 w-full"
       >
         <label className="relative cursor-pointer self-center" htmlFor="picture">
           {picturePreview ? (
@@ -127,30 +138,76 @@ export default function SetupProfile() {
         {errors.bio && <FormError message={errors.bio.message} />}
 
         <div>
-          <h3 className="mb-3 text-left font-bold">My car</h3>
-          <div className="flex flex-wrap items-start">
-            <input type="checkbox" {...register('hasNoCar')} className="accent-rose-500" />
-            <label>No car</label>
-            <TextInput
-              placeholder="Which car do you have?"
-              register={register}
-              name="carModel"
-              tailwindBgClass="bg-rose-500"
-              icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
-              disabled={watch('hasNoCar')}
+          <h3 className="mb-3 text-left font-bold">Do you have a car?</h3>
+          <div className="flex flex-row gap-4">
+            <Button
+              buttonType="button"
+              text="yes"
+              bgColor="bg-rose-700"
+              textColor="text-white"
+              onClick={changeCarYes}
             />
-
-            {/*<input type="number" {...register('availableSeats')} disabled={watch('hasNoCar')} /> */}
-            <NumberInput
-              placeholder="2"
-              register={register}
-              name="availableSeats"
-              tailwindBgClass="bg-rose-500"
-              icon={<FontAwesomeIcon icon={faCouch} color="white" />}
-              disabled={watch('hasNoCar')}
+            <Button
+              buttonType="button"
+              text="no"
+              bgColor="bg-rose-700"
+              textColor="text-white"
+              onClick={changeCarNo}
             />
           </div>
         </div>
+
+        {hasCar ? (
+          <div>
+            <h3 className="mb-3 text-left font-bold">My car</h3>
+            <div className="flex flex-wrap items-start">
+              <TextInput
+                placeholder="Which car do you have?"
+                register={register}
+                name="carModel"
+                tailwindBgClass="bg-rose-500"
+                icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
+                disabled={watch('hasNoCar')}
+              />
+
+              {/*<input type="number" {...register('availableSeats')} disabled={watch('hasNoCar')} /> */}
+              <NumberInput
+                placeholder="2"
+                register={register}
+                name="availableSeats"
+                tailwindBgClass="bg-rose-500"
+                icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+                disabled={watch('hasNoCar')}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="hidden">
+            <h3 className="mb-3 text-left font-bold">My car</h3>
+            <div className="flex flex-wrap items-start">
+              <input type="checkbox" {...register('hasNoCar')} className="accent-rose-500" />
+              <label>No car</label>
+              <TextInput
+                placeholder="Which car do you have?"
+                register={register}
+                name="carModel"
+                tailwindBgClass="bg-rose-500"
+                icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
+                disabled={watch('hasNoCar')}
+              />
+
+              {/*<input type="number" {...register('availableSeats')} disabled={watch('hasNoCar')} /> */}
+              <NumberInput
+                placeholder="2"
+                register={register}
+                name="availableSeats"
+                tailwindBgClass="bg-rose-500"
+                icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+                disabled={watch('hasNoCar')}
+              />
+            </div>
+          </div>
+        )}
 
         <div>
           <h3 className="mb-3 text-left font-bold">Interests</h3>
