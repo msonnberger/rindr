@@ -109,7 +109,7 @@ export default function ShareRideForm({
           className="rounded-3xl flex items-center justify-center bg-emerald-400 py-3 pl-4 pr-4 font-bold text-white fit-content w-max"
           onClick={() => handleSubmit()}
         >
-          FIND MATCH
+          SHARE RIDE
         </button>
         <Image src="/car-share-ride.svg" alt="Cow in the car" className="mt-10" />
       </div>
