@@ -1,15 +1,9 @@
-import {
-  faCarSide,
-  faClose,
-  faCommentDots,
-  faThumbsDown,
-  faThumbsUp,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCarSide, faClose, faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { User } from 'src/types/main'
-import { Emerald, Orange } from '@styles/colors'
-import Image from '@components/Image'
+import { formatTime } from '@utils/functions'
+import SwiperUserInfo from './SwiperUser'
 
 interface SwiperCardProps {
   user: User | undefined
@@ -43,31 +37,23 @@ export const SwiperCard = ({ user, ride }: SwiperCardProps) => {
   return (
     <div className="w-96 rounded-3xl bg-slate-100 h-600px flex flex-col shadow-xl">
       <div className="bg-sky-300 rounded-3xl shadow-xl h-520px relative">
-        <div className="absolute bg-slate-50 bg-opacity-50 h-20 bottom-0 rounded-3xl mb-2 left-2 right-2 p-3 flex flex-row justify-between items-center">
-          <div className="flex flex-col">
-            <p className="font-bold text-2xl text-slate-800">
-              {user?.firstName} {user?.lastName}
-            </p>
-            <p className="font-light text-slate-800">{user?.department}</p>
+        <div className="flex flex-row justify-center items-center bg-slate-50 bg-opacity-50 absolute top-0 mt-2 right-2 left-2 rounded-3xl h-10">
+          <div className="flex items-center justify-center bg-sky-400 rounded-2xl py-1 pl-3 pr-3 absolute left-1">
+            <p className="text-white font-bold">{formatTime(new Date(ride.arrival))}</p>
           </div>
-          <div className="flex flex-col gap-2">
-            <div className="bg-slate-200 rounded-2xl flex items-center justify-between pl-2 pr-2 gap-2">
-              <FontAwesomeIcon icon={faThumbsUp} color={Emerald[500]} />
-              <p className="font-light">{user?.thumbsUpCount ? user?.thumbsUpCount : '0'}</p>
-            </div>
-            <div className="bg-slate-200 rounded-2xl flex items-center justify-between pl-2 pr-2 gap-2">
-              <FontAwesomeIcon icon={faThumbsDown} color={Orange[500]} />
-              <p className="font-light">{user?.thumbsDownCount ? user?.thumbsDownCount : '0'}</p>
-            </div>
+          <div className="w-full flex flex-row ml-24">
+            <b>Ankunft: </b>
+            <p className="font-light ml-3">{ride?.destination_location}</p>
           </div>
-          {user?.pictureUrl && (
-            <Image
-              src={user.pictureUrl}
-              alt={`Profile picture of ${user.firstName} ${user.lastName}`}
-              className="rounded-full h-14 w-14 object-cover"
-            />
-          )}
         </div>
+        <SwiperUserInfo
+          pictureUrl={user?.pictureUrl}
+          department={user?.department}
+          firstName={user?.firstName}
+          lastName={user?.lastName}
+          thumbsUpCount={user?.thumbsUpCount}
+          thumbsDownCount={user?.thumbsDownCount}
+        />
       </div>
       <div className="flex flex-row justify-center items-center gap-5 mt-2">
         <button className="h-12 w-12 bg-slate-400 rounded-3xl" onClick={handleClickClose}>
