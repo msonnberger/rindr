@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import { convertPlural, convertRanking } from '@utils/i18n'
 import { supabase } from '@utils/supabaseClient'
 import { fgStylings } from '@styles/colors'
-import Bubble from '@components/Bubble'
+import HeaderBubble from '@components/HeaderBubble'
 import Heading from '@components/Heading'
 import Layout from '@components/Layout'
 import SocialShareButton from '@components/SocialShareButton'
@@ -40,7 +40,7 @@ const Savings: NextPage = () => {
             <link rel="icon" href="/logo.svg" />
           </Head>
           <Layout>
-            <Bubble
+            <HeaderBubble
               color="bg-emerald-50"
               text={`Congratulations, you just reached the ${ranking} place!`}
               path="/car.svg"
@@ -52,13 +52,15 @@ const Savings: NextPage = () => {
                 <Image src="/savings.svg" alt="savings-icon" width="250" height="250" />
               </div>
               <div className="">
-                <p className="mt-6 mb-3">You saved</p>
+                <p className="mt-6 mb-3">
+                  <span className="font-bold">You</span> saved
+                </p>
                 <span className={`text-4xl font-bold mb-2 ${fgStylings.Emerald}`}>
                   {session?.user.savingsCo2}kg
                 </span>
                 <p className="mt-3">
                   in CO2 this month! This is the same amount as{' '}
-                  <span className={`font-bold`}>
+                  <span className="font-bold">
                     {convertPlural(
                       session?.user.savingsCo2 ? ~~(session?.user.savingsCo2 / 26.5) : 0,
                       'tree'
@@ -68,7 +70,7 @@ const Savings: NextPage = () => {
                 </p>
               </div>
             </div>
-            <div className='flex justify-center mt-8'>
+            <div className="flex justify-center mt-12">
               <SocialShareButton
                 color="bg-emerald-600"
                 textColor="white"
