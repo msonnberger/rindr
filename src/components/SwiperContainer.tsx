@@ -1,7 +1,9 @@
 import { faRoute } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import TinderCard from 'react-tinder-card'
+import { Campuses } from 'src/types/main'
 import { SwiperCard } from './SwiperCard'
 
 interface SwiperContainerProps {
@@ -10,6 +12,27 @@ interface SwiperContainerProps {
 export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
   const [newRequests, setNewRequests] = useState(1)
   const [swipeRight, setSwipeRight] = useState('test')
+  const { data: session } = useSession()
+
+  const swiperCard = {
+    user: session?.user,
+    ride: {
+      id: 1234,
+      driver_id: session?.user.id,
+      passenger_id: '',
+      start_latitude: Campuses[0].latitude,
+      start_longitude: Campuses[0].longitude,
+      start_location: Campuses[0].name,
+      destination_latitude: session?.user.latitude,
+      destination_longitude: session?.user.longitude,
+      destination_location: 'irgendwo home',
+      departure: '2022-05-03T12:00:00Z',
+      arrival: '2022-05-03T12:30:00Z',
+      duration: 30,
+    },
+  }
+
+  //TODO: get all filtered Rides and show them as a swiper-tindercard and commit the proper user object
 
   const onSwipe = (direction: string, index: number) => {
     console.log('You swiped: ' + direction)
@@ -43,7 +66,7 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
           onCardLeftScreen={() => onCardLeftScreen('1')}
           preventSwipe={['up', 'down']}
         >
-          <SwiperCard />
+          <SwiperCard user={swiperCard.user} ride={swiperCard.ride} />
         </TinderCard>
         <TinderCard
           className="absolute z-0"
@@ -51,7 +74,7 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
           onCardLeftScreen={() => onCardLeftScreen('2')}
           preventSwipe={['up', 'down']}
         >
-          <SwiperCard />
+          <SwiperCard user={swiperCard.user} ride={swiperCard.ride} />
         </TinderCard>
       </div>
     </>
