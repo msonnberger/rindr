@@ -13,10 +13,9 @@ export default function SelectSuggestions({
   selectedColor,
   defaultColor,
 }: SelectSuggestionsProps) {
-  const [selectedOption, setSelectedOption] = useState<null | Location>(null)
+  const [selectedOption, setSelectedOption] = useState(options[0])
   const handleClick = (optionName: Location) => {
     setSelectedOption(optionName)
-    console.log(optionName, 'input')
     setInput(optionName)
   }
 

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
+import { combineCoordinates } from '@utils/functions'
 
 type Coordinates = {
   latitude: number
@@ -14,14 +15,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return
   }
 
-  const { start, destination, date } = req.query
+  //const { start, destination, date } = req.query
 }
 
-function combineCoordinates(locations: Coordinates[]) {
-  const stringLocations = locations.map((location) => `${location.longitude},${location.latitude}`)
-  return stringLocations.join(';')
-}
-
+// eslint-disable-next-line
 async function calculateExtraTimeNeeded(
   duration: number,
   from: Coordinates,

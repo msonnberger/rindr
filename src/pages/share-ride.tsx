@@ -3,29 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import { Emerald, fgStylings } from '@styles/colors'
 import Heading from '@components/Heading'
 import Layout from '@components/Layout'
 import ShareRideForm from '@components/ShareRideForm'
 
 const ShareRide: NextPage = () => {
-  const [destination, setDestination] = useState('')
-  const [date, setDate] = useState('')
-  const [location, setLocation] = useState([])
-  const [threshold, setThreshold] = useState([])
-
   const router = useRouter()
-  const handleBack = () => {
-    router.back()
-  }
 
-  useEffect(() => {
-    console.log(location, 'from')
-    console.log(destination, 'to')
-    console.log(date, 'date')
-    console.log(threshold, 'threshold')
-  }, [destination, date, location, threshold])
   return (
     <>
       <Head>
@@ -34,7 +19,7 @@ const ShareRide: NextPage = () => {
       </Head>
       <Layout>
         <div className="relative">
-          <button onClick={() => handleBack()} className="w-min">
+          <button onClick={() => router.back()} className="w-min">
             <FontAwesomeIcon
               icon={faAngleLeft}
               size="lg"
@@ -43,12 +28,7 @@ const ShareRide: NextPage = () => {
             />
           </button>
           <Heading title="Share Ride" color={fgStylings.Emerald} marginTop="mt-10" />
-          <ShareRideForm
-            setDate={setDate}
-            setDestination={setDestination}
-            setLocation={setLocation}
-            setThreshold={setThreshold}
-          />
+          <ShareRideForm />
         </div>
       </Layout>
     </>

@@ -1,4 +1,5 @@
 import { camelCase } from 'lodash'
+import { Location } from 'src/types/main'
 
 export const getRandomInt = (min: number, max: number) => {
   min = Math.ceil(min)
@@ -70,4 +71,9 @@ export const formatTimestamp = (timestamp: string) => {
     month: 'long',
     year: 'numeric',
   })
+}
+
+export const combineCoordinates = (locations: Partial<Location>[]) => {
+  const stringLocations = locations.map((location) => `${location.longitude},${location.latitude}`)
+  return stringLocations.join(';')
 }
