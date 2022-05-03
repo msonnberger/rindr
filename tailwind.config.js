@@ -13,6 +13,7 @@ module.exports = {
       },
       maxHeight: {
         '90v': '90vh',
+      },
       height: {
         '600px': '600px',
       },
