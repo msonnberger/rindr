@@ -6,19 +6,19 @@ import { Campuses } from 'src/types/main'
 import Image from '@components/Image'
 import SelectSuggestions from './SelectSuggestions'
 
-interface FindRideFilterProps {
+interface FindRideFormProps {
   setOpenFilter: any
   setDate: any
   setDestination: any
   setLocation: any
 }
 
-export default function FindRideFilter({
+export default function FindRideForm({
   setOpenFilter,
   setDate,
   setDestination,
   setLocation,
-}: FindRideFilterProps) {
+}: FindRideFormProps) {
   const [destinationInput, setDestinationInput] = useState<Location>()
   const [dateInput, setDateInput] = useState('')
   const [locationInput, setLocationInput] = useState<Location>()
@@ -59,7 +59,12 @@ export default function FindRideFilter({
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">from</p>
         {Campuses && (
-          <SelectSuggestions setInput={setLocationInput} options={[...Campuses, Home]} />
+          <SelectSuggestions
+            selectedColor="bg-sky-400"
+            defaultColor="bg-sky-200"
+            setInput={setLocationInput}
+            options={[...Campuses, Home]}
+          />
         )}
       </div>
       <button
@@ -71,7 +76,12 @@ export default function FindRideFilter({
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">to</p>
         {Campuses && (
-          <SelectSuggestions setInput={setDestinationInput} options={[...Campuses, Home]} />
+          <SelectSuggestions
+            selectedColor="bg-sky-400"
+            defaultColor="bg-sky-200"
+            setInput={setDestinationInput}
+            options={[...Campuses, Home]}
+          />
         )}
       </div>
       <label htmlFor="date" className="mt-5">

@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Sky, fgStylings } from '@styles/colors'
-import FindRideFilter from '@components/FindRideFilter'
+import FindRideForm from '@components/FindRideForm'
 import Heading from '@components/Heading'
 import Layout from '@components/Layout'
 import { SwiperContainer } from '@components/SwiperContainer'
@@ -44,7 +44,7 @@ const FindRide: NextPage = () => {
           </button>
           <Heading title="Find Ride" color={fgStylings.Sky} marginTop="mt-10" />
           {openFilter && (
-            <FindRideFilter
+            <FindRideForm
               setDate={setDate}
               setDestination={setDestination}
               setLocation={setLocation}

@@ -4,8 +4,15 @@ import { Location } from 'src/types/main'
 interface SelectSuggestionsProps {
   options: Array<Location>
   setInput: any
+  selectedColor: string
+  defaultColor: string
 }
-export default function SelectSuggestions({ options, setInput }: SelectSuggestionsProps) {
+export default function SelectSuggestions({
+  options,
+  setInput,
+  selectedColor,
+  defaultColor,
+}: SelectSuggestionsProps) {
   const [selectedOption, setSelectedOption] = useState<null | Location>(null)
   const handleClick = (optionName: Location) => {
     setSelectedOption(optionName)
@@ -22,7 +29,7 @@ export default function SelectSuggestions({ options, setInput }: SelectSuggestio
               onClick={() => handleClick(option)}
               key={key}
               className={`rounded-3xl flex items-center justify-center py-1 pl-4 pr-4 text-white fit-content w-max ${
-                selectedOption === option ? 'bg-sky-400' : 'bg-sky-200'
+                selectedOption?.name === option.name ? selectedColor : defaultColor
               }`}
             >
               {option.name}
