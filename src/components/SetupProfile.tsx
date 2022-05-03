@@ -143,50 +143,26 @@ export default function SetupProfile() {
             <Button
               buttonType="button"
               text="yes"
-              bgColor="bg-rose-700"
+              bgColor={`${hasCar ? 'bg-rose-700' : 'bg-rose-300'}`}
               textColor="text-white"
+              fontWeight="semibold"
               onClick={changeCarYes}
             />
             <Button
               buttonType="button"
               text="no"
-              bgColor="bg-rose-700"
+              bgColor={`${hasCar ? 'bg-rose-300' : 'bg-rose-700'}`}
               textColor="text-white"
+              fontWeight="semibold"
               onClick={changeCarNo}
             />
           </div>
         </div>
 
-        {hasCar ? (
+        {hasCar && (
           <div>
             <h3 className="mb-3 text-left font-bold">My car</h3>
             <div className="flex flex-wrap items-start">
-              <TextInput
-                placeholder="Which car do you have?"
-                register={register}
-                name="carModel"
-                tailwindBgClass="bg-rose-500"
-                icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
-                disabled={watch('hasNoCar')}
-              />
-
-              {/*<input type="number" {...register('availableSeats')} disabled={watch('hasNoCar')} /> */}
-              <NumberInput
-                placeholder="2"
-                register={register}
-                name="availableSeats"
-                tailwindBgClass="bg-rose-500"
-                icon={<FontAwesomeIcon icon={faCouch} color="white" />}
-                disabled={watch('hasNoCar')}
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="hidden">
-            <h3 className="mb-3 text-left font-bold">My car</h3>
-            <div className="flex flex-wrap items-start">
-              <input type="checkbox" {...register('hasNoCar')} className="accent-rose-500" />
-              <label>No car</label>
               <TextInput
                 placeholder="Which car do you have?"
                 register={register}
@@ -228,7 +204,13 @@ export default function SetupProfile() {
           {errors.music && <FormError message={errors.music.message} />}
         </div>
 
-        <Button buttonType="submit" text="Done" bgColor="bg-rose-700" textColor="text-white" />
+        <Button
+          buttonType="submit"
+          text="save profile"
+          bgColor="bg-rose-700"
+          textColor="text-white"
+          fontWeight="semibold"
+        />
       </form>
     </div>
   )
