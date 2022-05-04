@@ -21,7 +21,13 @@ export default function AutoComplete({ options }: AutocompleteProps) {
             <Link key={key} href={`/new-chat/${option.id}`} passHref>
               <div className="h-16 flex items-center text-start flex-start hover:bg-sky-100 cursor-pointer w-full rounded-3xl">
                 <div className="mr-5 ml-3 h-12 w-12 rounded-3xl bg-emerald-300">
-                  {option.pictureUrl && <Image src={option.pictureUrl} alt="Profile picture" />}
+                  {option.pictureUrl && (
+                    <Image
+                      src={option.pictureUrl}
+                      alt="Profile picture"
+                      className="rounded-full h-12 w-12 object-cover"
+                    />
+                  )}
                 </div>
                 <p className="font-light">
                   {option.firstName} {option.lastName}
