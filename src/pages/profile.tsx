@@ -147,7 +147,13 @@ const Profile: NextPage = () => {
                 <FontAwesomeIcon icon={faCircleUser} className="text-[12rem] text-rose-200" />
               )}
 
-              <input id="picture" type="file" accept="image/*" className="hidden" />
+              <input
+                id="picture"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                {...register('picture')}
+              />
               <div className="absolute bottom-3 right-2 grid h-7 w-7 place-items-center rounded-full border-2 border-white bg-rose-500">
                 <FontAwesomeIcon icon={faPlus} className="text-md text-white" />
               </div>
