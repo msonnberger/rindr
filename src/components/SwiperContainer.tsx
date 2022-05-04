@@ -91,6 +91,7 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
   const outOfFrame = (name: string | undefined, idx: number) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
+    //TODO: Karte bleibt erhalten
   }
 
   return (
