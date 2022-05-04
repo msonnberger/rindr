@@ -20,7 +20,7 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
     <div className="absolute top-0 left-0 w-full z-10 p-4 rounded-3xl h-auto">
       <div className="h-[500px] bg-sky-400 rounded-3xl p-4 relative">
         <button
-          className="bg-slate-50 h-10 w-10 rounded-3xl flex items-center justify-center bg-slate-50 bg-opacity-50"
+          className="h-10 w-10 rounded-3xl flex items-center justify-center bg-slate-50 bg-opacity-50"
           onClick={() => setOpenend(undefined)}
         >
           <FontAwesomeIcon icon={faArrowLeft} size="lg" color={Slate[800]} />
