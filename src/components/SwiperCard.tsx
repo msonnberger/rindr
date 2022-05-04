@@ -1,11 +1,8 @@
 import { faCarSide, faClose, faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { GetServerSideProps } from 'next'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { User } from 'src/types/main'
 import { formatTime } from '@utils/functions'
-import { supabase } from '@utils/supabaseClient'
 import SwiperUserInfo from './SwiperUser'
 
 interface SwiperCardProps {

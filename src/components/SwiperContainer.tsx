@@ -37,10 +37,8 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
   //TODO: get all filtered Rides and show them as a swiper-tindercard and commit the proper user object
 
   const onSwipe = (direction: string, index: number) => {
-    console.log('You swiped: ' + direction)
     updateCurrentIndex(index - 1)
     if (direction === 'right') {
-      //setNewRequests([index, ...newRequests])
       //TODO: API new RideRequest
       console.log('RIGHT', index)
     }
