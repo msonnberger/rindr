@@ -128,7 +128,7 @@ const Profile: NextPage = () => {
         <link rel="icon" href="/logo.svg" />
       </Head>
       <Layout>
-        <div className="flex flex-col items-start">
+        <div className="flex flex-col items-center">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="mt-12 flex max-w-lg flex-col items-start gap-8 w-full"
