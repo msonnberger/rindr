@@ -127,13 +127,7 @@ async function fetchPreviews(userId: string): Promise<ChatPreviewType[]> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const userData = await getSession(context)
-  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
   const initialPreviews = await fetchPreviews(userData?.user.id as string)
-
-  // let initialPreviews = null
-  // if (userData) {
-  //   initialPreviews = await fetchPreviews(userData?.user.id)
-  // }
 
   return { props: { initialPreviews } }
 }
