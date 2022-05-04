@@ -12,6 +12,7 @@ interface Params extends ParsedUrlQuery {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
+  //TODO: use API and right user-id
   const { userId: otherUserId } = context.params as Params
   let channelId: string
   const query = `and(user1_id.eq.${user.id},user2_id.eq.${otherUserId}),and(user1_id.eq.${otherUserId},user2_id.eq.${user.id})`
