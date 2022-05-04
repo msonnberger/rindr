@@ -20,7 +20,7 @@ export default function SwiperUserInfo({
   pictureUrl,
 }: SwiperUserInfoProps) {
   return (
-    <div className="absolute bg-slate-50 bg-opacity-50 h-20 bottom-0 rounded-3xl mb-2 left-2 right-2 p-3 flex flex-row justify-between items-center">
+    <>
       <div className="flex flex-col">
         <p className="font-bold text-2xl text-slate-800">
           {firstName} {lastName}
@@ -44,6 +44,6 @@ export default function SwiperUserInfo({
           className="rounded-full h-14 w-14 object-cover"
         />
       )}
-    </div>
+    </>
   )
 }

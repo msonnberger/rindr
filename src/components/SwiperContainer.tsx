@@ -9,8 +9,9 @@ import { SwiperCard } from './SwiperCard'
 
 interface SwiperContainerProps {
   setOpenFilter: any
+  setOpenedProfile: any
 }
-export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
+export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperContainerProps) => {
   const { data: session } = useSession()
 
   const swiperCard = {
@@ -30,7 +31,7 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
       duration: 30,
     },
   }
-  const [swiperCards, setSwiperCards] = useState([swiperCard, swiperCard])
+  const [swiperCards, setSwiperCards] = useState([swiperCard])
   const [currentIndex, setCurrentIndex] = useState(swiperCards.length - 1)
   const currentIndexRef = useRef(currentIndex)
 
@@ -41,6 +42,27 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
     if (direction === 'right') {
       //TODO: API new RideRequest
       console.log('RIGHT', index)
+    }
+    if (direction === 'up') {
+      console.log('UP', index)
+      const current = swiperCards[currentIndex].user
+      if (swiperCards[currentIndex].user) {
+        console.log('USER')
+        setOpenedProfile({
+          firstName: current?.firstName,
+          lastName: current?.lastName,
+          department: current?.department,
+          thumbsUpCount: current?.thumbsUpCount,
+          thumbsDownCount: current?.thumbsDownCount,
+          pictureUrl: current?.pictureUrl,
+          bio: current?.bio,
+          interests: current?.interests,
+          music: current?.music,
+        })
+        setCurrentIndex(index)
+      } else {
+        setOpenedProfile(undefined)
+      }
     }
   }
 
@@ -80,7 +102,7 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
         <FontAwesomeIcon icon={faRoute} size="lg" />
         <p className="ml-3 font-bold">Filter</p>
       </button>
-      <div className="relative flex justify-center mt-8">
+      <div className="flex justify-center mt-8">
         {currentIndexRef.current == -1 && (
           <p className="text-sky-400 mt-14 text-lg">No Rides left...</p>
         )}
@@ -94,13 +116,13 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
                   className="absolute z-0"
                   onSwipe={(dir) => onSwipe(dir, key)}
                   onCardLeftScreen={() => outOfFrame(card.user?.firstName, key)}
-                  preventSwipe={['up', 'down']}
+                  preventSwipe={['down']}
                 >
                   <SwiperCard
+                    setOpenedProfile={setOpenedProfile}
                     user={card.user}
                     ride={card.ride}
-                    swipeRight={() => swipe('right')}
-                    swipeLeft={() => swipe('left')}
+                    swipe={swipe}
                   />
                 </TinderCard>
               )}
