@@ -1,8 +1,10 @@
 import { faCarSide, faClose, faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { User } from 'src/types/main'
 import { formatTime } from '@utils/functions'
+import { supabase } from '@utils/supabaseClient'
 import SwiperUserInfo from './SwiperUserInfo'
 
 interface SwiperCardProps {
@@ -23,13 +25,33 @@ interface SwiperCardProps {
   }
   swipe: any
   setOpenedProfile: any
+  sendRideRequest: any
 }
 
 export const SwiperCard = ({ user, ride, swipe }: SwiperCardProps) => {
+  const { data: session } = useSession()
   const handleClickRequest = () => {
-    console.log('Clicked on request')
     swipe('right')
-    //TODO: API - send RideRequest, use same function as on swiping right or call SwipeRight
+    sendRideRequest()
+  }
+
+  async function sendRideRequest() {
+    if (!session) {
+      alert('Looks like you are not logged in. Please try reloading the page.')
+      return
+    }
+
+    const { data, error } = await supabase.from('ride_requests').insert({
+      ride_id: ride.id,
+      passenger_id: 'fd821f95-b962-4956-95d1-0bc237321b42',
+      status: 'pending',
+    })
+    //TODO: passenger_id: session.user.id
+
+    if (error || !data) {
+      alert('Something went wrong. Please try again later.')
+      return
+    }
   }
 
   return (

@@ -1,38 +1,19 @@
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect, useState } from 'react'
-import { RideRequest } from 'src/types/main'
+import { useSession } from 'next-auth/react'
+import { RequestsJoinRides } from 'src/types/main'
+import { formatTime } from '@utils/functions'
+import { supabase } from '@utils/supabaseClient'
 import Image from '@components/Image'
 import ConfirmationButton from './ConfirmationButton'
 
 interface RideRequestProps {
-  RideRequest: RideRequest
+  RideRequest: RequestsJoinRides
+  updatePreviews: any
 }
-const longitude = 47.723069
-const latitude = 13.071532
-const campus = 'Campus Urstein'
 
-// const request: RideRequest = {
-//   ride_id: '123456',
-//   passenger_id: '6ba688e0-672d-430c-9995-ac271fc84ab2',
-//   status: 'declined', //declined or pending
-// }
-
-// const request2: RideRequest = {
-//   ride_id: '123456',
-//   passenger_id: '6ba688e0-672d-430c-9995-ac271fc84ab2',
-//   status: 'accepted', //declined or pending
-// }
-
-// const request3: RideRequest = {
-//   ride_id: '123456',
-//   passenger_id: '6ba688e0-672d-430c-9995-ac271fc84ab2',
-//   status: 'pending', //declined or pending
-// }
-
-export default function RideRequestContainer({ RideRequest }: RideRequestProps) {
-  const [name, setName] = useState('')
-  const [time, setTime] = useState('')
+export default function RideRequestContainer({ RideRequest, updatePreviews }: RideRequestProps) {
+  const { data: session } = useSession()
   const bgColor =
     RideRequest.status === 'accepted'
       ? `bg-emerald-100`
@@ -40,16 +21,53 @@ export default function RideRequestContainer({ RideRequest }: RideRequestProps) 
       ? 'bg-orange-100'
       : 'bg-orange-200'
 
-  useEffect(() => {
-    setName('Juliane')
-    setTime('10:00')
-    //fetch information of ride in supabase
-    //fetch name of user and location
-  })
-
   const handleClick = (status: 'accepted' | 'declined' | 'pending') => {
-    //TODO handle API
+    answerRideRequest(status)
     console.log(status)
+  }
+
+  async function answerRideRequest(status: 'accepted' | 'declined' | 'pending') {
+    if (!session) {
+      alert('Looks like you are not logged in. Please try reloading the page.')
+      return
+    }
+
+    if (status === 'accepted' && RideRequest.accepted_passenger_id != null) {
+      //only one passenger allowed, set the other one to decline
+      console.log(RideRequest.accepted_passenger_id)
+      const { data, error } = await supabase
+        .from('ride_requests')
+        .update({ status: 'declined' })
+        .eq('passenger_id', RideRequest.accepted_passenger_id)
+        .eq('ride_id', RideRequest.ride_id)
+
+      if (error || !data) {
+        alert('Delete other passenger from ride failed.')
+        return
+      }
+    }
+    //TODO: can send only one request for the same ride as the same user
+
+    const { data, error } = await supabase
+      .from('ride_requests')
+      .update({ status: status })
+      .eq('id', RideRequest.id)
+
+    const { data: dataRides, error: ErrorRides } = await supabase
+      .from('rides')
+      .update({ passenger_id: RideRequest.passenger_id })
+      .eq('id', RideRequest.ride_id)
+
+    updatePreviews()
+
+    if (error || !data) {
+      alert('Updating status failed')
+      return
+    }
+    if (ErrorRides || !dataRides) {
+      alert('Updating rides.passenger_id failed')
+      return
+    }
   }
 
   return (
@@ -57,7 +75,8 @@ export default function RideRequestContainer({ RideRequest }: RideRequestProps) 
       <Image src="/cow.svg" alt="Cow-Image" width={40} className="rotate-12 absolute left-0" />
       <div className="w-full flex flex-col items-center ml-8">
         <p>
-          <b>{name}</b> requests to join your ride to {campus} at <b>{time}</b>
+          <b>{RideRequest.first_name}</b> requests to join your ride to{' '}
+          {RideRequest.destination_location} at <b>{formatTime(new Date(RideRequest.departure))}</b>
         </p>
         {RideRequest.status == 'pending' && (
           <div className="flex flex-row mt-4 justify-center gap-3">
@@ -100,7 +119,7 @@ export default function RideRequestContainer({ RideRequest }: RideRequestProps) 
       </div>
 
       <a
-        href={`https://www.google.com/maps/search/?api=1&query=${longitude}%2C${latitude}`}
+        href={`https://www.google.com/maps/search/?api=1&query=${RideRequest.latitude}%2C${RideRequest.longitude}`}
         target="_blank"
         rel="noreferrer"
       >
