@@ -1,5 +1,6 @@
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 import { supabase } from '@utils/supabaseClient'
 import { Sky } from '@styles/colors'
@@ -10,7 +11,8 @@ interface FormProps {
 }
 
 export default function ChatMessageForm({ channelId, receiverId }: FormProps) {
-  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
+  const { data: session } = useSession()
+  const user = { id: session?.user.id }
   const [newMessage, setNewMessage] = useState('')
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
