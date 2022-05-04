@@ -23,7 +23,6 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
 
   const handleClick = (status: 'accepted' | 'declined' | 'pending') => {
     answerRideRequest(status)
-    console.log(status)
   }
 
   async function answerRideRequest(status: 'accepted' | 'declined' | 'pending') {
@@ -34,7 +33,6 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
 
     if (status === 'accepted' && RideRequest.accepted_passenger_id != null) {
       //only one passenger allowed, set the other one to decline
-      console.log(RideRequest.accepted_passenger_id)
       const { data, error } = await supabase
         .from('ride_requests')
         .update({ status: 'declined' })
@@ -46,7 +44,6 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
         return
       }
     }
-    //TODO: can send only one request for the same ride as the same user
 
     const { data, error } = await supabase
       .from('ride_requests')

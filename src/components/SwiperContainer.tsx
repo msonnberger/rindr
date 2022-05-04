@@ -37,8 +37,6 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
   const currentIndexRef = useRef(currentIndex)
 
   async function sendRideRequest(index: number) {
-    console.log(swiperCards, 'swipercards')
-    console.log(index, 'index')
     const ride: any = swiperCards[index].ride
     if (!session) {
       alert('Looks like you are not logged in. Please try reloading the page.')
@@ -47,10 +45,9 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
 
     const { data, error } = await supabase.from('ride_requests').insert({
       ride_id: ride.id,
-      passenger_id: 'fd821f95-b962-4956-95d1-0bc237321b42',
+      passenger_id: session?.user.id,
       status: 'pending',
     })
-    //TODO: passenger_id: session.user.id
 
     if (error || !data) {
       alert('Something went wrong. Please try again later.')
