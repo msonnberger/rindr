@@ -10,6 +10,7 @@ type NextAuthRequest = NextRequest & {
   }
 }
 
+// @ts-ignore
 export default withAuth(middleware, {
   pages: {
     signIn: '/auth/signin',
