@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import type { GetServerSideProps } from 'next'
-import { useSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { Fragment, useEffect, useState } from 'react'
 import { RequestsByDate, RequestsJoinRides } from 'src/types/main'
@@ -84,10 +84,10 @@ async function fetchPreviews(userId: string): Promise<RequestsJoinRides[]> {
   return data
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
-  //TODO: richtigen User verwenden
-  const initialPreviews = await fetchPreviews(user.id)
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const userData = await getSession(context)
+  const user = userData?.user
+  const initialPreviews = await fetchPreviews(user?.id as string)
 
   const requestsByDate = initialPreviews.reduce((dateGroups, request) => {
     const dateString = printDatePreview(new Date(formatTimestamp(request.arrival)))
