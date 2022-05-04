@@ -1,11 +1,9 @@
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
 import { ProfileInfos } from 'src/pages/find-ride'
 import { getRandomInt } from '@utils/functions'
 import { Rose, Slate } from '@styles/colors'
 import SwiperUserInfo from './SwiperUserInfo'
-import { TagsInput } from './inputs'
 
 interface SwiperProfileProps {
   profileInfos: ProfileInfos
@@ -59,6 +57,15 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
                 </div>
               )
             })}
+        </div>
+        <p className="mb-3 text-left font-bold mt-4">Music</p>
+        <div className="flex flex-row items-center">
+          <div className="bg-orange-400 h-7 w-7 rounded-2xl flex justify-center items-center">
+            <FontAwesomeIcon icon={faPlay} color="white" size="1x" />
+          </div>
+          <p className="font-light ml-3 overflow-hidden overflow-ellipsis whitespace-nowrap mr-3">
+            {profileInfos.music}
+          </p>
         </div>
       </section>
     </div>
