@@ -1,5 +1,5 @@
-import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+//import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { Campuses } from 'src/types/main'
@@ -37,11 +37,11 @@ export default function FindRideForm({
     setOpenFilter(false)
   }
 
-  const ExchangeLocation = (ev: any) => {
-    ev.preventDefault()
-    setDestinationInput(locationInput)
-    setLocationInput(destinationInput)
-  }
+  // const ExchangeLocation = (ev: any) => {
+  //   ev.preventDefault()
+  //   setDestinationInput(locationInput)
+  //   setLocationInput(destinationInput)
+  // }
   useEffect(() => {
     console.log(locationInput, 'from')
     console.log(destinationInput, 'to')
@@ -67,12 +67,12 @@ export default function FindRideForm({
           />
         )}
       </div>
-      <button
+      {/* <button
         className="w-6 h-6 bg-sky-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3"
         onClick={(ev) => ExchangeLocation(ev)}
       >
         <FontAwesomeIcon icon={faRightLeft} color="white" rotation={90} />
-      </button>
+      </button> */}
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">to</p>
         {Campuses && (
