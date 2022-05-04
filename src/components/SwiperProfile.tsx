@@ -17,7 +17,7 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
     return { bgColor: Rose[random], textColor: textColor }
   }
   return (
-    <div className="absolute top-4 left-0 h-full w-full z-10 p-4 rounded-3xl">
+    <div className="absolute top-0 left-0 w-full z-10 p-4 rounded-3xl h-auto">
       <div className="h-[500px] bg-sky-400 rounded-3xl p-4 relative">
         <button
           className="bg-slate-50 h-10 w-10 rounded-3xl flex items-center justify-center bg-slate-50 bg-opacity-50"
@@ -60,8 +60,8 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
             })}
         </div>
         <p className="mb-3 text-left font-bold mt-4">Music</p>
-        <div className="flex flex-row items-center">
-          <div className="bg-orange-400 h-7 w-7 rounded-2xl flex justify-center items-center">
+        <div className="flex flex-row min-h-[120px]">
+          <div className="bg-orange-400 h-7 w-8 rounded-full flex justify-center items-center">
             <FontAwesomeIcon icon={faPlay} color="white" size="1x" />
           </div>
           <p className="font-light ml-3 overflow-hidden overflow-ellipsis whitespace-nowrap mr-3">
