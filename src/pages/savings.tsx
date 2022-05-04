@@ -28,7 +28,7 @@ const Savings: NextPage = () => {
       .select('*', { count: 'exact' })
       .gte('savings_co2', session?.user.savingsCo2)
 
-    SetRanking(convertRanking(count?.toString() || ''))
+    SetRanking(convertRanking(count?.toString() ?? ''))
   }
 
   return (

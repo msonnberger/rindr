@@ -24,10 +24,10 @@ export default function FindRideForm({
   const [locationInput, setLocationInput] = useState<Location>()
   const { data: session } = useSession()
 
-  const Home = {
-    name: 'home',
-    latitude: session?.user.latitude,
-    longitude: session?.user.longitude,
+  const home = {
+    name: 'Home',
+    latitude: session?.user.latitude as number,
+    longitude: session?.user.longitude as number,
   }
 
   const handleSubmit = () => {
@@ -63,7 +63,7 @@ export default function FindRideForm({
             selectedColor="bg-sky-400"
             defaultColor="bg-sky-200"
             setInput={setLocationInput}
-            options={[...Campuses, Home]}
+            options={[...Campuses, home]}
           />
         )}
       </div>
@@ -80,7 +80,7 @@ export default function FindRideForm({
             selectedColor="bg-sky-400"
             defaultColor="bg-sky-200"
             setInput={setDestinationInput}
-            options={[...Campuses, Home]}
+            options={[...Campuses, home]}
           />
         )}
       </div>
