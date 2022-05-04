@@ -13,12 +13,6 @@ import ChatMessages from '@components/ChatMessages'
 import ChatRoomHeader from '@components/ChatRoomHeader'
 import Layout from '@components/Layout'
 
-//const { data: session } = useSession()
-const user: Partial<User> = {
-  firstName: 'Juliane',
-  id: '4b824c28-6ac4-45ff-b175-56624c287706',
-}
-
 interface ChatRoomProps {
   otherUser: {
     id: string
