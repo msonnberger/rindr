@@ -81,5 +81,6 @@ export const combineCoordinates = (locations: Partial<Location>[]) => {
 export const stringToCoordinates = (coords: string) => {
   return {
     latitude: Number(coords.split(',')[0]),
+    longitude: Number(coords.split(',')[1]),
   }
 }
