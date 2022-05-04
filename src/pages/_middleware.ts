@@ -2,7 +2,6 @@ import type { JWT } from 'next-auth/jwt'
 import { withAuth } from 'next-auth/middleware'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { supabase } from '@utils/supabaseClient'
 
 type NextAuthRequest = NextRequest & {
   nextauth: {
@@ -39,7 +38,21 @@ async function middleware(request: NextAuthRequest) {
 }
 
 const fetchUserData = async (uid: string) => {
-  const { data } = await supabase.from('users').select('*').eq('id', uid).single()
+  const url = 'https://epipzztphtjupkzwxmsj.supabase.co/rest/v1/users?'
+  const params = new URLSearchParams([
+    ['id', `eq.${uid}`],
+    ['select', '*'],
+  ])
+  const headers = new Headers()
+  headers.set('apikey', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string)
+  headers.set('Authorization', `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`)
+  headers.set('Accept', 'application/vnd.pgrst.object+json')
+
+  const res = await fetch(url + params.toString(), {
+    headers,
+  })
+
+  const data = await res.json()
 
   return data
 }
