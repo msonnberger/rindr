@@ -52,7 +52,7 @@ export default function SetupProfile() {
       .upload(uid, formData.picture[0])
 
     if (uploadError) {
-      console.log(uploadError)
+      console.error(uploadError)
       alert('Something went wrong when uploading your image. Please try again later.')
       return
     }
@@ -101,7 +101,7 @@ export default function SetupProfile() {
   }
 
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col items-center">
       <h1 className="text-4xl font-bold text-rose-500">
         Welcome, {session && session.user.firstName}!
       </h1>

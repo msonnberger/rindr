@@ -1,6 +1,9 @@
-import { faMagnifyingGlass, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faPencil } from '@fortawesome/free-solid-svg-icons'
+//faMagnifyingGlass,
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { GetServerSideProps, NextPage } from 'next'
+import { useSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -10,11 +13,13 @@ import { Sky, fgStylings } from '@styles/colors'
 import ChatPreview from '@components/ChatPreview'
 import Heading from '@components/Heading'
 import Layout from '@components/Layout'
-import SearchField from '@components/SearchField'
+
+//import SearchField from '@components/SearchField'
 
 // eslint-disable-next-line react/prop-types
 const Chat: NextPage<{ initialPreviews: ChatPreviewType[] }> = ({ initialPreviews }) => {
-  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
+  const { data: session } = useSession()
+  const user = { id: session?.user.id }
 
   const [previews, setPreviews] = useState(initialPreviews)
 
@@ -23,15 +28,17 @@ const Chat: NextPage<{ initialPreviews: ChatPreviewType[] }> = ({ initialPreview
       .from('chat_messages')
       .on('INSERT', (payload) => {
         const { receiver_id, sender_id } = payload.new
-        if (receiver_id === user.id || sender_id === user.id) {
+        if (receiver_id === user?.id || sender_id === user?.id) {
           updatePreviews()
         }
       })
       .subscribe()
 
     async function updatePreviews() {
-      const newPreviews = await fetchPreviews(user.id)
-      setPreviews(newPreviews)
+      if (user) {
+        const newPreviews = await fetchPreviews(user.id as string)
+        setPreviews(newPreviews)
+      }
     }
 
     return () => {
@@ -47,10 +54,10 @@ const Chat: NextPage<{ initialPreviews: ChatPreviewType[] }> = ({ initialPreview
       </Head>
       <Layout>
         <div className="flex flex-row items-center w-full justify-between max-w-md">
-          <SearchField size="w-10/12">
+          {/*<SearchField size="w-10/12">
             <FontAwesomeIcon size="lg" icon={faMagnifyingGlass} color={Sky[400]} />
             <p className="text-left font-light text-sky-800 ml-6">Type something...</p>
-          </SearchField>
+  </SearchField>*/}
           <Link href="/new-chat" passHref>
             <button className="h-12 bg-sky-400 w-12 rounded-3xl flex flex-row items-center justify-center">
               <FontAwesomeIcon icon={faPencil} color="white" size="lg" />
@@ -118,9 +125,9 @@ async function fetchPreviews(userId: string): Promise<ChatPreviewType[]> {
   return previews
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
-  const initialPreviews = await fetchPreviews(user.id)
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const userData = await getSession(context)
+  const initialPreviews = await fetchPreviews(userData?.user.id as string)
 
   return { props: { initialPreviews } }
 }
