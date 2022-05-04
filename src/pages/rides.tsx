@@ -35,9 +35,9 @@ const Rides: NextPage<{
 
   async function updatePreviews() {
     const newPreviews = await fetchPreviews(session?.user.id as string)
-    const requests = newPreviews[0]
-    const sharedRides = newPreviews[1]
-    const fetchedRideDates = newPreviews[2]
+    const requests = newPreviews.rideRequests
+    const sharedRides = newPreviews.sharedRides
+    const fetchedRideDates = newPreviews.rideDates
     const requestsByDate = requests.reduce((dateGroups, request) => {
       const dateString = formatTimestamp(request.arrival)
 
@@ -92,9 +92,11 @@ const Rides: NextPage<{
 }
 export default Rides
 
-async function fetchPreviews(
-  userId: string
-): Promise<[RequestsJoinRides[], SupabaseRide[], SupabaseRide[]]> {
+async function fetchPreviews(userId: string): Promise<{
+  rideRequests: RequestsJoinRides[]
+  sharedRides: SupabaseRide[]
+  rideDates: SupabaseRide[]
+}> {
   const { data, error } = await supabase
     .from<RequestsJoinRides>('requests_join_rides')
     .select('*')
@@ -137,16 +139,16 @@ async function fetchPreviews(
   if (!dataRideDates) {
     throw new Error()
   }
-  return [data, dataSharedRides, dataRideDates]
+  return { rideRequests: data, sharedRides: dataSharedRides, rideDates: dataRideDates }
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const userData = await getSession(context)
   const user = userData?.user
   const initialPreviews = await fetchPreviews(user?.id as string)
-  const requests = initialPreviews[0]
-  const sharedRides = initialPreviews[1]
-  const dataRideDates = initialPreviews[2]
+  const requests = initialPreviews.rideRequests
+  const sharedRides = initialPreviews.sharedRides
+  const dataRideDates = initialPreviews.rideDates
 
   const requestsByDate = requests.reduce((dateGroups, request) => {
     const dateString = printDatePreview(new Date(formatTimestamp(request.arrival)))
