@@ -16,6 +16,8 @@ module.exports = {
       },
       height: {
         '600px': '600px',
+        '450px': '450px',
+        '520px': '520px',
       },
       animation: {
         slideIn: '1s ease-out 0s 1 slideIn',
