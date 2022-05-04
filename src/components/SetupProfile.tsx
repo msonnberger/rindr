@@ -52,7 +52,7 @@ export default function SetupProfile() {
       .upload(uid, formData.picture[0])
 
     if (uploadError) {
-      console.log(uploadError)
+      console.error(uploadError)
       alert('Something went wrong when uploading your image. Please try again later.')
       return
     }
