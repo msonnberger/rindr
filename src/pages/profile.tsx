@@ -4,6 +4,7 @@ import {
   faCouch,
   faHeadphones,
   faPlus,
+  faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { NextPage } from 'next'
@@ -153,12 +154,18 @@ const Profile: NextPage = () => {
             </label>
             {errors.picture && <FormError message={errors.picture.message} />}
 
-            <div className="flex justify-center font-bold w-full">
+            <div className="flex justify-center items-center gap-x-2 font-bold w-full">
               <p>
                 {session && session.user.firstName} {session && session.user.lastName}
               </p>
-              <button className="font-bold text-blue-700 underline" onClick={() => signOut()}>
-                Sign out
+              <button
+                type="button"
+                className="font-bold text-blue-700 underline"
+                onClick={() => signOut()}
+              >
+                <div className="bg-rose-500 grid h-8 w-8 place-items-center rounded-full">
+                  <FontAwesomeIcon icon={faRightFromBracket} color="white" />
+                </div>
               </button>
             </div>
 
