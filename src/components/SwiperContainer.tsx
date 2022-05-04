@@ -88,21 +88,25 @@ export const SwiperContainer = ({ setOpenFilter }: SwiperContainerProps) => {
         )}
         {[swiperCard, swiperCard].map((card, key) => {
           return (
-            <TinderCard
-              ref={childRefs[key]}
-              key={key}
-              className="absolute z-0"
-              onSwipe={(dir) => onSwipe(dir, key)}
-              onCardLeftScreen={() => outOfFrame(card.user?.firstName, key)}
-              preventSwipe={['up', 'down']}
-            >
-              <SwiperCard
-                user={card.user}
-                ride={card.ride}
-                swipeRight={() => swipe('right')}
-                swipeLeft={() => swipe('left')}
-              />
-            </TinderCard>
+            <>
+              {card.user && (
+                <TinderCard
+                  ref={childRefs[key]}
+                  key={key}
+                  className="absolute z-0"
+                  onSwipe={(dir) => onSwipe(dir, key)}
+                  onCardLeftScreen={() => outOfFrame(card.user?.firstName, key)}
+                  preventSwipe={['up', 'down']}
+                >
+                  <SwiperCard
+                    user={card.user}
+                    ride={card.ride}
+                    swipeRight={() => swipe('right')}
+                    swipeLeft={() => swipe('left')}
+                  />
+                </TinderCard>
+              )}
+            </>
           )
         })}
       </div>

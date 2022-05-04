@@ -1,12 +1,15 @@
 import { faCarSide, faClose, faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { GetServerSideProps } from 'next'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { User } from 'src/types/main'
 import { formatTime } from '@utils/functions'
+import { supabase } from '@utils/supabaseClient'
 import SwiperUserInfo from './SwiperUser'
 
 interface SwiperCardProps {
-  user: User | undefined
+  user: User
   ride: {
     id: string
     driver_id: string
@@ -58,7 +61,7 @@ export const SwiperCard = ({ user, ride, swipeRight, swipeLeft }: SwiperCardProp
           <FontAwesomeIcon icon={faClose} size="lg" color="white" />
         </button>
         {/*TODO: fetch correct channelId and redirect to chatRoom */}
-        <Link href="/" passHref>
+        <Link href={`/new-chat/${user.id}`} passHref>
           <button className="h-16 w-16 bg-sky-400 rounded-4xl">
             <FontAwesomeIcon icon={faCommentDots} size="2x" color="white" />
           </button>
