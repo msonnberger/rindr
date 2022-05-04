@@ -68,7 +68,15 @@ const Profile: NextPage = () => {
 
     const uid = session.user.id
 
-    if (Array.isArray(formData.picture) && formData.picture.length) {
+    if (formData.picture.length > 0) {
+      const { error: deleteError } = await supabase.storage.from('profile-pictures').remove([uid])
+
+      if (deleteError) {
+        console.error(deleteError)
+        alert('Something went wrong when deleting your image. Please try again later.')
+        return
+      }
+
       const { error: uploadError } = await supabase.storage
         .from('profile-pictures')
         .upload(uid, formData.picture[0])
