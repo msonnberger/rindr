@@ -51,7 +51,7 @@ export default function LocationInput({ register, setValue }: LocationInputProps
   }
 
   return (
-    <div>
+    <div className="w-full">
       <input type="hidden" {...register('longitude')} />
       <input type="hidden" {...register('latitude')} />
       <Combobox value={selected} onChange={onSelectedChange}>
@@ -61,7 +61,7 @@ export default function LocationInput({ register, setValue }: LocationInputProps
               <FontAwesomeIcon icon={faMapMarkerAlt} color="white" />
             </div>
             <Combobox.Input
-              placeholder="Where do you commute from?"
+              placeholder="Where are you from?"
               className="truncate bg-inherit focus:outline-none"
               displayValue={(location: Location) => location.name}
               {...register('location', {

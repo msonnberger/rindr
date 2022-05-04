@@ -11,6 +11,9 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      maxHeight: {
+        '90v': '90vh',
+      },
       height: {
         '600px': '600px',
         '450px': '450px',
@@ -27,6 +30,9 @@ module.exports = {
           '0%': { transform: 'translateX(-30%)' },
           '100%': { transform: 'translateX(0%)' },
         },
+      },
+      borderRadius: {
+        '4xl': '50px',
       },
     },
   },

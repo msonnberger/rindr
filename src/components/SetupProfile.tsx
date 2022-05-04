@@ -1,11 +1,19 @@
-import { faCarAlt, faCircleUser, faHeadphones, faPlus } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCarAlt,
+  faCircleUser,
+  faCouch,
+  faHeadphones,
+  faPlus,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { SetupProfileFormValues } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
-import { LocationInput, TagsInput, TextInput } from '@components/inputs'
+import { LocationInput, NumberInput, TagsInput, TextAreaInput, TextInput } from '@components/inputs'
+import Button from './Button'
 
 export default function SetupProfile() {
   const { data: session } = useSession()
@@ -82,6 +90,16 @@ export default function SetupProfile() {
     router.replace('/')
   }
 
+  const [hasCar, setHasCar] = useState(true)
+
+  const changeCarYes = () => {
+    setHasCar(true)
+  }
+
+  const changeCarNo = () => {
+    setHasCar(false)
+  }
+
   return (
     <div className="flex flex-col items-start">
       <h1 className="text-4xl font-bold text-rose-500">
@@ -90,7 +108,7 @@ export default function SetupProfile() {
       <h2 className="mt-3 text-lg">Please finish setting up your profile.</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-12 flex max-w-lg flex-col items-start gap-8"
+        className="mt-12 flex max-w-lg flex-col items-start gap-8 w-full"
       >
         <label className="relative cursor-pointer self-center" htmlFor="picture">
           {picturePreview ? (
@@ -115,33 +133,57 @@ export default function SetupProfile() {
         {errors.picture && <FormError message={errors.picture.message} />}
         <LocationInput register={register} setValue={setValue} />
         {errors.location && <FormError message={errors.location.message} />}
-        <textarea
-          id="bio"
-          placeholder="Tell us something about you"
-          {...register('bio', {
-            required:
-              'Please tell us a little bit about yourself, so that others know something about the person they share a ride with.',
-          })}
-        ></textarea>
+
+        <TextAreaInput placeholder="Tell us something about you" register={register} id="bio" />
         {errors.bio && <FormError message={errors.bio.message} />}
 
         <div>
-          <h3 className="mb-3 text-left font-bold">My car</h3>
-          <div className="flex items-start">
-            <TextInput
-              placeholder="Which car do you have?"
-              register={register}
-              name="carModel"
-              tailwindBgClass="bg-rose-500"
-              icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
-              disabled={watch('hasNoCar')}
+          <h3 className="mb-3 text-left font-bold">Do you have a car?</h3>
+          <div className="flex flex-row gap-4">
+            <Button
+              buttonType="button"
+              text="yes"
+              bgColor={`${hasCar ? 'bg-rose-700' : 'bg-rose-300'}`}
+              textColor="text-white"
+              fontWeight="semibold"
+              onClick={changeCarYes}
             />
-            <input type="checkbox" {...register('hasNoCar')} className="accent-rose-500" />
-            <label>I don&apos;t have a car</label>
-            <input type="color" {...register('carColor')} disabled={watch('hasNoCar')} />
-            <input type="number" {...register('availableSeats')} disabled={watch('hasNoCar')} />
+            <Button
+              buttonType="button"
+              text="no"
+              bgColor={`${hasCar ? 'bg-rose-300' : 'bg-rose-700'}`}
+              textColor="text-white"
+              fontWeight="semibold"
+              onClick={changeCarNo}
+            />
           </div>
         </div>
+
+        {hasCar && (
+          <div>
+            <h3 className="mb-3 text-left font-bold">My car</h3>
+            <div className="flex flex-wrap items-start">
+              <TextInput
+                placeholder="Which car do you have?"
+                register={register}
+                name="carModel"
+                tailwindBgClass="bg-rose-500"
+                icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
+                disabled={watch('hasNoCar')}
+              />
+
+              {/*<input type="number" {...register('availableSeats')} disabled={watch('hasNoCar')} /> */}
+              <NumberInput
+                placeholder="2"
+                register={register}
+                name="availableSeats"
+                tailwindBgClass="bg-rose-500"
+                icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+                disabled={watch('hasNoCar')}
+              />
+            </div>
+          </div>
+        )}
 
         <div>
           <h3 className="mb-3 text-left font-bold">Interests</h3>
@@ -161,10 +203,13 @@ export default function SetupProfile() {
           />
           {errors.music && <FormError message={errors.music.message} />}
         </div>
-        <input
-          className="cursor-pointer rounded-lg bg-rose-500 py-2 px-3 text-white"
-          type="submit"
-          value="Done"
+
+        <Button
+          buttonType="submit"
+          text="save profile"
+          bgColor="bg-rose-700"
+          textColor="text-white"
+          fontWeight="semibold"
         />
       </form>
     </div>

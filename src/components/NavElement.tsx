@@ -33,7 +33,7 @@ export default function NavElement({
   return (
     <div className="w-16">
       {isActive && (
-        <Link href={route}>
+        <Link href={route} passHref>
           <button
             className={`flex h-10 flex-row items-center justify-between gap-3 rounded-3xl px-3 ${bgColor}`}
           >
@@ -49,7 +49,7 @@ export default function NavElement({
         </Link>
       )}
       {!isActive && (
-        <Link href={route}>
+        <Link href={route} passHref>
           <button className="px-3">{children}</button>
         </Link>
       )}
