@@ -4,10 +4,11 @@ import {
   faCouch,
   faHeadphones,
   faPlus,
+  faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { NextPage } from 'next'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -109,6 +110,8 @@ const Profile: NextPage = () => {
       alert('Something went wrong. Please try again later.')
       return
     }
+
+    alert('The profile has been updated')
   }
 
   const [hasCar, setHasCar] = useState(true)
@@ -151,9 +154,20 @@ const Profile: NextPage = () => {
             </label>
             {errors.picture && <FormError message={errors.picture.message} />}
 
-            <p className="flex justify-center font-bold w-full">
-              {session && session.user.firstName} {session && session.user.lastName}
-            </p>
+            <div className="flex justify-center items-center gap-x-2 font-bold w-full">
+              <p>
+                {session && session.user.firstName} {session && session.user.lastName}
+              </p>
+              <button
+                type="button"
+                className="font-bold text-blue-700 underline"
+                onClick={() => signOut()}
+              >
+                <div className="bg-rose-500 grid h-8 w-8 place-items-center rounded-full">
+                  <FontAwesomeIcon icon={faRightFromBracket} color="white" />
+                </div>
+              </button>
+            </div>
 
             <LocationInput register={register} setValue={setValue} />
             {errors.location && <FormError message={errors.location.message} />}
