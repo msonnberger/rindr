@@ -26,13 +26,6 @@ export default function ChatPreview({ content, otherUser, timestamp, channelId }
         </div>
         <div className="mr-0 ml-auto flex flex-col items-end justify-between">
           <p className="text-sm font-light">{printDatePreview(new Date(timestamp))}</p>
-
-          {
-            // hidden until we find a better use case
-          }
-          <div className="hidden ml-5 h-5 w-5 items-center justify-center rounded-xl bg-sky-400">
-            <p className="font-white text-xs text-slate-50">?</p>
-          </div>
         </div>
       </button>
     </Link>
