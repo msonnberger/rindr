@@ -144,3 +144,5 @@ export interface RequestsJoinRides {
   longitude: number
   accepted_passenger_id: string
 }
+
+export declare type RequestsByDate = Record<string, RequestsJoinRides[]>

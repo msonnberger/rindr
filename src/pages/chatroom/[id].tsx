@@ -15,6 +15,7 @@ const user: Partial<User> = {
   firstName: 'Juliane',
   id: '4b824c28-6ac4-45ff-b175-56624c287706',
 }
+//TODO: delete user
 
 interface ChatRoomProps {
   otherUser: {
