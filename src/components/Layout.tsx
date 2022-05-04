@@ -8,7 +8,7 @@ interface NavElementProps {
 export default function Layout({ children }: NavElementProps) {
   return (
     <div className="flex min-h-screen flex-col items-center">
-      <main className="flex w-full max-h-[85vh] overflow-y-scroll flex-1 flex-col px-5 mb-24 mt-10 max-w-4xl">
+      <main className="flex w-full max-h-[85vh] overflow-y-auto flex-1 flex-col px-5 mb-24 mt-10 max-w-4xl">
         {children}
       </main>
       <Footer />
