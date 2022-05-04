@@ -26,6 +26,7 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
           <FontAwesomeIcon icon={faArrowLeft} size="lg" color={Slate[800]} />
         </button>
         Mapholder
+        {/*TODO: add API map*/}
         <div className="absolute bottom-0 mb-2 left-2 right-2">
           <SwiperUserInfo
             pictureUrl={profileInfos.pictureUrl}
