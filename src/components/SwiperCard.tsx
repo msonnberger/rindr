@@ -45,7 +45,7 @@ export const SwiperCard = ({ user, ride, swipe }: SwiperCardProps) => {
               <p className="font-light ml-3">{ride?.destination_location}</p>
             </div>
           </div>
-          <div className="absolute bg-slate-50 bg-opacity-50 h-20 bottom-0 rounded-3xl mb-2 left-2 right-2 p-3 flex flex-row justify-between items-center">
+          <div className="absolute bottom-0 mb-2 left-2 right-2">
             <SwiperUserInfo
               pictureUrl={user?.pictureUrl}
               department={user?.department}
@@ -53,6 +53,7 @@ export const SwiperCard = ({ user, ride, swipe }: SwiperCardProps) => {
               lastName={user?.lastName}
               thumbsUpCount={user?.thumbsUpCount}
               thumbsDownCount={user?.thumbsDownCount}
+              withArrow={true}
             />
           </div>
         </div>
