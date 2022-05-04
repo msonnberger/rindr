@@ -32,6 +32,26 @@ export default function ChatMessageForm({ channelId, receiverId }: FormProps) {
     setNewMessage('')
   }
 
+  async function handleEnter(event) {
+    //event.preventDefault()
+    if (event.key === 'Enter') {
+      const { error } = await supabase.from('chat_messages').insert({
+        content: newMessage,
+        channel_id: channelId,
+        sender_id: user.id,
+        receiver_id: receiverId,
+      })
+
+      if (error) {
+        alert('Could not send message')
+      }
+
+      setNewMessage('')
+    } else {
+      setNewMessage(event.target.value)
+    }
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -42,6 +62,7 @@ export default function ChatMessageForm({ channelId, receiverId }: FormProps) {
         onChange={(e) => setNewMessage(e.target.value)}
         placeholder="Type something..."
         rows={1}
+        onKeyDown={handleEnter}
         className="ml-3 w-full resize-none bg-transparent font-light text-slate-50 placeholder-slate-50 outline-none"
       />
 
