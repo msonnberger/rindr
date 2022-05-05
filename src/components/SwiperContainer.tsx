@@ -141,12 +141,12 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
                   onCardLeftScreen={() => outOfFrame(card.user?.firstName, key)}
                   preventSwipe={['down']}
                 >
-                  {/* @ts-ignore */}
                   <SwiperCard
                     setOpenedProfile={setOpenedProfile}
                     user={card.user}
                     ride={card.ride}
                     swipe={swipe}
+                    sendRideRequest={null}
                   />
                 </TinderCard>
               )}
