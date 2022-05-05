@@ -87,7 +87,7 @@ const Rides: NextPage<{
         />
         {openedRideRequests && (
           <div className="flex flex-col gap-4 mt-4 mb-4">
-            {Object.keys(rideRequests).length > 0 ? (
+            {rideRequests && Object.keys(rideRequests).length > 0 ? (
               Object.keys(rideRequests).map((date) => (
                 <Fragment key={date}>
                   <p className="flex font-bold text-lg text-slate-900 mt-2 ml-4">
