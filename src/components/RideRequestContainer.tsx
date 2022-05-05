@@ -116,7 +116,7 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
       </div>
 
       <a
-        href={`https://www.google.com/maps/search/?api=1&query=${RideRequest.latitude}%2C${RideRequest.longitude}`}
+        href={`https://www.google.com/maps/search/?api=1&query=${RideRequest.via_point_latitude}%2C${RideRequest.via_point_longitude}`}
         target="_blank"
         rel="noreferrer"
       >

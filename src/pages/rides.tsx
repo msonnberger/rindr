@@ -9,13 +9,14 @@ import { supabase } from '@utils/supabaseClient'
 import { fgStylings } from '@styles/colors'
 import Heading from '@components/Heading'
 import Layout from '@components/Layout'
+import RideDateContainer from '@components/RideDateContainer'
 import RideRequestContainer from '@components/RideRequestContainer'
-import ShareRideContainer from '@components/SharedRideContainer'
+import SharedRideContainer from '@components/SharedRideContainer'
 
 const Rides: NextPage<{
   requestsByDate: RequestsByDate
   sharedRides: SupabaseRide[]
-  dataRideDates: SupabaseRide[]
+  dataRideDates: RequestsByDate
 }> = ({
   // eslint-disable-next-line react/prop-types
   requestsByDate,
@@ -38,6 +39,7 @@ const Rides: NextPage<{
     const requests = newPreviews.rideRequests
     const sharedRides = newPreviews.sharedRides
     const fetchedRideDates = newPreviews.rideDates
+
     const requestsByDate = requests.reduce((dateGroups, request) => {
       const dateString = formatTimestamp(request.arrival)
 
@@ -46,9 +48,19 @@ const Rides: NextPage<{
         [dateString]: [...(dateGroups[dateString] || []), request],
       }
     }, {} as RequestsByDate)
+
+    const rideDatesByDate = fetchedRideDates.reduce((dateGroups, request) => {
+      const dateString = formatTimestamp(request.arrival)
+
+      return {
+        ...dateGroups,
+        [dateString]: [...(dateGroups[dateString] || []), request],
+      }
+    }, {} as RequestsByDate)
+
     setRideRequests(requestsByDate)
     setSharedRidesData(sharedRides)
-    setRideDates(fetchedRideDates)
+    setRideDates(rideDatesByDate)
   }
 
   return (
@@ -82,10 +94,24 @@ const Rides: NextPage<{
         <p className="flex font-bold text-2xl mt-8 text-emerald-400">Shared rides</p>
         <div className="flex flex-col gap-4 mt-4">
           {sharedRidesData &&
-            sharedRidesData.map((ride) => <ShareRideContainer key={ride.id} ride={ride} />)}
+            sharedRidesData.map((ride) => <SharedRideContainer key={ride.id} ride={ride} />)}
         </div>
         <p className="flex font-bold text-2xl mt-8 text-sky-400">Ride dates</p>
-        {rideDates && rideDates.map((rideDate) => <div key={rideDate.id}>{rideDate.id}</div>)}
+        <div className="flex flex-col gap-4 mt-4">
+          {rideDates &&
+            Object.keys(rideDates).map((date) => (
+              <Fragment key={date}>
+                <p className="mb-2 flex font-bold text-lg text-slate-900 mt-2">
+                  {printDate(new Date(date))}
+                </p>
+                <ul className="flex flex-col gap-7">
+                  {rideDates[date].map((request: RequestsJoinRides, index: number) => (
+                    <RideDateContainer key={index} ride={request} />
+                  ))}
+                </ul>
+              </Fragment>
+            ))}
+        </div>
       </Layout>
     </>
   )
@@ -95,7 +121,7 @@ export default Rides
 async function fetchPreviews(userId: string): Promise<{
   rideRequests: RequestsJoinRides[]
   sharedRides: SupabaseRide[]
-  rideDates: SupabaseRide[]
+  rideDates: RequestsJoinRides[]
 }> {
   const { data, error } = await supabase
     .from<RequestsJoinRides>('requests_join_rides')
@@ -108,12 +134,13 @@ async function fetchPreviews(userId: string): Promise<{
     .from<SupabaseRide>('rides')
     .select('*')
     .eq('driver_id', userId)
-    .order('arrival', { ascending: false })
+    .order('arrival', { ascending: true })
 
+  //view: requests_join_rides
   const { data: dataRideDates, error: errorRideDates } = await supabase
-    .from<SupabaseRide>('rides')
+    .from<RequestsJoinRides>('requests_join_rides')
     .select('*')
-    .eq('passenger_id', userId)
+    .eq('accepted_passenger_id', userId)
     .order('arrival', { ascending: false })
 
   if (error) {
@@ -159,5 +186,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }, {} as RequestsByDate)
 
-  return { props: { requestsByDate, sharedRides, dataRideDates } }
+  const rideDatesByDate = dataRideDates.reduce((dateGroups, request) => {
+    const dateString = formatTimestamp(request.arrival)
+
+    return {
+      ...dateGroups,
+      [dateString]: [...(dateGroups[dateString] || []), request],
+    }
+  }, {} as RequestsByDate)
+
+  return { props: { requestsByDate, sharedRides, rideDatesByDate } }
 }

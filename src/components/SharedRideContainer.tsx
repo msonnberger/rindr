@@ -5,13 +5,14 @@ import { formatDate, formatTime } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
 import Image from '@components/Image'
 
-interface ShareRideContainerProps {
+interface SharedRideContainerProps {
   ride: SupabaseRide
 }
 
-export default function ShareRideContainer({ ride }: ShareRideContainerProps) {
+export default function SharedRideContainer({ ride }: SharedRideContainerProps) {
   async function deleteSharedRide() {
     console.log(ride.id)
+
     const { data, error } = await supabase
       .from('rides')
       .delete()
