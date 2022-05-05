@@ -1,4 +1,4 @@
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faHeadphones } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Slate } from '@styles/colors'
 import Image from '@components/Image'
@@ -6,16 +6,16 @@ import Image from '@components/Image'
 interface SwiperUserInfoProps {
   firstName: string | undefined
   lastName: string | undefined
-  department: string | undefined
   pictureUrl: string | undefined
+  music: string | undefined
   withArrow: boolean
 }
 export default function SwiperUserInfo({
   firstName,
   lastName,
-  department,
   pictureUrl,
   withArrow,
+  music,
 }: SwiperUserInfoProps) {
   return (
     <div
@@ -28,7 +28,12 @@ export default function SwiperUserInfo({
           <p className="font-bold text-2xl text-slate-800">
             {firstName} {lastName}
           </p>
-          <p className="font-light text-slate-800">{department}</p>
+          <div className="flex flex-nowrap fit-content overflow-hidden whitespace-nowrap gap-3 max-w-[360px]">
+            <div className="bg-orange-400 rounded-3xl pl-4 pr-4 py-1 flex items-center max-w-[360px]">
+              <FontAwesomeIcon icon={faHeadphones} color="white" />
+              <p className="text-white font-bold ml-4 max-w-[120px] overflow-ellipsis">{music}</p>
+            </div>
+          </div>
         </div>
 
         {pictureUrl && (
