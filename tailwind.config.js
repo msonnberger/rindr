@@ -26,7 +26,7 @@ module.exports = {
         'fit-content': 'fit-content',
       },
       minWidth: {
-        "10/4r": '2.5rem',
+        '10/4r': '2.5rem',
       },
       keyframes: {
         slideIn: {
@@ -36,6 +36,9 @@ module.exports = {
       },
       borderRadius: {
         '4xl': '50px',
+      },
+      screens: {
+        "xs": '400px',
       },
     },
   },

@@ -2,7 +2,7 @@
 import { faRoute } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
-import { createRef, useMemo, useRef, useState } from 'react'
+import { RefObject, createRef, useMemo, useRef, useState } from 'react'
 import TinderCard from 'react-tinder-card'
 import { Campuses } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
@@ -103,12 +103,14 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
 
   const swipe = async (dir: string) => {
     if (canSwipe && currentIndex < swiperCards.length) {
+      // @ts-ignore
       await childRefs[currentIndex].current.swipe(dir) // Swipe the card
     }
   }
 
   const outOfFrame = (name: string | undefined, idx: number) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
+    // @ts-ignore
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
     //TODO: Karte bleibt erhalten
   }
@@ -131,6 +133,7 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
             <>
               {card.user && (
                 <TinderCard
+                  // @ts-ignore
                   ref={childRefs[key]}
                   key={key}
                   className="absolute z-0"

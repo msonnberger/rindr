@@ -41,9 +41,9 @@ export default function SharedRideContainer({ ride }: SharedRideContainerProps) 
         src="/car-orange.svg"
         alt="Cow-Image"
         width={40}
-        className="absolute hidden sm:block"
+        className="absolute hidden xs:block"
       />
-      <div className="w-full flex flex-row sm:ml-14 justify-between items-center">
+      <div className="w-full flex flex-row xs:ml-14 justify-between items-center">
         <div className="flex flex-col">
           <p>
             From: <b>{ride.start_location}</b>
