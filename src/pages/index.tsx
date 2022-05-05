@@ -49,7 +49,7 @@ const Profile: NextPage = () => {
           </Link>
 
           <Link href="/impressum" passHref>
-            <p className="text-black ml-5 text-lg">Impressum</p>
+            <p className="text-black ml-5 text-lg cursor-pointer hover:text-sky-400">Impressum</p>
           </Link>
         </main>
       </Layout>
