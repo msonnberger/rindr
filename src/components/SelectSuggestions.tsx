@@ -1,21 +1,20 @@
-import { useState } from 'react'
-import { Location } from 'src/types/main'
+import { LocationObject } from 'src/types/main'
 
 interface SelectSuggestionsProps {
-  options: Array<Location>
+  options: Array<LocationObject>
   setInput: any
   selectedColor: string
   defaultColor: string
+  selected: LocationObject
 }
 export default function SelectSuggestions({
   options,
   setInput,
   selectedColor,
   defaultColor,
+  selected,
 }: SelectSuggestionsProps) {
-  const [selectedOption, setSelectedOption] = useState(options[0])
-  const handleClick = (optionName: Location) => {
-    setSelectedOption(optionName)
+  const handleClick = (optionName: LocationObject) => {
     setInput(optionName)
   }
 
@@ -28,7 +27,7 @@ export default function SelectSuggestions({
               onClick={() => handleClick(option)}
               key={key}
               className={`rounded-3xl flex items-center justify-center py-1 pl-4 pr-4 text-white fit-content w-max ${
-                selectedOption?.name === option.name ? selectedColor : defaultColor
+                selected.name === option.name ? selectedColor : defaultColor
               }`}
             >
               {option.name}

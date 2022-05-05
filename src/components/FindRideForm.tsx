@@ -1,6 +1,8 @@
+import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
-import { Campuses, Location } from 'src/types/main'
+import { Campuses, LocationObject } from 'src/types/main'
 import Image from '@components/Image'
 import SelectSuggestions from './SelectSuggestions'
 
@@ -12,14 +14,16 @@ interface FindRideFormProps {
 export default function FindRideForm({ setOpenFilter, setSwiperCards }: FindRideFormProps) {
   const { data: session } = useSession()
 
-  const home: Location = {
+  const home: LocationObject = {
     name: 'Home',
     latitude: session?.user.latitude as number,
     longitude: session?.user.longitude as number,
   }
 
-  const [locationInput, setLocationInput] = useState<Location>(Campuses[0])
-  const [destinationInput, setDestinationInput] = useState<Location>(home)
+  const [destinationInput, setDestinationInput] = useState<LocationObject>(Campuses[0])
+  const [destinationOptions, setDestinationOptions] = useState<Array<LocationObject>>(Campuses)
+  const [locationInput, setLocationInput] = useState<LocationObject>(home)
+  const [locationOptions, setLocationOptions] = useState<Array<LocationObject>>([home])
   const [dateInput, setDateInput] = useState(new Date().toISOString().split('T')[0])
 
   const handleSubmit = async () => {
@@ -43,45 +47,50 @@ export default function FindRideForm({ setOpenFilter, setSwiperCards }: FindRide
     setOpenFilter(false)
   }
 
-  // const ExchangeLocation = (ev: any) => {
-  //   ev.preventDefault()
-  //   setDestinationInput(locationInput)
-  //   setLocationInput(destinationInput)
-  // }
+  const ExchangeLocation = (ev: any) => {
+    ev.preventDefault()
+    setDestinationInput(locationInput)
+    setLocationInput(destinationInput)
+    let tempOptions = destinationOptions
+    setDestinationOptions(locationOptions)
+    setLocationOptions(tempOptions)
+  }
 
   return (
     <>
-      {/* <button
+      <button
         className="rounded-3xl flex items-center justify-center bg-sky-400 py-2 pl-4 pr-4 text-white fit-content w-max absolute right-0 top-16"
         onClick={() => handleSubmit()}
       >
-        Back
-      </button> */}
+        Close Filter
+      </button>
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">from</p>
-        {Campuses && (
+        {locationOptions && (
           <SelectSuggestions
             selectedColor="bg-sky-400"
             defaultColor="bg-sky-200"
             setInput={setLocationInput}
-            options={[...Campuses, home]}
+            selected={locationInput}
+            options={locationOptions}
           />
         )}
       </div>
-      {/* <button
+      <button
         className="w-6 h-6 bg-sky-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3"
         onClick={(ev) => ExchangeLocation(ev)}
       >
         <FontAwesomeIcon icon={faRightLeft} color="white" rotation={90} />
-      </button> */}
+      </button>
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">to</p>
-        {Campuses && (
+        {destinationOptions && (
           <SelectSuggestions
             selectedColor="bg-sky-400"
             defaultColor="bg-sky-200"
             setInput={setDestinationInput}
-            options={[...Campuses, home]}
+            selected={destinationInput}
+            options={destinationOptions}
           />
         )}
       </div>
