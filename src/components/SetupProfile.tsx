@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { SetupProfileFormValues } from 'src/types/main'
+import { SetupProfileFormValues, SupabaseUser } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
 import { LocationInput, NumberInput, TagsInput, TextAreaInput, TextInput } from '@components/inputs'
 import Button from './Button'
@@ -65,18 +65,18 @@ export default function SetupProfile() {
       formData.availableSeats = undefined
     }
 
-    const { data, error } = await supabase.from('users').insert({
+    const { data, error } = await supabase.from<SupabaseUser>('users').insert({
       id: session.user.id,
       email: session.user.email,
       first_name: session.user.firstName,
       last_name: session.user.lastName,
+      department: session.user.department,
       bio: formData.bio,
-      picture_url: publicURL,
+      picture_url: publicURL as string,
       interests: formData.interests?.map((interest) => interest.tag),
       music: formData.music,
       car_model: formData.carModel,
       available_seats: formData.availableSeats,
-      car_color: formData.carColor,
       latitude: formData.latitude,
       longitude: formData.longitude,
       location: formData.location,

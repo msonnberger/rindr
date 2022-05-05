@@ -36,12 +36,14 @@ export default NextAuth({
           id: profile.sub,
           email: profile.email,
           name: `${profile.given_name} ${profile.family_name}`,
+          studies: profile.studies,
         }
       },
     },
   ],
   callbacks: {
-    async jwt({ token }) {
+    async jwt({ token, profile }) {
+      token.department = profile?.studies
       const uid = token.sub as string
       const userData = await fetchUserData(uid)
       token.profileSetupCompleted = Boolean(userData)
@@ -52,6 +54,7 @@ export default NextAuth({
       session.user.id = token.sub as string
       session.user.firstName = token.name?.split(' ')[0] as string
       session.user.lastName = token.name?.split(' ')[1] as string
+      session.user.department = token.department as string
 
       if (token.profileSetupCompleted) {
         const userData = await fetchUserData(token.sub as string)

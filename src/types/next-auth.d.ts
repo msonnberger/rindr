@@ -19,6 +19,7 @@ declare module 'next-auth' {
 
   export interface JWT extends DefaultJWT {
     profileSetupCompleted: boolean
+    department: string
   }
 
   export interface Session extends DefaultSession {
