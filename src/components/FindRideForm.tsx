@@ -1,39 +1,45 @@
-//import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
-import { Campuses } from 'src/types/main'
+import { useState } from 'react'
+import { Campuses, Location } from 'src/types/main'
 import Image from '@components/Image'
 import SelectSuggestions from './SelectSuggestions'
 
 interface FindRideFormProps {
   setOpenFilter: any
-  setDate: any
-  setDestination: any
-  setLocation: any
+  setSwiperCards: any
 }
 
-export default function FindRideForm({
-  setOpenFilter,
-  setDate,
-  setDestination,
-  setLocation,
-}: FindRideFormProps) {
-  const [destinationInput, setDestinationInput] = useState<Location>()
-  const [dateInput, setDateInput] = useState('')
-  const [locationInput, setLocationInput] = useState<Location>()
+export default function FindRideForm({ setOpenFilter, setSwiperCards }: FindRideFormProps) {
   const { data: session } = useSession()
 
-  const home = {
+  const home: Location = {
     name: 'Home',
     latitude: session?.user.latitude as number,
     longitude: session?.user.longitude as number,
   }
 
-  const handleSubmit = () => {
-    setDate(dateInput)
-    setDestination(destinationInput)
-    setLocation(locationInput)
+  const [locationInput, setLocationInput] = useState<Location>(Campuses[0])
+  const [destinationInput, setDestinationInput] = useState<Location>(home)
+  const [dateInput, setDateInput] = useState(new Date().toISOString().split('T')[0])
+
+  const handleSubmit = async () => {
+    const params = new URLSearchParams()
+    params.set('date', dateInput)
+
+    if (locationInput.name === 'Home') {
+      params.set('campus', destinationInput.name)
+      params.set('campusIsStart', 'false')
+      params.set('pickup', `${locationInput.latitude},${locationInput.longitude}`)
+    } else {
+      params.set('campus', locationInput.name)
+      params.set('campusIsStart', 'true')
+      params.set('pickup', `${destinationInput.latitude},${destinationInput.longitude}`)
+    }
+
+    const res = await fetch('/api/rides/find-matches?' + params.toString())
+    const data = await res.json()
+
+    setSwiperCards(data)
     setOpenFilter(false)
   }
 
@@ -42,20 +48,15 @@ export default function FindRideForm({
   //   setDestinationInput(locationInput)
   //   setLocationInput(destinationInput)
   // }
-  useEffect(() => {
-    console.log(locationInput, 'from')
-    console.log(destinationInput, 'to')
-    console.log(dateInput, 'date')
-  }, [destinationInput, dateInput, locationInput])
 
   return (
     <>
-      <button
+      {/* <button
         className="rounded-3xl flex items-center justify-center bg-sky-400 py-2 pl-4 pr-4 text-white fit-content w-max absolute right-0 top-16"
         onClick={() => handleSubmit()}
       >
         Back
-      </button>
+      </button> */}
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">from</p>
         {Campuses && (
@@ -87,7 +88,7 @@ export default function FindRideForm({
       <label htmlFor="date" className="mt-5">
         <p className="font-light mt-6 mb-2">date</p>
         <input
-          className="bg-slate-50 flex gap-4 rounded-full bg-slate-100 p-3 focus:outline-none text-slate-600 font-light"
+          className="flex gap-4 rounded-full bg-slate-100 p-3 focus:outline-none text-slate-600 font-light"
           type="date"
           name="date"
           onChange={(ev) => setDateInput(ev.target.value)}
@@ -97,7 +98,7 @@ export default function FindRideForm({
       <div className="w-full flex flex-col items-center mt-10">
         <button
           className="rounded-3xl flex items-center justify-center bg-sky-400 py-3 pl-4 pr-4 font-bold text-white fit-content w-max"
-          onClick={() => handleSubmit()}
+          onClick={handleSubmit}
         >
           FIND MATCH
         </button>

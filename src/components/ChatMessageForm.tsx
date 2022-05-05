@@ -48,6 +48,7 @@ export default function ChatMessageForm({ channelId, receiverId }: FormProps) {
 
       setNewMessage('')
     } else {
+      // @ts-ignore
       setNewMessage(event.target.value)
     }
   }

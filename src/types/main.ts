@@ -62,6 +62,27 @@ export interface ChatPreviewType {
   }
 }
 
+export interface SupabaseUser {
+  id: string
+  email: string
+  first_name: string
+  last_name: string
+  picture_url: string
+  bio: string
+  interests: string[]
+  music: string
+  location: string
+  latitude: number
+  longitude: number
+  department?: string
+  car_model?: string
+  available_seats?: number
+  savings_co2?: number
+  savings_euro?: number
+  thumbs_up_count?: number
+  thumbs_down_count?: number
+}
+
 export interface SupabaseLatestMessages {
   id: string
   content: string
@@ -123,11 +144,7 @@ export interface SupabaseRideRequest {
   status: 'declined' | 'accepted' | 'pending'
 }
 
-export interface RideRequest {
-  ride_id: string
-  passenger_id: string
-  status: 'declined' | 'pending' | 'accepted'
-}
+export type RideRequest = Partial<SupabaseRideRequest>
 
 export interface RequestsJoinRides {
   id: string
@@ -147,3 +164,8 @@ export interface RequestsJoinRides {
 }
 
 export declare type RequestsByDate = Record<string, RequestsJoinRides[]>
+
+export interface FindRideResponse {
+  driver: SupabaseUser
+  ride: SupabaseRide & { image_url: string }
+}
