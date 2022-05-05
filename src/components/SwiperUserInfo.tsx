@@ -24,14 +24,16 @@ export default function SwiperUserInfo({
       } bg-slate-50 bg-opacity-50 rounded-3xl p-3 flex flex-col`}
     >
       <div className="flex-row flex justify-between items-center">
-        <div className="flex flex-col">
-          <p className="font-bold text-2xl text-slate-800">
+        <div className="flex flex-col gap-1">
+          <p className="font-bold text-2xl text-slate-800 overflow-hidden overflow-ellipsis">
             {firstName} {lastName}
           </p>
-          <div className="flex flex-nowrap fit-content overflow-hidden whitespace-nowrap gap-3 max-w-[360px]">
+          <div className="flex flex-nowrap whitespace-nowrap gap-3 max-w-[360px]">
             <div className="bg-orange-400 rounded-3xl pl-4 pr-4 py-1 flex items-center max-w-[360px]">
               <FontAwesomeIcon icon={faHeadphones} color="white" />
-              <p className="text-white font-bold ml-4 max-w-[120px] overflow-ellipsis">{music}</p>
+              <p className="text-white font-bold ml-4 max-w-[16rem] overflow-hidden overflow-ellipsis">
+                {music}
+              </p>
             </div>
           </div>
         </div>

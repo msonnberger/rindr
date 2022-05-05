@@ -42,14 +42,14 @@ export const SwiperCard = ({ driver, ride, swipe }: SwiperCardProps) => {
   }
 
   return (
-    <div className="w-[90vw] rounded-3xl bg-slate-100 h-[70vh] flex flex-col relative max-w-[450px]">
-      <div className="bg-sky-300 rounded-3xl shadow-xl h-520px relative">
+    <div className="w-[90vw] rounded-3xl shadow-sm bg-slate-100 h-[70vh] flex flex-col relative max-w-[450px]">
+      <div className="bg-sky-300 shadow-md rounded-3xl h-[85%] relative">
         <Image
           src={ride.image_url}
           alt="Image of a map showing the route"
           className="absolute rounded-3xl h-full w-full"
         />
-        <div className="flex flex-row justify-center items-center bg-slate-50 bg-opacity-50 absolute top-0 mt-2 right-2 left-2 rounded-3xl h-16">
+        <div className="flex flex-row justify-center items-center bg-slate-50 backdrop-blur-sm bg-opacity-50 absolute top-0 mt-2 right-2 left-2 rounded-3xl h-16">
           <div className="flex items-center justify-center bg-sky-400 rounded-2xl py-1 pl-3 pr-3 absolute left-1">
             <p className="text-white font-bold">{formatTime(new Date(ride.arrival))}</p>
           </div>
