@@ -98,9 +98,9 @@ export const SwiperContainer = ({
   }
 
   return (
-    <>
+    <div className="relative top-0">
       <button
-        className="rounded-3xl flex items-center justify-center bg-sky-400 py-2 pl-4 pr-4 text-white fit-content w-max absolute right-0 top-16"
+        className="rounded-3xl flex items-center justify-center bg-sky-400 py-2 pl-4 pr-4 text-white fit-content w-max absolute right-0 -top-16"
         onClick={() => setOpenFilter(true)}
       >
         <FontAwesomeIcon icon={faRoute} size="lg" />
@@ -129,6 +129,6 @@ export const SwiperContainer = ({
           )
         })}
       </div>
-    </>
+    </div>
   )
 }
