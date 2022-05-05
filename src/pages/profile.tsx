@@ -48,7 +48,6 @@ const Profile: NextPage = () => {
       setValue('bio', session.user.bio)
       setValue('hasNoCar', Boolean(session.user.carModel))
       setValue('carModel', session.user.carModel)
-      setValue('carColor', session.user.carModel)
       setValue('availableSeats', session.user.availableSeats)
       setValue(
         'interests',
@@ -106,7 +105,6 @@ const Profile: NextPage = () => {
 
     if (formData.hasNoCar) {
       formData.carModel = undefined
-      formData.carColor = undefined
       formData.availableSeats = undefined
     }
 
@@ -119,7 +117,6 @@ const Profile: NextPage = () => {
         music: formData.music,
         car_model: hasCar ? formData.carModel : null,
         available_seats: hasCar ? formData.availableSeats : null,
-        car_color: formData.carColor,
         latitude: formData.latitude ?? session.user.latitude,
         longitude: formData.longitude ?? session.user.longitude,
         location: formData.location,
@@ -133,7 +130,7 @@ const Profile: NextPage = () => {
       return
     }
 
-    alert('The profile has been updated')
+    // alert('The profile has been updated')
     router.replace('/profile')
   }
 

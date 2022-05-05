@@ -61,7 +61,6 @@ export default function SetupProfile() {
 
     if (formData.hasNoCar) {
       formData.carModel = undefined
-      formData.carColor = undefined
       formData.availableSeats = undefined
     }
 
