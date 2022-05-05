@@ -64,7 +64,6 @@ export const SwiperCard = ({ driver, ride, swipe }: SwiperCardProps) => {
             firstName={driver.first_name}
             lastName={driver.last_name}
             music={driver.music}
-            interests={driver.interests}
             withArrow={true}
           />
         </div>
