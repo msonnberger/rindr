@@ -70,7 +70,7 @@ export const SwiperCard = ({ driver, ride, swipe }: SwiperCardProps) => {
       </div>
       <div
         className={`flex flex-row justify-center items-center gap-5 w-full ${
-          size?.width < 380 ? 'mt-0' : 'mt-4'
+          size?.width && (size?.width < 380 ? 'mt-0' : 'mt-4')
         }`}
       >
         <button className="h-12 w-12 bg-slate-400 rounded-3xl" onClick={() => swipe('left')}>

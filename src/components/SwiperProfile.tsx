@@ -19,7 +19,7 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
     return { bgColor: Rose[random], textColor: textColor }
   }
   return (
-    <div className="relative z-10 rounded-3xl h-auto">
+    <div className="relative z-10 rounded-3xl h-auto max-w-[450px] flex flex-col left-0 right-0">
       <div className="h-[500px] rounded-3xl p-4 relative">
         <Image
           src={profileInfos.mapUrl}

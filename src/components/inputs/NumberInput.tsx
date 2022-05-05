@@ -31,6 +31,7 @@ export default function NumberInput({
         placeholder={placeholder}
         {...register(name)}
         className="w-2/5 bg-inherit text-center focus:outline-none"
+        min="1"
       />
     </div>
   )
