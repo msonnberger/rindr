@@ -56,7 +56,7 @@ const Savings: NextPage = () => {
                   <span className="font-bold">You</span> saved
                 </p>
                 <span className={`text-4xl font-bold mb-2 ${fgStylings.Emerald}`}>
-                  {session?.user.savingsCo2}kg
+                  {session?.user.savingsCo2} kg
                 </span>
                 <p className="mt-3">
                   in CO2 this month! This is the same amount as{' '}
