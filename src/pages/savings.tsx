@@ -14,7 +14,7 @@ import SocialShareButton from '@components/SocialShareButton'
 
 const Savings: NextPage = () => {
   const { data: session } = useSession()
-  const [ranking, SetRanking] = useState('')
+  const [ranking, setRanking] = useState('')
 
   useEffect(() => {
     if (session) {
@@ -28,7 +28,7 @@ const Savings: NextPage = () => {
       .select('*', { count: 'exact' })
       .gt('savings_co2', session?.user.savingsCo2)
 
-    SetRanking(convertRanking(count ?? 0))
+    setRanking(convertRanking((count ?? 0) + 1))
   }
 
   return (
