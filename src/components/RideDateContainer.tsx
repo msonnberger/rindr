@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Campuses, RequestsJoinRides } from 'src/types/main'
-import { Location } from 'src/types/main'
+import { LocationObject } from 'src/types/main'
 import { formatTime } from '@utils/functions'
 import { combineCoordinates } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
@@ -12,12 +12,12 @@ interface RideDateContainerProps {
 
 export default function RideDateContainer({ ride }: RideDateContainerProps) {
   const [firstName, setFirstname] = useState<string>('')
-  const [driverAddress, setDriverAddress] = useState<Location>()
+  const [driverAddress, setDriverAddress] = useState<LocationObject>()
   const [pickupTime, setPickupTime] = useState<string>('')
 
   const fetchPickupTime = async (
-    start: Location,
-    destination: Location,
+    start: LocationObject,
+    destination: LocationObject,
     departureString: string
   ) => {
     const baseUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/`
@@ -30,14 +30,8 @@ export default function RideDateContainer({ ride }: RideDateContainerProps) {
     ])
 
     const url = `${baseUrl}${combineCoordinates([start, destination])}?${params.toString()}`
-    console.log('_______________________________________')
-    console.log(firstName)
-    console.log(departure, 'DEPARTUREEE')
-    console.log(start, 'start')
-    console.log(destination, 'destination')
     const response = await fetch(url)
     const data = await response.json()
-    console.log(data, 'DATA')
 
     const duration = data.routes[0].duration
     const arrivalDate = new Date(departureDate.getTime() + duration * 1000)
@@ -62,7 +56,7 @@ export default function RideDateContainer({ ride }: RideDateContainerProps) {
 
   useEffect(() => {
     getDriverFirstname(ride.driver_id)
-    const userAdress: Location = {
+    const userAdress: LocationObject = {
       name: ride.via_point_location,
       latitude: ride.via_point_latitude,
       longitude: ride.via_point_longitude,
