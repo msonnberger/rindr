@@ -14,6 +14,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { SpinnerCircular } from 'spinners-react'
 import { SetupProfileFormValues } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
 import Button from '@components/Button'
@@ -172,7 +173,7 @@ const Profile: NextPage = () => {
 
   return (
     <>
-      {session?.user.location && (
+      {session?.user.id ? (
         <>
           <Head>
             <title>Profile</title>
@@ -316,6 +317,10 @@ const Profile: NextPage = () => {
             </div>
           </Layout>
         </>
+      ) : (
+        <div className="flex justify-center items-center h-screen">
+          <SpinnerCircular />
+        </div>
       )}
     </>
   )
