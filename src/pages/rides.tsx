@@ -183,7 +183,6 @@ async function fetchPreviews(userId: string): Promise<{
     .from<RequestsJoinRides>('requests_join_rides')
     .select('*')
     .eq('driver_id', userId)
-    .gt('departure', new Date().toISOString())
     .order('arrival', { ascending: false })
     .order('first_name', { ascending: true })
 
@@ -198,7 +197,6 @@ async function fetchPreviews(userId: string): Promise<{
     .from<RequestsJoinRides>('requests_join_rides')
     .select('*')
     .eq('accepted_passenger_id', userId)
-    .gt('departure', new Date().toISOString())
     .order('arrival', { ascending: false })
 
   if (error) {
