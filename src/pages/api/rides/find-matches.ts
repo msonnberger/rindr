@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
-import { SupabaseRide } from 'src/types/main'
+import { SupabaseRide, User } from 'src/types/main'
 import { combineCoordinates, stringToCoordinates } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
 
@@ -16,7 +16,8 @@ interface QueryParams {
   date: string
 }
 
-type ResData = SupabaseRide[] | { error: string }
+type ResObject = SupabaseRide & { driver: User; imageUrl: string }
+type ResData = ResObject[] | { error: string }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResData>) {
   const session = await getSession({ req })
@@ -35,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const tomorrow = new Date(new Date(date).getTime() + 60 * 60 * 24 * 1000).toISOString()
 
   const { data: rideCandidates } = await supabase
-    .from<SupabaseRide>('rides')
+    .from<ResObject>('rides')
     .select(
       `
       *,
@@ -57,8 +58,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const extraTimePromises = rideCandidates.map((ride) => calculateExtraMinutesNeeded(ride, pickup))
   const extraTimes = await Promise.all(extraTimePromises)
 
-  const rides = rideCandidates.filter((ride, i) => extraTimes[i] < ride.threshold)
-  rides.forEach((ride) => addRouteImage(ride, pickup))
+  let rides = rideCandidates.filter((ride, i) => extraTimes[i] < ride.threshold)
+  const imagePromises = rides.map((ride) => addRouteImage(ride, pickup))
+  rides = await Promise.all(imagePromises)
 
   res.status(200).json(rides ?? [])
 }
@@ -88,7 +90,7 @@ async function calculateExtraMinutesNeeded(ride: SupabaseRide, pickupCoords: str
   return (data.routes[0].duration - ride.duration) / 60
 }
 
-async function addRouteImage(ride: SupabaseRide, pickup: string) {
+async function addRouteImage(ride: ResObject, pickup: string) {
   const start: Coordinates = { latitude: ride.start_latitude, longitude: ride.start_longitude }
   const via: Coordinates = stringToCoordinates(pickup)
   const destination: Coordinates = {
@@ -99,14 +101,14 @@ async function addRouteImage(ride: SupabaseRide, pickup: string) {
   const geoJSON = await getGeoJSON(start, via, destination)
   const imageUrl = getImageUrl(geoJSON)
 
-  ride.imageUrl = imageUrl
+  return { ...ride, image_url: imageUrl }
 }
 
 async function getGeoJSON(start: Coordinates, via: Coordinates, destination: Coordinates) {
   const baseUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/`
 
   const params = new URLSearchParams([
-    ['access_token', process.env.NEXT_PUBLIC_MAPBOX_KEY as string],
+    ['access_token', process.env.PRIVATE_MAPBOX_KEY as string],
     ['geometries', 'geojson'],
   ])
 
@@ -119,7 +121,7 @@ async function getGeoJSON(start: Coordinates, via: Coordinates, destination: Coo
 
 function getImageUrl(geoJSON: any) {
   const url = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(${encodeURIComponent(
-    geoJSON
+    JSON.stringify(geoJSON)
   )})/auto/600x800?`
   const params = new URLSearchParams([
     ['access_token', process.env.NEXT_PUBLIC_MAPBOX_KEY as string],
