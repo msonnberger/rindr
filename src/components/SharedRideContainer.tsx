@@ -36,15 +36,15 @@ export default function SharedRideContainer({ ride }: SharedRideContainerProps) 
     }
   }
   return (
-    <div className="bg-emerald-100 p-5 rounded-3xl flex relative flex-row items-center">
+    <div className="bg-emerald-100 p-3 xs:p-5 rounded-3xl flex relative flex-row items-center">
       <Image
         src="/car-orange.svg"
         alt="Cow-Image"
         width={40}
         className="absolute hidden xs:block"
       />
-      <div className="w-full flex flex-row xs:ml-14 justify-between items-center">
-        <div className="flex flex-col">
+      <div className="w-full flex flex-row xs:ml-14 justify-between items-center gap-x-5">
+        <div className="flex flex-col w-3/5">
           <p>
             From: <b>{ride.start_location}</b>
           </p>
@@ -52,7 +52,7 @@ export default function SharedRideContainer({ ride }: SharedRideContainerProps) 
             To: <b>{ride.destination_location}</b>
           </p>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col w-1/5">
           <p>
             Date: <b>{formatDate(new Date(ride.departure))}</b>
           </p>
