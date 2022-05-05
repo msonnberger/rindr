@@ -1,14 +1,12 @@
-import { faChevronDown, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Emerald, Orange, Slate } from '@styles/colors'
+import { Slate } from '@styles/colors'
 import Image from '@components/Image'
 
 interface SwiperUserInfoProps {
   firstName: string | undefined
   lastName: string | undefined
   department: string | undefined
-  thumbsUpCount: number | undefined
-  thumbsDownCount: number | undefined
   pictureUrl: string | undefined
   withArrow: boolean
 }
@@ -16,8 +14,6 @@ export default function SwiperUserInfo({
   firstName,
   lastName,
   department,
-  thumbsUpCount,
-  thumbsDownCount,
   pictureUrl,
   withArrow,
 }: SwiperUserInfoProps) {
@@ -34,16 +30,7 @@ export default function SwiperUserInfo({
           </p>
           <p className="font-light text-slate-800">{department}</p>
         </div>
-        <div className="flex flex-col gap-2">
-          <div className="bg-slate-200 rounded-2xl flex items-center justify-between pl-2 pr-2 gap-2">
-            <FontAwesomeIcon icon={faThumbsUp} color={Emerald[500]} />
-            <p className="font-light">{thumbsUpCount ? thumbsUpCount : '0'}</p>
-          </div>
-          <div className="bg-slate-200 rounded-2xl flex items-center justify-between pl-2 pr-2 gap-2">
-            <FontAwesomeIcon icon={faThumbsDown} color={Orange[500]} />
-            <p className="font-light">{thumbsDownCount ? thumbsDownCount : '0'}</p>
-          </div>
-        </div>
+
         {pictureUrl && (
           <Image
             src={pictureUrl}
@@ -52,7 +39,9 @@ export default function SwiperUserInfo({
           />
         )}
       </div>
-      {withArrow && <FontAwesomeIcon icon={faChevronDown} color={Slate[500]} className="mt-1" />}
+      {withArrow && (
+        <FontAwesomeIcon icon={faChevronDown} color={Slate[800]} size="lg" className="mt-1" />
+      )}
     </div>
   )
 }

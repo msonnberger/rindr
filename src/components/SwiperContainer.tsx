@@ -94,13 +94,12 @@ export const SwiperContainer = ({
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
     // @ts-ignore
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
-    //TODO: Karte bleibt erhalten
   }
 
   return (
-    <>
+    <div className="relative top-0">
       <button
-        className="rounded-3xl flex items-center justify-center bg-sky-400 py-2 pl-4 pr-4 text-white fit-content w-max absolute right-0 top-16"
+        className="rounded-3xl flex items-center justify-center bg-sky-400 py-2 pl-4 pr-4 text-white fit-content w-max absolute right-0 -top-16"
         onClick={() => setOpenFilter(true)}
       >
         <FontAwesomeIcon icon={faRoute} size="lg" />
@@ -117,7 +116,6 @@ export const SwiperContainer = ({
                 <TinderCard
                   // @ts-ignore
                   ref={childRefs[key]}
-                  key={key}
                   className="absolute z-0"
                   onSwipe={(dir) => onSwipe(dir, key)}
                   onCardLeftScreen={() => outOfFrame(card.driver?.first_name, key)}
@@ -130,6 +128,6 @@ export const SwiperContainer = ({
           )
         })}
       </div>
-    </>
+    </div>
   )
 }

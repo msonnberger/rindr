@@ -71,13 +71,14 @@ export default function RideDateContainer({ ride }: RideDateContainerProps) {
       <div className="w-full flex flex-row ml-14 justify-between items-center">
         {Campuses.find((campusObject) => campusObject.name == ride.destination_location) ? (
           <p>
-            <b>{firstName}</b> picks you up from {ride.via_point_location} at{' '}
-            <b>{pickupTime && formatTime(new Date(pickupTime))}!</b>
+            <span className="font-bold">{firstName}</span> picks you up from{' '}
+            {ride.via_point_location} at{' '}
+            <span className="font-bold">{pickupTime && formatTime(new Date(pickupTime))}!</span>
           </p>
         ) : (
           <p>
-            <b>{firstName}</b> picks you up from {ride.start_location} at{' '}
-            <b>{formatTime(new Date(ride.departure))}</b>!
+            <span className="font-bold">{firstName}</span> picks you up from {ride.start_location}{' '}
+            at <span className="font-bold">{formatTime(new Date(ride.departure))}</span>!
           </p>
         )}
       </div>

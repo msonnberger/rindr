@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { SetupProfileFormValues } from 'src/types/main'
+import { SetupProfileFormValues, SupabaseUser } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
 import { LocationInput, NumberInput, TagsInput, TextAreaInput, TextInput } from '@components/inputs'
 import Button from './Button'
@@ -61,22 +61,21 @@ export default function SetupProfile() {
 
     if (formData.hasNoCar) {
       formData.carModel = undefined
-      formData.carColor = undefined
       formData.availableSeats = undefined
     }
 
-    const { data, error } = await supabase.from('users').insert({
+    const { data, error } = await supabase.from<SupabaseUser>('users').insert({
       id: session.user.id,
       email: session.user.email,
       first_name: session.user.firstName,
       last_name: session.user.lastName,
+      department: session.user.department,
       bio: formData.bio,
-      picture_url: publicURL,
+      picture_url: publicURL as string,
       interests: formData.interests?.map((interest) => interest.tag),
       music: formData.music,
       car_model: formData.carModel,
       available_seats: formData.availableSeats,
-      car_color: formData.carColor,
       latitude: formData.latitude,
       longitude: formData.longitude,
       location: formData.location,
@@ -108,7 +107,7 @@ export default function SetupProfile() {
       <h2 className="mt-3 text-lg">Please finish setting up your profile.</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-12 flex max-w-lg flex-col items-start gap-8 w-full"
+        className="mt-10 flex max-w-lg flex-col items-start gap-8 w-full"
       >
         <label className="relative cursor-pointer self-center" htmlFor="picture">
           {picturePreview ? (
@@ -170,14 +169,16 @@ export default function SetupProfile() {
                 tailwindBgClass="bg-rose-500"
                 icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
               />
-
-              <NumberInput
-                placeholder="2"
-                register={register}
-                name="availableSeats"
-                tailwindBgClass="bg-rose-500"
-                icon={<FontAwesomeIcon icon={faCouch} color="white" />}
-              />
+              <div className="relative">
+                <NumberInput
+                  placeholder="2"
+                  register={register}
+                  name="availableSeats"
+                  tailwindBgClass="bg-rose-500"
+                  icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+                />
+                <p className="font-light absolute top-3 left-32">seats</p>
+              </div>
             </div>
           </div>
         )}
@@ -185,7 +186,7 @@ export default function SetupProfile() {
         <div className="flex flex-col gap-3">
           <h3 className="text-left font-bold">Interests</h3>
           <TagsInput control={control} register={register} />
-
+          <h3 className="text-left font-bold">Music</h3>
           <TextInput
             placeholder="What music do you listen to?"
             register={register}
@@ -199,14 +200,15 @@ export default function SetupProfile() {
           />
           {errors.music && <FormError message={errors.music.message} />}
         </div>
-
-        <Button
-          buttonType="submit"
-          text="save profile"
-          bgColor="bg-rose-700"
-          textColor="text-white"
-          fontWeight="semibold"
-        />
+        <div className="w-full flex justify-center">
+          <Button
+            buttonType="submit"
+            text="save profile"
+            bgColor="bg-rose-700"
+            textColor="text-white"
+            fontWeight="semibold"
+          />
+        </div>
       </form>
     </div>
   )

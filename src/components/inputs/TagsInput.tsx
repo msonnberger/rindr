@@ -67,7 +67,7 @@ export default function TagsInput({ control, register }: TagsInputProps) {
               disabled
               placeholder="new tag..."
               {...register(`interests.${index}.tag` as const)}
-              className="max-w-[6rem] bg-inherit pl-3 font-medium"
+              className="max-w-[6rem] bg-inherit pl-3 font-medium text-ellipsis"
             />
 
             <button

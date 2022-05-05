@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { Campuses, LocationObject, SupabaseRide } from 'src/types/main'
 import { combineCoordinates } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
+import Button from '@components/Button'
 import Image from '@components/Image'
 import SelectSuggestions from './SelectSuggestions'
 
@@ -167,13 +168,14 @@ export default function ShareRideForm() {
         />
       </label>
       <div className="w-full flex flex-col items-center mt-10">
-        <button
-          className="rounded-3xl flex items-center justify-center bg-emerald-400 py-3 pl-4 pr-4 font-bold text-white fit-content w-max"
+        <Button
+          text="SHARE RIDE"
+          bgColor="bg-emerald-400"
+          buttonType="button"
+          textColor="text-white"
+          fontWeight="bold"
           onClick={handleSubmit}
-        >
-          {/*TODO use Button Primary*/}
-          SHARE RIDE
-        </button>
+        />
         <Image src="/car-share-ride.svg" alt="Cow in the car" className="mt-10" />
       </div>
     </>
