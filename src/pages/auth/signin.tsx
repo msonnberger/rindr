@@ -14,7 +14,7 @@ export default function SignIn({ callbackUrl }: SignInProps) {
         <Heading title="Welcome to Rindr!" color={fgStylings.Sky} marginTop="mt-10" />
       </div>
 
-      <svg xmlns="http://www.w3.org/2000/svg" width="394" height="394" viewBox="0 0 394 394">
+      <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 394 394">
         <g id="Gruppe_4" data-name="Gruppe 4" transform="translate(-1490 -63)">
           <circle
             id="Ellipse_16"
