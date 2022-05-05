@@ -37,8 +37,13 @@ export default function SharedRideContainer({ ride }: SharedRideContainerProps) 
   }
   return (
     <div className="bg-emerald-100 p-5 rounded-3xl flex relative flex-row items-center">
-      <Image src="/car-orange.svg" alt="Cow-Image" width={40} className="absolute" />
-      <div className="w-full flex flex-row ml-14 justify-between items-center">
+      <Image
+        src="/car-orange.svg"
+        alt="Cow-Image"
+        width={40}
+        className="absolute hidden sm:block"
+      />
+      <div className="w-full flex flex-row sm:ml-14 justify-between items-center">
         <div className="flex flex-col">
           <p>
             From: <b>{ride.start_location}</b>
@@ -56,7 +61,7 @@ export default function SharedRideContainer({ ride }: SharedRideContainerProps) 
           </p>
         </div>
         <button
-          className="bg-slate-400 h-10 w-10 bg-opacity-50 rounded-3xl items-center justify-center flex"
+          className="bg-slate-400 h-10 w-10 bg-opacity-50 rounded-3xl items-center justify-center flex min-w-10/4r ml-1"
           onClick={() => deleteSharedRide()}
         >
           <FontAwesomeIcon icon={faClose} size="lg" color="white" />
