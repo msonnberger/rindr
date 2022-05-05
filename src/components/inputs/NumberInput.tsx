@@ -19,7 +19,7 @@ export default function NumberInput({
   disabled,
 }: NumInputProps) {
   return (
-    <div className={`flex w-40 gap-4 rounded-full bg-slate-100 p-2 ${!icon && 'pl-5'}`}>
+    <div className={`flex w-28 gap-4 rounded-full bg-slate-100 p-2 ${!icon && 'pl-5'}`}>
       {icon && (
         <div className={`${tailwindBgClass} grid h-8 w-8 place-items-center rounded-full`}>
           {icon}

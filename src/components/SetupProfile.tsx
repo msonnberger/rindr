@@ -169,14 +169,16 @@ export default function SetupProfile() {
                 tailwindBgClass="bg-rose-500"
                 icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
               />
-
-              <NumberInput
-                placeholder="2"
-                register={register}
-                name="availableSeats"
-                tailwindBgClass="bg-rose-500"
-                icon={<FontAwesomeIcon icon={faCouch} color="white" />}
-              />
+              <div className="relative">
+                <NumberInput
+                  placeholder="2"
+                  register={register}
+                  name="availableSeats"
+                  tailwindBgClass="bg-rose-500"
+                  icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+                />
+                <p className="font-light absolute top-3 left-32">seats</p>
+              </div>
             </div>
           </div>
         )}
