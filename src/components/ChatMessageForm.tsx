@@ -32,8 +32,8 @@ export default function ChatMessageForm({ channelId, receiverId }: FormProps) {
     setNewMessage('')
   }
 
+  // @ts-ignore
   async function handleEnter(event) {
-    //event.preventDefault()
     if (event.key === 'Enter') {
       const { error } = await supabase.from('chat_messages').insert({
         content: newMessage,

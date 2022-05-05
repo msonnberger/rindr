@@ -102,10 +102,8 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
   const canSwipe = currentIndex >= 0
 
   const swipe = async (dir: string) => {
-    console.log(childRefs, 'childRefs')
-    console.log(dir, 'DIR')
     if (canSwipe && currentIndex < swiperCards.length) {
-      await childRefs[currentIndex].current.swipe(dir) // Swipe the card!
+      await childRefs[currentIndex].current.swipe(dir) // Swipe the card
     }
   }
 
