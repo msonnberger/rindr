@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { NextPage } from 'next'
 import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { SetupProfileFormValues } from 'src/types/main'
@@ -21,6 +22,7 @@ import { LocationInput, NumberInput, TagsInput, TextAreaInput, TextInput } from 
 
 const Profile: NextPage = () => {
   const { data: session } = useSession()
+  const router = useRouter()
 
   const {
     register,
@@ -162,6 +164,7 @@ const Profile: NextPage = () => {
     }
 
     alert('User successfully deleted!')
+    router.replace('/')
   }
 
   return (
