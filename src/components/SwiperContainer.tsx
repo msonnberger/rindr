@@ -2,7 +2,7 @@
 import { faRoute } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
-import { RefObject, createRef, useMemo, useRef, useState } from 'react'
+import { createRef, useMemo, useRef, useState } from 'react'
 import TinderCard from 'react-tinder-card'
 import { Campuses } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
@@ -19,10 +19,10 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
     user: session?.user,
     ride: {
       id: '518a1dae-a874-4d4c-a0a4-ffd4763fba29',
-      driver_id: session?.user.id,
+      driver_id: session?.user.id as string,
       passenger_id: '',
-      start_latitude: session?.user.latitude,
-      start_longitude: session?.user.longitude,
+      start_latitude: session?.user.latitude as number,
+      start_longitude: session?.user.longitude as number,
       start_location: 'home',
       destination_latitude: Campuses[0].latitude,
       destination_longitude: Campuses[0].longitude,
@@ -141,6 +141,7 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
                   onCardLeftScreen={() => outOfFrame(card.user?.firstName, key)}
                   preventSwipe={['down']}
                 >
+                  {/* @ts-ignore */}
                   <SwiperCard
                     setOpenedProfile={setOpenedProfile}
                     user={card.user}
