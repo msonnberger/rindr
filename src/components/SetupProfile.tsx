@@ -184,7 +184,7 @@ export default function SetupProfile() {
         <div className="flex flex-col gap-3">
           <h3 className="text-left font-bold">Interests</h3>
           <TagsInput control={control} register={register} />
-
+          <h3 className="text-left font-bold">Music</h3>
           <TextInput
             placeholder="What music do you listen to?"
             register={register}
@@ -198,14 +198,15 @@ export default function SetupProfile() {
           />
           {errors.music && <FormError message={errors.music.message} />}
         </div>
-
-        <Button
-          buttonType="submit"
-          text="save profile"
-          bgColor="bg-rose-700"
-          textColor="text-white"
-          fontWeight="semibold"
-        />
+        <div className="w-full flex justify-center">
+          <Button
+            buttonType="submit"
+            text="save profile"
+            bgColor="bg-rose-700"
+            textColor="text-white"
+            fontWeight="semibold"
+          />
+        </div>
       </form>
     </div>
   )
