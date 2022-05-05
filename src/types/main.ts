@@ -143,7 +143,7 @@ export interface RequestsJoinRides {
   accepted_passenger_id: string
   via_point_latitude: number
   via_point_longitude: number
-  via_point_location: number
+  via_point_location: string
 }
 
 export declare type RequestsByDate = Record<string, RequestsJoinRides[]>
