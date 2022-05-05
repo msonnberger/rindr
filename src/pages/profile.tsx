@@ -18,6 +18,7 @@ import { SpinnerCircular } from 'spinners-react'
 import { SetupProfileFormValues } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
 import Button from '@components/Button'
+import Heading from '@components/Heading'
 import Image from '@components/Image'
 import Layout from '@components/Layout'
 import { LocationInput, NumberInput, TagsInput, TextAreaInput, TextInput } from '@components/inputs'
@@ -188,6 +189,7 @@ const Profile: NextPage = () => {
           </Head>
           <Layout>
             <div className="flex flex-col items-center">
+              <Heading title="Profile" color="text-rose-500 mb-6" />
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex max-w-lg flex-col items-start gap-8 w-full"
@@ -312,14 +314,15 @@ const Profile: NextPage = () => {
                   />
                   {errors.music && <FormError message={errors.music.message} />}
                 </div>
-
-                <Button
-                  buttonType="submit"
-                  text="save profile"
-                  bgColor="bg-rose-700"
-                  textColor="text-white"
-                  fontWeight="semibold"
-                />
+                <div className="w-full flex justify-center">
+                  <Button
+                    buttonType="submit"
+                    text="save profile"
+                    bgColor="bg-rose-700"
+                    textColor="text-white"
+                    fontWeight="semibold"
+                  />
+                </div>
               </form>
             </div>
           </Layout>
