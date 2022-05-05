@@ -1,10 +1,10 @@
-import { faArrowLeft, faPlay } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faHeadphones } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { User } from 'src/types/main'
-import { getRandomInt } from '@utils/functions'
-import { Rose, Slate } from '@styles/colors'
+import { Slate } from '@styles/colors'
 import Image from './Image'
 import SwiperUserInfo from './SwiperUserInfo'
+import Tag from './Tag'
 
 interface SwiperProfileProps {
   profileInfos: Partial<User> & { mapUrl: string }
@@ -12,12 +12,6 @@ interface SwiperProfileProps {
 }
 
 export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfileProps) {
-  const randomColor = () => {
-    const random = getRandomInt(1, 9) * 100
-    const textColor = random < 500 ? Rose[900] : Rose[50]
-    // @ts-ignore
-    return { bgColor: Rose[random], textColor: textColor }
-  }
   return (
     <div className="relative z-10 rounded-3xl h-auto max-w-[450px] flex flex-col left-0 right-0">
       <div className="h-[500px] rounded-3xl p-4 relative">
@@ -36,9 +30,9 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
         <div className="absolute bottom-0 mb-2 left-2 right-4">
           <SwiperUserInfo
             pictureUrl={profileInfos.pictureUrl}
-            department={profileInfos.department}
             firstName={profileInfos.firstName}
             lastName={profileInfos.lastName}
+            music={profileInfos.music}
             withArrow={false}
           />
         </div>
@@ -50,23 +44,14 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
         <p className="mb-3 text-left font-bold mt-4">Interests</p>
         <div className="flex flex-wrap gap-3">
           {profileInfos.interests &&
-            profileInfos.interests.map((tag, key) => {
-              const { bgColor, textColor } = randomColor()
-              return (
-                <div
-                  key={key}
-                  className="group relative flex gap-4 rounded-full bg-slate-100 pl-4 pr-4 py-2"
-                  style={{ backgroundColor: bgColor, color: textColor }}
-                >
-                  <p className="text-white">{tag}</p>
-                </div>
-              )
-            })}
+            profileInfos.interests.map((tag, key) => (
+              <Tag key={key} text={tag} className="pl-4 pr-4 py-2" />
+            ))}
         </div>
         <p className="mb-3 text-left font-bold mt-4">Music</p>
         <div className="flex flex-row min-h-[120px]">
           <div className="bg-orange-400 h-7 w-8 rounded-full flex justify-center items-center">
-            <FontAwesomeIcon icon={faPlay} color="white" size="1x" />
+            <FontAwesomeIcon icon={faHeadphones} color="white" size="1x" />
           </div>
           <p className="font-light ml-3 overflow-hidden overflow-ellipsis whitespace-nowrap mr-3">
             {profileInfos.music}

@@ -49,7 +49,7 @@ export const SwiperCard = ({ driver, ride, swipe }: SwiperCardProps) => {
           alt="Image of a map showing the route"
           className="absolute rounded-3xl h-full w-full"
         />
-        <div className="flex flex-row justify-center items-center bg-slate-50 bg-opacity-50 absolute top-0 mt-2 right-2 left-2 rounded-3xl h-10">
+        <div className="flex flex-row justify-center items-center bg-slate-50 bg-opacity-50 absolute top-0 mt-2 right-2 left-2 rounded-3xl h-16">
           <div className="flex items-center justify-center bg-sky-400 rounded-2xl py-1 pl-3 pr-3 absolute left-1">
             <p className="text-white font-bold">{formatTime(new Date(ride.arrival))}</p>
           </div>
@@ -61,9 +61,10 @@ export const SwiperCard = ({ driver, ride, swipe }: SwiperCardProps) => {
         <div className="absolute bottom-0 mb-2 left-2 right-2">
           <SwiperUserInfo
             pictureUrl={driver.picture_url}
-            department={driver.department}
             firstName={driver.first_name}
             lastName={driver.last_name}
+            music={driver.music}
+            interests={driver.interests}
             withArrow={true}
           />
         </div>
