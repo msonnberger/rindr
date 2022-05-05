@@ -169,7 +169,6 @@ export default function SetupProfile() {
                 name="carModel"
                 tailwindBgClass="bg-rose-500"
                 icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
-                disabled={watch('hasNoCar')}
               />
 
               <NumberInput
@@ -178,13 +177,12 @@ export default function SetupProfile() {
                 name="availableSeats"
                 tailwindBgClass="bg-rose-500"
                 icon={<FontAwesomeIcon icon={faCouch} color="white" />}
-                disabled={watch('hasNoCar')}
               />
             </div>
           </div>
         )}
 
-        <div className='flex flex-col gap-3'>
+        <div className="flex flex-col gap-3">
           <h3 className="text-left font-bold">Interests</h3>
           <TagsInput control={control} register={register} />
 
@@ -198,7 +196,6 @@ export default function SetupProfile() {
             name="music"
             tailwindBgClass="bg-rose-500"
             icon={<FontAwesomeIcon icon={faHeadphones} color="white" />}
-            disabled={watch('hasNoCar')}
           />
           {errors.music && <FormError message={errors.music.message} />}
         </div>
