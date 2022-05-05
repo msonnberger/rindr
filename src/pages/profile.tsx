@@ -23,6 +23,7 @@ import { LocationInput, NumberInput, TagsInput, TextAreaInput, TextInput } from 
 
 const Profile: NextPage = () => {
   const { data: session } = useSession()
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
 
   const {
@@ -39,7 +40,7 @@ const Profile: NextPage = () => {
   })
 
   useEffect(() => {
-    if (session) {
+    if (session?.user) {
       // If someone knows a better syntax, please tell me
       setValue('location', session.user.location)
       setValue('longitude', session.user.longitude)
@@ -54,6 +55,13 @@ const Profile: NextPage = () => {
         session.user.interests?.map((tag) => ({ tag: tag }))
       )
       setValue('music', session.user.music)
+      console.log('useeffect in')
+
+      if (session.user.location) {
+        console.log('innnn')
+
+        setLoading(false)
+      }
     }
   }, [session])
 
@@ -126,6 +134,7 @@ const Profile: NextPage = () => {
     }
 
     alert('The profile has been updated')
+    router.replace('/profile')
   }
 
   const [hasCar, setHasCar] = useState(true)
@@ -173,7 +182,7 @@ const Profile: NextPage = () => {
 
   return (
     <>
-      {session?.user.id ? (
+      {!loading ? (
         <>
           <Head>
             <title>Profile</title>
