@@ -1,7 +1,9 @@
+import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { Campuses, Location, SupabaseRide } from 'src/types/main'
+import { Campuses, LocationObject, SupabaseRide } from 'src/types/main'
 import { combineCoordinates } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
 import Image from '@components/Image'
@@ -17,8 +19,10 @@ export default function ShareRideForm() {
   }
 
   const router = useRouter()
-  const [locationInput, setLocationInput] = useState<Location>(Campuses[0])
-  const [destinationInput, setDestinationInput] = useState<Location>(home)
+  const [locationInput, setLocationInput] = useState<LocationObject>(home)
+  const [locationOptions, setLocationOptions] = useState<Array<LocationObject>>([home])
+  const [destinationInput, setDestinationInput] = useState<LocationObject>(Campuses[0])
+  const [destinationOptions, setDestinationOptions] = useState<Array<LocationObject>>(Campuses)
   const [dateInput, setDateInput] = useState(new Date().toISOString().split('T')[0])
   const [timeInput, setTimeInput] = useState('08:00')
   const [thresholdInput, setThresholdInput] = useState(25)
@@ -62,7 +66,11 @@ export default function ShareRideForm() {
     router.push('/rides')
   }
 
-  const getRideDuration = async (start: Location, destination: Location, departure: string) => {
+  const getRideDuration = async (
+    start: LocationObject,
+    destination: LocationObject,
+    departure: string
+  ) => {
     const baseUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/`
 
     const params = new URLSearchParams([
@@ -77,6 +85,15 @@ export default function ShareRideForm() {
     return data.routes[0].duration
   }
 
+  const ExchangeLocation = (ev: any) => {
+    ev.preventDefault()
+    setDestinationInput(locationInput)
+    setLocationInput(destinationInput)
+    let tempOptions = destinationOptions
+    setDestinationOptions(locationOptions)
+    setLocationOptions(tempOptions)
+  }
+
   return (
     <>
       <div className="mt-5">
@@ -85,23 +102,31 @@ export default function ShareRideForm() {
           <SelectSuggestions
             selectedColor="bg-emerald-700"
             defaultColor="bg-emerald-400"
+            selected={locationInput}
             setInput={setLocationInput}
-            options={[...Campuses, home]}
+            options={locationOptions}
           />
         )}
       </div>
+      <button
+        className="w-6 h-6 bg-emerald-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3"
+        onClick={(ev) => ExchangeLocation(ev)}
+      >
+        <FontAwesomeIcon icon={faRightLeft} color="white" rotation={90} />
+      </button>
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">to</p>
         {Campuses && (
           <SelectSuggestions
             selectedColor="bg-emerald-700"
             defaultColor="bg-emerald-400"
+            selected={destinationInput}
             setInput={setDestinationInput}
-            options={[home, ...Campuses]}
+            options={destinationOptions}
           />
         )}
       </div>
-      <div className="flex flex-row w-full gap-10">
+      <div className="flex flex-row w-full gap-6">
         <label htmlFor="date" className="mt-5">
           <p className="font-light mt-6 mb-2">date</p>
           <input

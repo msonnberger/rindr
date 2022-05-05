@@ -11,19 +11,22 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
-      maxHeight: {
-        '90v': '90vh',
-      },
       height: {
         '600px': '600px',
         '450px': '450px',
         '520px': '520px',
+      },
+      maxHeight: {
+        '90v': '90vh',
       },
       animation: {
         slideIn: '1s ease-out 0s 1 slideIn',
       },
       width: {
         'fit-content': 'fit-content',
+      },
+      minWidth: {
+        '10/4r': '2.5rem',
       },
       keyframes: {
         slideIn: {
@@ -33,6 +36,9 @@ module.exports = {
       },
       borderRadius: {
         '4xl': '50px',
+      },
+      screens: {
+        "xs": '400px',
       },
     },
   },

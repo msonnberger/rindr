@@ -1,5 +1,6 @@
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 import { supabase } from '@utils/supabaseClient'
 import { Sky } from '@styles/colors'
@@ -10,7 +11,8 @@ interface FormProps {
 }
 
 export default function ChatMessageForm({ channelId, receiverId }: FormProps) {
-  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
+  const { data: session } = useSession()
+  const user = { id: session?.user.id }
   const [newMessage, setNewMessage] = useState('')
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -30,6 +32,27 @@ export default function ChatMessageForm({ channelId, receiverId }: FormProps) {
     setNewMessage('')
   }
 
+  // @ts-ignore
+  async function handleEnter(event) {
+    if (event.key === 'Enter') {
+      const { error } = await supabase.from('chat_messages').insert({
+        content: newMessage,
+        channel_id: channelId,
+        sender_id: user.id,
+        receiver_id: receiverId,
+      })
+
+      if (error) {
+        alert('Could not send message')
+      }
+
+      setNewMessage('')
+    } else {
+      // @ts-ignore
+      setNewMessage(event.target.value)
+    }
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -40,6 +63,7 @@ export default function ChatMessageForm({ channelId, receiverId }: FormProps) {
         onChange={(e) => setNewMessage(e.target.value)}
         placeholder="Type something..."
         rows={1}
+        onKeyDown={handleEnter}
         className="ml-3 w-full resize-none bg-transparent font-light text-slate-50 placeholder-slate-50 outline-none"
       />
 

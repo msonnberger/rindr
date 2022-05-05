@@ -1,14 +1,11 @@
-export const convertRanking = (place: string) => {
-  switch (place) {
-    case '1':
-      return 'first'
-    case '2':
-      return 'second'
-    case '3':
-      return 'third'
-    default:
-      return `${place}th`
-  }
+export const convertRanking = (ranking: number) => {
+  const a = ranking % 10
+  const b = ranking % 100
+
+  if (a == 1 && b != 11) return ranking + 'st'
+  if (a == 2 && b != 12) return ranking + 'nd'
+  if (a == 3 && b != 13) return ranking + 'rd'
+  return ranking + 'th'
 }
 
 export const convertPlural = (count: number, word: string) => {

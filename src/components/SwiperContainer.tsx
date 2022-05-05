@@ -2,62 +2,65 @@
 import { faRoute } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
-import { createRef, useMemo, useRef, useState } from 'react'
+import { Fragment, createRef, useMemo, useRef, useState } from 'react'
 import TinderCard from 'react-tinder-card'
-import { Campuses } from 'src/types/main'
-import { SwiperCard } from './SwiperCard'
+import { FindRideResponse } from 'src/types/main'
+import { supabase } from '@utils/supabaseClient'
+import { SwiperCard } from '@components/SwiperCard'
 
 interface SwiperContainerProps {
+  swiperCards: FindRideResponse[]
   setOpenFilter: any
   setOpenedProfile: any
 }
-export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperContainerProps) => {
-  const { data: session } = useSession()
 
-  const swiperCard = {
-    user: session?.user,
-    ride: {
-      id: '1234',
-      driver_id: session?.user.id,
-      passenger_id: '',
-      start_latitude: session?.user.latitude,
-      start_longitude: session?.user.longitude,
-      start_location: 'home',
-      destination_latitude: Campuses[0].latitude,
-      destination_longitude: Campuses[0].longitude,
-      destination_location: Campuses[0].name,
-      departure: '2022-05-03T12:00:00Z',
-      arrival: '2022-05-03T12:30:00Z',
-      duration: 30,
-    },
-  }
-  const [swiperCards] = useState([swiperCard])
+export const SwiperContainer = ({
+  swiperCards,
+  setOpenFilter,
+  setOpenedProfile,
+}: SwiperContainerProps) => {
   const [currentIndex, setCurrentIndex] = useState(swiperCards.length - 1)
   const currentIndexRef = useRef(currentIndex)
+  const { data: session } = useSession()
 
-  //TODO: get all filtered Rides and show them as a swiper-tindercard and commit the proper user object
+  async function sendRideRequest(index: number) {
+    const ride: any = swiperCards[index].ride
+    if (!session) {
+      alert('Looks like you are not logged in. Please try reloading the page.')
+      return
+    }
+
+    const { data, error } = await supabase.from('ride_requests').insert({
+      ride_id: ride.id,
+      passenger_id: session?.user.id,
+      status: 'pending',
+    })
+
+    if (error || !data) {
+      alert('Something went wrong. Please try again later.')
+      return
+    }
+  }
 
   const onSwipe = (direction: string, index: number) => {
     updateCurrentIndex(index - 1)
     if (direction === 'right') {
-      //TODO: API new RideRequest
-      console.log('RIGHT', index)
+      sendRideRequest(index)
     }
     if (direction === 'up') {
-      console.log('UP', index)
-      const current = swiperCards[currentIndex].user
-      if (swiperCards[currentIndex].user) {
-        console.log('USER')
+      const current = swiperCards[currentIndex].driver
+      if (swiperCards[currentIndex].driver) {
         setOpenedProfile({
-          firstName: current?.firstName,
-          lastName: current?.lastName,
+          firstName: current.first_name,
+          lastName: current.last_name,
           department: current?.department,
-          thumbsUpCount: current?.thumbsUpCount,
-          thumbsDownCount: current?.thumbsDownCount,
-          pictureUrl: current?.pictureUrl,
+          thumbsUpCount: current?.thumbs_up_count,
+          thumbsDownCount: current?.thumbs_down_count,
+          pictureUrl: current?.picture_url,
           bio: current?.bio,
           interests: current?.interests,
           music: current?.music,
+          mapUrl: swiperCards[currentIndex].ride.image_url,
         })
         setCurrentIndex(index)
       } else {
@@ -81,15 +84,15 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
   const canSwipe = currentIndex >= 0
 
   const swipe = async (dir: string) => {
-    console.log(childRefs, 'childRefs')
-    console.log(dir, 'DIR')
     if (canSwipe && currentIndex < swiperCards.length) {
-      await childRefs[currentIndex].current.swipe(dir) // Swipe the card!
+      // @ts-ignore
+      await childRefs[currentIndex].current.swipe(dir) // Swipe the card
     }
   }
 
   const outOfFrame = (name: string | undefined, idx: number) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
+    // @ts-ignore
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
     //TODO: Karte bleibt erhalten
   }
@@ -107,27 +110,23 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
         {currentIndexRef.current == -1 && (
           <p className="text-sky-400 mt-14 text-lg">No Rides left...</p>
         )}
-        {[swiperCard, swiperCard].map((card, key) => {
+        {swiperCards.map((card, key) => {
           return (
-            <>
-              {card.user && (
+            <Fragment key={card.ride.id}>
+              {card.driver && (
                 <TinderCard
+                  // @ts-ignore
                   ref={childRefs[key]}
                   key={key}
                   className="absolute z-0"
                   onSwipe={(dir) => onSwipe(dir, key)}
-                  onCardLeftScreen={() => outOfFrame(card.user?.firstName, key)}
+                  onCardLeftScreen={() => outOfFrame(card.driver?.first_name, key)}
                   preventSwipe={['down']}
                 >
-                  <SwiperCard
-                    setOpenedProfile={setOpenedProfile}
-                    user={card.user}
-                    ride={card.ride}
-                    swipe={swipe}
-                  />
+                  <SwiperCard driver={card.driver} ride={card.ride} swipe={swipe} />
                 </TinderCard>
               )}
-            </>
+            </Fragment>
           )
         })}
       </div>

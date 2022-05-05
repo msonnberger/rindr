@@ -52,7 +52,7 @@ export default function SetupProfile() {
       .upload(uid, formData.picture[0])
 
     if (uploadError) {
-      console.log(uploadError)
+      console.error(uploadError)
       alert('Something went wrong when uploading your image. Please try again later.')
       return
     }
@@ -101,7 +101,7 @@ export default function SetupProfile() {
   }
 
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col items-center">
       <h1 className="text-4xl font-bold text-rose-500">
         Welcome, {session && session.user.firstName}!
       </h1>
@@ -162,7 +162,7 @@ export default function SetupProfile() {
         {hasCar && (
           <div>
             <h3 className="mb-3 text-left font-bold">My car</h3>
-            <div className="flex flex-wrap items-start">
+            <div className="flex flex-wrap items-start gap-3">
               <TextInput
                 placeholder="Which car do you have?"
                 register={register}
@@ -172,7 +172,6 @@ export default function SetupProfile() {
                 disabled={watch('hasNoCar')}
               />
 
-              {/*<input type="number" {...register('availableSeats')} disabled={watch('hasNoCar')} /> */}
               <NumberInput
                 placeholder="2"
                 register={register}
@@ -185,8 +184,8 @@ export default function SetupProfile() {
           </div>
         )}
 
-        <div>
-          <h3 className="mb-3 text-left font-bold">Interests</h3>
+        <div className='flex flex-col gap-3'>
+          <h3 className="text-left font-bold">Interests</h3>
           <TagsInput control={control} register={register} />
 
           <TextInput

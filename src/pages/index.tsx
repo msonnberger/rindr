@@ -1,7 +1,7 @@
 import { faRoute, faUserGroup } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { NextPage } from 'next'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { fgStylings } from '@styles/colors'
@@ -22,6 +22,15 @@ const Profile: NextPage = () => {
         <Image alt="logo" src="/logo.svg" height={100} width={100} />
 
         <main className="flex w-full flex-1 flex-col items-center justify-center gap-8 px-20 text-center">
+          {session && (
+            <div className="mb-20">
+              <Heading
+                title={`Hi, ${session.user.firstName}!`}
+                color={fgStylings.Sky}
+                marginTop="mt-10"
+              />
+            </div>
+          )}
           <Link href="/share-ride" passHref>
             <div className="flex flex-row h-20 bg-emerald-200 items-center rounded-4xl cursor-pointer w-52">
               <div className="h-16 w-16 rounded-4xl bg-emerald-400 flex justify-center items-center ml-2">
@@ -38,36 +47,8 @@ const Profile: NextPage = () => {
               <p className="text-white font-bold ml-5 text-lg">Find Ride</p>
             </div>
           </Link>
-          <div className="">
-            {session ? (
-              <>
-                <Heading
-                  title={`Hi, ${session.user.firstName}!`}
-                  color={fgStylings.Sky}
-                  marginTop="mt-10"
-                />
-                <div className="flex items-center gap-5 mt-8">
-                  <Image
-                    src={session.user.pictureUrl}
-                    width={50}
-                    height={50}
-                    alt="Your profile picture"
-                  />
 
-                  <button className="font-bold text-blue-700 underline" onClick={() => signOut()}>
-                    Sign out
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <button className="font-bold text-blue-700 underline" onClick={() => signIn()}>
-                  Sign in
-                </button>
-              </>
-            )}
-          </div>
-          <h1 className="text-6xl font-bold">Rindr</h1>
+          <Link href="/impressum">Impressum</Link>
         </main>
       </Layout>
     </>

@@ -62,7 +62,7 @@ export default function LocationInput({ register, setValue }: LocationInputProps
             </div>
             <Combobox.Input
               placeholder="Where are you from?"
-              className="truncate bg-inherit focus:outline-none"
+              className="truncate bg-inherit focus:outline-none w-full"
               displayValue={(location: Location) => location.name}
               {...register('location', {
                 onChange: onInputChange,

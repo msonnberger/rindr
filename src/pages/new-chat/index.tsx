@@ -2,6 +2,7 @@ import { faAngleLeft, faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { GetServerSideProps, NextPage } from 'next'
+import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Fragment, useState } from 'react'
@@ -104,8 +105,9 @@ const NewChat: NextPage<NewChatProps> = ({ users, usersByFirstLetter }: NewChatP
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const userData = await getSession(context)
+  const user = { id: userData?.user.id }
 
   const { data: users, error } = await supabase
     .from('users')

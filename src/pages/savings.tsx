@@ -26,9 +26,9 @@ const Savings: NextPage = () => {
     const { count } = await supabase
       .from('users')
       .select('*', { count: 'exact' })
-      .gte('savings_co2', session?.user.savingsCo2)
+      .gt('savings_co2', session?.user.savingsCo2)
 
-    SetRanking(convertRanking(count?.toString() ?? ''))
+    SetRanking(convertRanking(count ?? 0))
   }
 
   return (

@@ -1,20 +1,17 @@
 import type { GetServerSideProps, NextPage } from 'next'
+import { useSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
 import { useEffect, useRef, useState } from 'react'
-import { MessagesByDate, SupabaseChatMessages, User } from 'src/types/main'
+import { MessagesByDate, SupabaseChatMessages } from 'src/types/main'
 import { formatTimestamp } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
 import ChatMessageForm from '@components/ChatMessageForm'
 import ChatMessages from '@components/ChatMessages'
 import ChatRoomHeader from '@components/ChatRoomHeader'
 import Layout from '@components/Layout'
-
-const user: Partial<User> = {
-  firstName: 'Juliane',
-  id: '4b824c28-6ac4-45ff-b175-56624c287706',
-}
 
 interface ChatRoomProps {
   otherUser: {
@@ -27,6 +24,7 @@ interface ChatRoomProps {
 }
 
 const ChatRoom: NextPage<ChatRoomProps> = ({ otherUser, initialMessagesByDate }: ChatRoomProps) => {
+  const { data: session } = useSession()
   const router = useRouter()
   const { id } = router.query
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
@@ -40,7 +38,7 @@ const ChatRoom: NextPage<ChatRoomProps> = ({ otherUser, initialMessagesByDate }:
 
   const handleNewMessage = (payload: any) => {
     const { id, content, created_at: timestamp, sender_id } = payload.new
-    const received = sender_id !== user.id
+    const received = sender_id !== session?.user.id
     setMessagesByDate((dateGroups) => {
       const dateString = formatTimestamp(timestamp)
 
@@ -140,7 +138,8 @@ interface Params extends ParsedUrlQuery {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const user = { id: '4b824c28-6ac4-45ff-b175-56624c287706' }
+  const userData = await getSession(context)
+  const user = { id: userData?.user.id }
   const { id: channelId } = context.params as Params
   const channel = await fetchChannel(channelId)
 
