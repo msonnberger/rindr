@@ -1,8 +1,10 @@
 //import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
-import { Campuses } from 'src/types/main'
+import { useState } from 'react'
+import { Campuses, LocationObject } from 'src/types/main'
 import Image from '@components/Image'
 import SelectSuggestions from './SelectSuggestions'
 
@@ -19,16 +21,18 @@ export default function FindRideForm({
   setDestination,
   setLocation,
 }: FindRideFormProps) {
-  const [destinationInput, setDestinationInput] = useState<Location>()
-  const [dateInput, setDateInput] = useState('')
-  const [locationInput, setLocationInput] = useState<Location>()
   const { data: session } = useSession()
 
-  const home = {
+  const home: LocationObject = {
     name: 'Home',
     latitude: session?.user.latitude as number,
     longitude: session?.user.longitude as number,
   }
+  const [destinationInput, setDestinationInput] = useState<LocationObject>(Campuses[0])
+  const [destinationOptions, setDestinationOptions] = useState<Array<LocationObject>>(Campuses)
+  const [dateInput, setDateInput] = useState(new Date().toString())
+  const [locationInput, setLocationInput] = useState<LocationObject>(home)
+  const [locationOptions, setLocationOptions] = useState<Array<LocationObject>>([home])
 
   const handleSubmit = () => {
     setDate(dateInput)
@@ -37,16 +41,14 @@ export default function FindRideForm({
     setOpenFilter(false)
   }
 
-  // const ExchangeLocation = (ev: any) => {
-  //   ev.preventDefault()
-  //   setDestinationInput(locationInput)
-  //   setLocationInput(destinationInput)
-  // }
-  useEffect(() => {
-    console.log(locationInput, 'from')
-    console.log(destinationInput, 'to')
-    console.log(dateInput, 'date')
-  }, [destinationInput, dateInput, locationInput])
+  const ExchangeLocation = (ev: any) => {
+    ev.preventDefault()
+    setDestinationInput(locationInput)
+    setLocationInput(destinationInput)
+    let tempOptions = destinationOptions
+    setDestinationOptions(locationOptions)
+    setLocationOptions(tempOptions)
+  }
 
   return (
     <>
@@ -58,29 +60,31 @@ export default function FindRideForm({
       </button>
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">from</p>
-        {Campuses && (
+        {locationOptions && (
           <SelectSuggestions
             selectedColor="bg-sky-400"
             defaultColor="bg-sky-200"
             setInput={setLocationInput}
-            options={[...Campuses, home]}
+            selected={locationInput}
+            options={locationOptions}
           />
         )}
       </div>
-      {/* <button
+      <button
         className="w-6 h-6 bg-sky-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3"
         onClick={(ev) => ExchangeLocation(ev)}
       >
         <FontAwesomeIcon icon={faRightLeft} color="white" rotation={90} />
-      </button> */}
+      </button>
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">to</p>
-        {Campuses && (
+        {destinationOptions && (
           <SelectSuggestions
             selectedColor="bg-sky-400"
             defaultColor="bg-sky-200"
             setInput={setDestinationInput}
-            options={[...Campuses, home]}
+            selected={destinationInput}
+            options={destinationOptions}
           />
         )}
       </div>

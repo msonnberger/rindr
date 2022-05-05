@@ -85,14 +85,14 @@ export interface SupabaseChatMessages {
   created_at: string
 }
 
-export const Campuses: Array<Location> = [
+export const Campuses: Array<LocationObject> = [
   { name: 'Campus Urstein', latitude: 47.72350695668047, longitude: 13.087123685074921 },
   { name: 'Campus Kuchl', latitude: 47.63056265693036, longitude: 13.15139572735022 },
   { name: 'Campus Salzburg/SALK', latitude: 47.80726340063991, longitude: 13.032867527354465 },
   { name: 'Campus Schwarzach', latitude: 47.32120150312281, longitude: 13.156957342687942 },
 ]
 
-export interface Location {
+export interface LocationObject {
   name: string
   latitude: number
   longitude: number
