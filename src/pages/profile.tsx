@@ -298,10 +298,10 @@ const Profile: NextPage = () => {
                   </div>
                 )}
 
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-5">
                   <h3 className="text-left font-bold">Interests</h3>
                   <TagsInput control={control} register={register} />
-
+                  <h3 className="text-left font-bold">Music</h3>
                   <TextInput
                     placeholder="What music do you listen to?"
                     register={register}
