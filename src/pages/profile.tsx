@@ -5,6 +5,7 @@ import {
   faHeadphones,
   faPlus,
   faRightFromBracket,
+  faTrashCan,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { NextPage } from 'next'
@@ -66,18 +67,14 @@ const Profile: NextPage = () => {
       return
     }
 
-    const uid = session.user.id
-
     let uuid: string = ''
 
     if (formData.picture.length > 0) {
       uuid = crypto.randomUUID()
 
-      const { data } = await supabase.from('users').select().match({ id: uid }).limit(1).single()
-
       const { error: deleteError } = await supabase.storage
         .from('profile-pictures')
-        .remove([data.picture_url.substring(data.picture_url.lastIndexOf('/') + 1)])
+        .remove([session.user.pictureUrl.substring(session.user.pictureUrl.lastIndexOf('/') + 1)])
       if (deleteError) {
         console.error(deleteError)
         alert('Something went wrong when deleting your image. Please try again later.')
@@ -138,6 +135,35 @@ const Profile: NextPage = () => {
     setHasCar(false)
   }
 
+  const deleteUser = async () => {
+    if (!session) {
+      alert('Looks like you are not logged in. Please try reloading the page.')
+      return
+    }
+
+    const { error: deleteImageError } = await supabase.storage
+      .from('profile-pictures')
+      .remove([session?.user.pictureUrl.substring(session?.user.pictureUrl.lastIndexOf('/') + 1)])
+    if (deleteImageError) {
+      console.error(deleteImageError)
+      alert('Something went wrong when deleting your image. Please try again later.')
+      return
+    }
+
+    const { error: deleteUserError } = await supabase
+      .from('users')
+      .delete()
+      .match({ id: session.user.id })
+
+    if (deleteUserError) {
+      console.error(deleteUserError)
+      alert('Something went wrong when deleting your image. Please try again later.')
+      return
+    }
+
+    alert('User successfully deleted!')
+  }
+
   return (
     <>
       <Head>
@@ -185,6 +211,15 @@ const Profile: NextPage = () => {
               >
                 <div className="bg-rose-500 grid h-8 w-8 place-items-center rounded-full">
                   <FontAwesomeIcon icon={faRightFromBracket} color="white" />
+                </div>
+              </button>
+              <button
+                type="button"
+                className="font-bold text-blue-700 underline"
+                onClick={() => deleteUser()}
+              >
+                <div className="bg-rose-500 grid h-8 w-8 place-items-center rounded-full">
+                  <FontAwesomeIcon icon={faTrashCan} color="white" />
                 </div>
               </button>
             </div>
