@@ -42,6 +42,19 @@ export const formatDate = (date: Date) => {
   return `${month}/${dayOfMonth}/${year}`
 }
 
+export const formatDateRides = (date: Date) => {
+  let todayDate = formatDate(new Date())
+  let dayOfMonth = date.getDate()
+  let month = date.toLocaleString('en-US', { month: 'long' })
+  let year = date.getFullYear()
+
+  if (todayDate === formatDate(date)) {
+    return 'Today'
+  }
+
+  return `${month} ${dayOfMonth}, ${year}`
+}
+
 export const formatMinutes = (min: string) => {
   return min.length == 1 ? `0${min}` : min
 }

@@ -4,14 +4,15 @@ import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { Fragment, useEffect, useState } from 'react'
 import { RequestsByDate, RequestsJoinRides, SupabaseRide } from 'src/types/main'
-import { formatTimestamp, printDate, printDatePreview } from '@utils/functions'
+import { formatDateRides, formatTimestamp, printDatePreview } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
-import { fgStylings } from '@styles/colors'
+import { Emerald, Orange, Sky, fgStylings } from '@styles/colors'
 import Heading from '@components/Heading'
 import Layout from '@components/Layout'
 import RideDateContainer from '@components/RideDateContainer'
 import RideRequestContainer from '@components/RideRequestContainer'
 import SharedRideContainer from '@components/SharedRideContainer'
+import ToggleButton from '@components/ToggleButton'
 
 const Rides: NextPage<{
   requestsByDate: RequestsByDate
@@ -29,6 +30,10 @@ const Rides: NextPage<{
   const [rideRequests, setRideRequests] = useState(requestsByDate)
   const [sharedRidesData, setSharedRidesData] = useState(sharedRides)
   const [rideDates, setRideDates] = useState(dataRideDates)
+
+  const [openedRideRequests, setOpenedRideRequests] = useState(false)
+  const [openedSharedRides, setOpenedSharedRides] = useState(false)
+  const [openedRideDates, setOpenedRideDates] = useState(false)
 
   useEffect(() => {
     updatePreviews()
@@ -71,47 +76,76 @@ const Rides: NextPage<{
       </Head>
       <Layout>
         <Heading title="Rides" color={fgStylings.Orange} marginTop="mt-10" />
-        <p className="flex font-bold text-2xl text-orange-600 mt-4">Ride Requests</p>
-        <div className="flex flex-col gap-4">
-          {rideRequests &&
-            Object.keys(rideRequests).map((date) => (
-              <Fragment key={date}>
-                <p className="mb-2 flex font-bold text-lg text-slate-900 mt-2">
-                  {printDate(new Date(date))}
-                </p>
-                <ul className="flex flex-col gap-7">
-                  {rideRequests[date].map((request: RequestsJoinRides, index: number) => (
-                    <RideRequestContainer
-                      updatePreviews={() => updatePreviews}
-                      RideRequest={request}
-                      key={index}
-                    />
-                  ))}
-                </ul>
-              </Fragment>
-            ))}
-        </div>
-        <p className="flex font-bold text-2xl mt-8 text-emerald-400">Shared rides</p>
-        <div className="flex flex-col gap-4 mt-4">
-          {sharedRidesData &&
-            sharedRidesData.map((ride) => <SharedRideContainer key={ride.id} ride={ride} />)}
-        </div>
-        <p className="flex font-bold text-2xl mt-8 text-sky-400">Ride dates</p>
-        <div className="flex flex-col gap-4 mt-4">
-          {rideDates &&
-            Object.keys(rideDates).map((date) => (
-              <Fragment key={date}>
-                <p className="mb-2 flex font-bold text-lg text-slate-900 mt-2">
-                  {printDate(new Date(date))}
-                </p>
-                <ul className="flex flex-col gap-7">
-                  {rideDates[date].map((request: RequestsJoinRides, index: number) => (
-                    <RideDateContainer key={index} ride={request} />
-                  ))}
-                </ul>
-              </Fragment>
-            ))}
-        </div>
+        <ToggleButton
+          text="Ride Requests"
+          bgColor="bg-orange-100"
+          openend={openedRideRequests}
+          textColor="text-orange-600"
+          buttonColor={Orange[600]}
+          onClick={() => setOpenedRideRequests(!openedRideRequests)}
+        />
+        {openedRideRequests && (
+          <div className="flex flex-col gap-4 mt-4 mb-4">
+            {rideRequests &&
+              Object.keys(rideRequests).map((date) => (
+                <Fragment key={date}>
+                  <p className="flex font-bold text-lg text-slate-900 mt-2 ml-4">
+                    {formatDateRides(new Date(date))}
+                  </p>
+                  <ul className="flex flex-col gap-7">
+                    {rideRequests[date].map((request: RequestsJoinRides, index: number) => (
+                      <RideRequestContainer
+                        updatePreviews={() => updatePreviews}
+                        RideRequest={request}
+                        key={index}
+                      />
+                    ))}
+                  </ul>
+                </Fragment>
+              ))}
+          </div>
+        )}
+
+        <ToggleButton
+          text="Shared rides"
+          bgColor="bg-emerald-100"
+          openend={openedSharedRides}
+          textColor="text-emerald-600"
+          buttonColor={Emerald[600]}
+          onClick={() => setOpenedSharedRides(!openedSharedRides)}
+        />
+        {openedSharedRides && (
+          <div className="flex flex-col gap-4 mt-4 mb-4">
+            {sharedRidesData &&
+              sharedRidesData.map((ride) => <SharedRideContainer key={ride.id} ride={ride} />)}
+          </div>
+        )}
+
+        <ToggleButton
+          text="Ride dates"
+          bgColor="bg-sky-100"
+          openend={openedRideDates}
+          textColor="text-sky-600"
+          buttonColor={Sky[600]}
+          onClick={() => setOpenedRideDates(!openedRideDates)}
+        />
+        {openedRideDates && (
+          <div className="flex flex-col gap-4 mt-4 mb-4">
+            {rideDates &&
+              Object.keys(rideDates).map((date) => (
+                <Fragment key={date}>
+                  <p className="flex font-bold text-lg text-slate-900 mt-2  ml-4">
+                    {formatDateRides(new Date(date))}
+                  </p>
+                  <ul className="flex flex-col gap-7">
+                    {rideDates[date].map((request: RequestsJoinRides, index: number) => (
+                      <RideDateContainer key={index} ride={request} />
+                    ))}
+                  </ul>
+                </Fragment>
+              ))}
+          </div>
+        )}
       </Layout>
     </>
   )
