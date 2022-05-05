@@ -44,6 +44,7 @@ export default function SetupProfile() {
       alert('Looks like you are not logged in. Please try reloading the page.')
       return
     }
+    console.log(formData.carModel)
 
     const uid = session.user.id
 
@@ -58,11 +59,6 @@ export default function SetupProfile() {
     }
 
     const { publicURL } = supabase.storage.from('profile-pictures').getPublicUrl(uid)
-
-    if (formData.hasNoCar) {
-      formData.carModel = undefined
-      formData.availableSeats = undefined
-    }
 
     const { data, error } = await supabase.from<SupabaseUser>('users').insert({
       id: session.user.id,
@@ -91,12 +87,9 @@ export default function SetupProfile() {
 
   const [hasCar, setHasCar] = useState(true)
 
-  const changeCarYes = () => {
-    setHasCar(true)
-  }
-
-  const changeCarNo = () => {
-    setHasCar(false)
+  const changeCar = () => {
+    if (hasCar) setHasCar(false)
+    else setHasCar(true)
   }
 
   return (
@@ -145,7 +138,7 @@ export default function SetupProfile() {
               bgColor={`${hasCar ? 'bg-rose-700' : 'bg-rose-300'}`}
               textColor="text-white"
               fontWeight="semibold"
-              onClick={changeCarYes}
+              onClick={changeCar}
             />
             <Button
               buttonType="button"
@@ -153,7 +146,7 @@ export default function SetupProfile() {
               bgColor={`${hasCar ? 'bg-rose-300' : 'bg-rose-700'}`}
               textColor="text-white"
               fontWeight="semibold"
-              onClick={changeCarNo}
+              onClick={changeCar}
             />
           </div>
         </div>
