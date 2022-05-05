@@ -227,7 +227,6 @@ const Profile: NextPage = () => {
                     name="carModel"
                     tailwindBgClass="bg-rose-500"
                     icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
-                    disabled={watch('hasNoCar')}
                   />
 
                   <NumberInput
@@ -236,7 +235,6 @@ const Profile: NextPage = () => {
                     name="availableSeats"
                     tailwindBgClass="bg-rose-500"
                     icon={<FontAwesomeIcon icon={faCouch} color="white" />}
-                    disabled={watch('hasNoCar')}
                   />
                 </div>
               </div>
@@ -256,7 +254,6 @@ const Profile: NextPage = () => {
                 name="music"
                 tailwindBgClass="bg-rose-500"
                 icon={<FontAwesomeIcon icon={faHeadphones} color="white" />}
-                disabled={watch('hasNoCar')}
               />
               {errors.music && <FormError message={errors.music.message} />}
             </div>
