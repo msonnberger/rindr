@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import type { GetServerSideProps } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { Fragment, useEffect, useState } from 'react'
 import { RequestsByDate, RequestsJoinRides, SupabaseRide } from 'src/types/main'
 import { formatDateRides, formatTimestamp, printDatePreview } from '@utils/functions'
@@ -86,7 +87,7 @@ const Rides: NextPage<{
         />
         {openedRideRequests && (
           <div className="flex flex-col gap-4 mt-4 mb-4">
-            {rideRequests &&
+            {rideRequests ? (
               Object.keys(rideRequests).map((date) => (
                 <Fragment key={date}>
                   <p className="flex font-bold text-lg text-slate-900 mt-2 ml-4">
@@ -102,7 +103,10 @@ const Rides: NextPage<{
                     ))}
                   </ul>
                 </Fragment>
-              ))}
+              ))
+            ) : (
+              <p className="text-orange-500 mt-4 text-lg ml-4">You have no ride requests...</p>
+            )}
           </div>
         )}
 
@@ -116,8 +120,16 @@ const Rides: NextPage<{
         />
         {openedSharedRides && (
           <div className="flex flex-col gap-4 mt-4 mb-4">
-            {sharedRidesData &&
-              sharedRidesData.map((ride) => <SharedRideContainer key={ride.id} ride={ride} />)}
+            {sharedRidesData ? (
+              sharedRidesData.map((ride) => <SharedRideContainer key={ride.id} ride={ride} />)
+            ) : (
+              <p className="text-emerald-500 mt-4 text-lg ml-4">
+                You shared no rides yet...
+                <b>
+                  <Link href="/share-ride">Click to share a new ride!</Link>
+                </b>
+              </p>
+            )}
           </div>
         )}
 
@@ -131,7 +143,7 @@ const Rides: NextPage<{
         />
         {openedRideDates && (
           <div className="flex flex-col gap-4 mt-4 mb-4">
-            {rideDates &&
+            {rideDates ? (
               Object.keys(rideDates).map((date) => (
                 <Fragment key={date}>
                   <p className="flex font-bold text-lg text-slate-900 mt-2  ml-4">
@@ -143,7 +155,15 @@ const Rides: NextPage<{
                     ))}
                   </ul>
                 </Fragment>
-              ))}
+              ))
+            ) : (
+              <p className="text-sky-500 mt-4 text-lg ml-4">
+                You have no ride dates yet...{' '}
+                <b>
+                  <Link href="/find-ride">Click to find a new ride!</Link>
+                </b>
+              </p>
+            )}
           </div>
         )}
       </Layout>
@@ -161,6 +181,7 @@ async function fetchPreviews(userId: string): Promise<{
     .from<RequestsJoinRides>('requests_join_rides')
     .select('*')
     .eq('driver_id', userId)
+    .gt('departure', new Date().toISOString())
     .order('arrival', { ascending: false })
     .order('first_name', { ascending: true })
 
@@ -175,6 +196,7 @@ async function fetchPreviews(userId: string): Promise<{
     .from<RequestsJoinRides>('requests_join_rides')
     .select('*')
     .eq('accepted_passenger_id', userId)
+    .gt('departure', new Date().toISOString())
     .order('arrival', { ascending: false })
 
   if (error) {
