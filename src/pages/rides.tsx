@@ -77,7 +77,7 @@ const Rides: NextPage<{
                   <ul className="flex flex-col gap-7">
                     {rideRequests[date].map((request: RequestsJoinRides, index: number) => (
                       <RideRequestContainer
-                        updatePreviews={() => updatePreviews}
+                        updatePreviews={updatePreviews}
                         RideRequest={request}
                         key={index}
                       />
@@ -104,7 +104,9 @@ const Rides: NextPage<{
         {openedSharedRides && (
           <div className="flex flex-col gap-4 mt-4 mb-4">
             {sharedRidesData && sharedRidesData.length > 0 ? (
-              sharedRidesData.map((ride) => <SharedRideContainer key={ride.id} ride={ride} />)
+              sharedRidesData.map((ride) => (
+                <SharedRideContainer key={ride.id} ride={ride} updatePreviews={updatePreviews} />
+              ))
             ) : (
               <p className="text-emerald-500 mt-4 text-lg ml-4">
                 You shared no rides yet...

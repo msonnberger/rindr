@@ -7,12 +7,11 @@ import Image from '@components/Image'
 
 interface SharedRideContainerProps {
   ride: SupabaseRide
+  updatePreviews: any
 }
 
-export default function SharedRideContainer({ ride }: SharedRideContainerProps) {
+export default function SharedRideContainer({ ride, updatePreviews }: SharedRideContainerProps) {
   async function deleteSharedRide() {
-    console.log(ride.id)
-
     const { data, error } = await supabase
       .from('rides')
       .delete()
@@ -34,6 +33,8 @@ export default function SharedRideContainer({ ride }: SharedRideContainerProps) 
       alert('Entry in Rides could not be deleted. Try again later.')
       return
     }
+
+    updatePreviews()
   }
   return (
     <div className="bg-emerald-100 p-3 xs:p-5 rounded-3xl flex relative flex-row items-center">
