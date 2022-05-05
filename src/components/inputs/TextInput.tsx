@@ -21,7 +21,7 @@ export default function TextInput({
   disabled,
 }: TextInputProps) {
   return (
-    <div className={`flex gap-4 rounded-full bg-slate-100 p-2 pr-8 ${!icon && 'pl-5'}`}>
+    <div className={`flex gap-4 rounded-full bg-slate-100 p-2 pr-8 ${!icon && 'pl-5'} w-full`}>
       {icon && (
         <div className={`${tailwindBgClass} grid h-8 w-8 place-items-center rounded-full`}>
           {icon}
@@ -33,7 +33,7 @@ export default function TextInput({
         id={name}
         placeholder={placeholder}
         {...register(name, registerOptions)}
-        className="bg-inherit focus:outline-none"
+        className="bg-inherit focus:outline-none w-full overflow-hidden overflow-ellipsis whitespace-nowrap"
       />
     </div>
   )
