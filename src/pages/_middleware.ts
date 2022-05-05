@@ -27,9 +27,11 @@ async function middleware(request: NextAuthRequest) {
 
   if (!profileSetupCompleted) {
     const userData = await fetchUserData(sub as string)
+    console.log(userData)
 
-    if (!userData) {
+    if (!userData?.id) {
       url.pathname = '/auth/newuser'
+      console.log('bin ')
       return NextResponse.redirect(url)
     }
   }
