@@ -87,7 +87,7 @@ const Rides: NextPage<{
         />
         {openedRideRequests && (
           <div className="flex flex-col gap-4 mt-4 mb-4">
-            {rideRequests ? (
+            {Object.keys(rideRequests).length > 0 ? (
               Object.keys(rideRequests).map((date) => (
                 <Fragment key={date}>
                   <p className="flex font-bold text-lg text-slate-900 mt-2 ml-4">
@@ -105,7 +105,9 @@ const Rides: NextPage<{
                 </Fragment>
               ))
             ) : (
-              <p className="text-orange-500 mt-4 text-lg ml-4">You have no ride requests...</p>
+              <p className="text-orange-500 mt-4 text-lg ml-4">
+                You have no incoming ride requests...
+              </p>
             )}
           </div>
         )}
@@ -120,7 +122,7 @@ const Rides: NextPage<{
         />
         {openedSharedRides && (
           <div className="flex flex-col gap-4 mt-4 mb-4">
-            {sharedRidesData ? (
+            {sharedRidesData.length > 0 ? (
               sharedRidesData.map((ride) => <SharedRideContainer key={ride.id} ride={ride} />)
             ) : (
               <p className="text-emerald-500 mt-4 text-lg ml-4">
@@ -143,7 +145,7 @@ const Rides: NextPage<{
         />
         {openedRideDates && (
           <div className="flex flex-col gap-4 mt-4 mb-4">
-            {rideDates ? (
+            {Object.keys(rideDates).length > 0 ? (
               Object.keys(rideDates).map((date) => (
                 <Fragment key={date}>
                   <p className="flex font-bold text-lg text-slate-900 mt-2  ml-4">
