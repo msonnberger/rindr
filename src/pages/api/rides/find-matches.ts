@@ -45,6 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     `
     )
     .neq('driver_id', session?.user.id as string)
+    .is('passenger_id', null)
     .eq(column, campus)
     .gte('departure', date)
     .lte('departure', tomorrow)
