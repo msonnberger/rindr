@@ -68,9 +68,16 @@ const Profile: NextPage = () => {
 
     const uid = session.user.id
 
-    if (formData.picture.length > 0) {
-      const { error: deleteError } = await supabase.storage.from('profile-pictures').remove([uid])
+    let uuid: string = ''
 
+    if (formData.picture.length > 0) {
+      uuid = crypto.randomUUID()
+
+      const { data } = await supabase.from('users').select().match({ id: uid }).limit(1).single()
+
+      const { error: deleteError } = await supabase.storage
+        .from('profile-pictures')
+        .remove([data.picture_url.substring(data.picture_url.lastIndexOf('/') + 1)])
       if (deleteError) {
         console.error(deleteError)
         alert('Something went wrong when deleting your image. Please try again later.')
@@ -79,8 +86,7 @@ const Profile: NextPage = () => {
 
       const { error: uploadError } = await supabase.storage
         .from('profile-pictures')
-        .upload(uid, formData.picture[0])
-
+        .upload(uuid, formData.picture[0])
       if (uploadError) {
         console.error(uploadError)
         alert('Something went wrong when uploading your image. Please try again later.')
@@ -88,7 +94,7 @@ const Profile: NextPage = () => {
       }
     }
 
-    const { publicURL } = supabase.storage.from('profile-pictures').getPublicUrl(uid)
+    const { publicURL } = supabase.storage.from('profile-pictures').getPublicUrl(uuid)
 
     if (formData.hasNoCar) {
       formData.carModel = undefined
@@ -100,7 +106,7 @@ const Profile: NextPage = () => {
       .from('users')
       .update({
         bio: formData.bio,
-        picture_url: publicURL,
+        ...(uuid !== '' && { picture_url: publicURL }),
         interests: formData.interests?.map((interest) => interest.tag),
         music: formData.music,
         car_model: formData.carModel,
