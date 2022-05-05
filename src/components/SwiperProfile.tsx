@@ -24,7 +24,7 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
         <Image
           src={profileInfos.mapUrl}
           alt="Image of map with route"
-          className="absolute top-0 left-0 rounded-3xl h-[500px]"
+          className="absolute top-0 left-0 rounded-3xl h-[500px] w-full"
         />
 
         <button
@@ -39,8 +39,6 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
             department={profileInfos.department}
             firstName={profileInfos.firstName}
             lastName={profileInfos.lastName}
-            thumbsUpCount={profileInfos.thumbsUpCount}
-            thumbsDownCount={profileInfos.thumbsDownCount}
             withArrow={false}
           />
         </div>
