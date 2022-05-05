@@ -101,7 +101,7 @@ export default function ShareRideForm() {
           />
         )}
       </div>
-      <div className="flex flex-row w-full gap-10">
+      <div className="flex flex-row w-full gap-6">
         <label htmlFor="date" className="mt-5">
           <p className="font-light mt-6 mb-2">date</p>
           <input
