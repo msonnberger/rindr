@@ -57,7 +57,7 @@ const Rides: NextPage<{
         <link rel="icon" href="/logo.svg" />
       </Head>
       <Layout>
-        <Heading title="Rides" color={fgStylings.Orange} marginTop="mt-10" />
+        <Heading title="Rides" color={fgStylings.Orange} marginTop="mt-10 mb-8" />
         <ToggleButton
           text="Ride Requests"
           bgColor="bg-orange-100"
