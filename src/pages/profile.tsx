@@ -174,7 +174,7 @@ const Profile: NextPage = () => {
             </label>
             {errors.picture && <FormError message={errors.picture.message} />}
 
-            <div className="flex justify-center items-center gap-x-2 font-bold w-full">
+            <div className="flex justify-center items-center gap-3 font-bold w-full">
               <p>
                 {session && session.user.firstName} {session && session.user.lastName}
               </p>
@@ -219,8 +219,8 @@ const Profile: NextPage = () => {
 
             {hasCar && (
               <div>
-                <h3 className="mb-3 text-left font-bold">My car</h3>
-                <div className="flex flex-wrap items-start gap-x-2">
+                <h3 className="mb-2 text-left font-bold">My car</h3>
+                <div className="flex flex-wrap items-start gap-3">
                   <TextInput
                     placeholder="Which car do you have?"
                     register={register}
@@ -242,8 +242,8 @@ const Profile: NextPage = () => {
               </div>
             )}
 
-            <div>
-              <h3 className="mb-3 text-left font-bold">Interests</h3>
+            <div className="flex flex-col gap-3">
+              <h3 className="text-left font-bold">Interests</h3>
               <TagsInput control={control} register={register} />
 
               <TextInput

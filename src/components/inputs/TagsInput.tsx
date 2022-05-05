@@ -28,7 +28,7 @@ export default function TagsInput({ control, register }: TagsInputProps) {
   }
 
   return (
-    <div className="flex flex-wrap justify-start gap-3 mb-4">
+    <div className="flex flex-wrap justify-start gap-3">
       <div className="flex w-fit gap-2 rounded-full bg-slate-100 p-2 pr-8">
         <button
           disabled={newTagValue === ''}
