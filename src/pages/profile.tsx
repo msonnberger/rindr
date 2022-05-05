@@ -47,7 +47,7 @@ const Profile: NextPage = () => {
       setValue('availableSeats', session.user.availableSeats)
       setValue(
         'interests',
-        session.user.interests.map((tag) => ({ tag: tag }))
+        session.user.interests?.map((tag) => ({ tag: tag }))
       )
       setValue('music', session.user.music)
     }
