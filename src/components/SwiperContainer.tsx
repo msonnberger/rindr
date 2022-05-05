@@ -94,7 +94,6 @@ export const SwiperContainer = ({
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
     // @ts-ignore
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
-    //TODO: Karte bleibt erhalten
   }
 
   return (
