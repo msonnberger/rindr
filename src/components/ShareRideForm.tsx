@@ -6,8 +6,8 @@ import { useState } from 'react'
 import { Campuses, LocationObject, SupabaseRide } from 'src/types/main'
 import { combineCoordinates } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
+import Button from '@components/Button'
 import Image from '@components/Image'
-import Button from './Button'
 import SelectSuggestions from './SelectSuggestions'
 
 export default function ShareRideForm() {

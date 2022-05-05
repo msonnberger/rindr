@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { Campuses, LocationObject } from 'src/types/main'
+import Button from '@components/Button'
 import Image from '@components/Image'
 import SelectSuggestions from './SelectSuggestions'
 
@@ -105,12 +106,14 @@ export default function FindRideForm({ setOpenFilter, setSwiperCards }: FindRide
         />
       </label>
       <div className="w-full flex flex-col items-center mt-10">
-        <button
-          className="rounded-3xl flex items-center justify-center bg-sky-400 py-3 pl-4 pr-4 font-bold text-white fit-content w-max"
+        <Button
+          text="FIND MATCH"
+          bgColor="bg-sky-400"
+          buttonType="button"
+          textColor="text-white"
+          fontWeight="bold"
           onClick={handleSubmit}
-        >
-          FIND MATCH
-        </button>
+        />
         <Image src="/car-find-ride.svg" alt="Cow in the car" className="mt-10" />
       </div>
     </>
