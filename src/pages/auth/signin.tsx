@@ -1,11 +1,11 @@
 import { NextPageContext } from 'next'
 import { signIn } from 'next-auth/react'
 
-interface SignInProp {
+interface SignInProps {
   callbackUrl: string
 }
 
-export default function SignIn({ callbackUrl }: SignInProp) {
+export default function SignIn({ callbackUrl }: SignInProps) {
   return (
     <button onClick={() => signIn('fhs', { callbackUrl: callbackUrl })}>
       Sign in with FH Salzburg
