@@ -117,7 +117,6 @@ export const SwiperContainer = ({
                 <TinderCard
                   // @ts-ignore
                   ref={childRefs[key]}
-                  key={key}
                   className="absolute z-0"
                   onSwipe={(dir) => onSwipe(dir, key)}
                   onCardLeftScreen={() => outOfFrame(card.driver?.first_name, key)}

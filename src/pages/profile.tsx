@@ -5,13 +5,16 @@ import {
   faHeadphones,
   faPlus,
   faRightFromBracket,
+  faTrashCan,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { NextPage } from 'next'
 import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { SpinnerCircular } from 'spinners-react'
 import { SetupProfileFormValues } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
 import Button from '@components/Button'
@@ -20,6 +23,7 @@ import { LocationInput, NumberInput, TagsInput, TextAreaInput, TextInput } from 
 
 const Profile: NextPage = () => {
   const { data: session } = useSession()
+  const router = useRouter()
 
   const {
     register,
@@ -66,18 +70,14 @@ const Profile: NextPage = () => {
       return
     }
 
-    const uid = session.user.id
-
     let uuid: string = ''
 
     if (formData.picture.length > 0) {
       uuid = crypto.randomUUID()
 
-      const { data } = await supabase.from('users').select().match({ id: uid }).limit(1).single()
-
       const { error: deleteError } = await supabase.storage
         .from('profile-pictures')
-        .remove([data.picture_url.substring(data.picture_url.lastIndexOf('/') + 1)])
+        .remove([session.user.pictureUrl.substring(session.user.pictureUrl.lastIndexOf('/') + 1)])
       if (deleteError) {
         console.error(deleteError)
         alert('Something went wrong when deleting your image. Please try again later.')
@@ -138,136 +138,190 @@ const Profile: NextPage = () => {
     setHasCar(false)
   }
 
+  const deleteUser = async () => {
+    if (!session) {
+      alert('Looks like you are not logged in. Please try reloading the page.')
+      return
+    }
+
+    if (confirm('Do you really want to delete your profile?')) {
+      const { error: deleteImageError } = await supabase.storage
+        .from('profile-pictures')
+        .remove([session?.user.pictureUrl.substring(session?.user.pictureUrl.lastIndexOf('/') + 1)])
+      if (deleteImageError) {
+        console.error(deleteImageError)
+        alert('Something went wrong when deleting your image. Please try again later.')
+        return
+      }
+
+      const { error: deleteUserError } = await supabase
+        .from('users')
+        .delete()
+        .match({ id: session.user.id })
+
+      if (deleteUserError) {
+        console.error(deleteUserError)
+        alert('Something went wrong when deleting your image. Please try again later.')
+        return
+      }
+
+      signOut()
+      alert('User successfully deleted!')
+      router.replace('/')
+    }
+  }
+
   return (
     <>
-      <Head>
-        <title>Profile</title>
-        <link rel="icon" href="/logo.svg" />
-      </Head>
-      <Layout>
-        <div className="flex flex-col items-center">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mt-12 flex max-w-lg flex-col items-start gap-8 w-full"
-          >
-            <label className="relative cursor-pointer self-center" htmlFor="picture">
-              {picturePreview ? (
-                <img
-                  src={picturePreview}
-                  alt="Profile picture"
-                  className="h-48 w-48 rounded-full"
-                />
-              ) : (
-                <FontAwesomeIcon icon={faCircleUser} className="text-[12rem] text-rose-200" />
-              )}
-
-              <input
-                id="picture"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                {...register('picture')}
-              />
-              <div className="absolute bottom-3 right-2 grid h-7 w-7 place-items-center rounded-full border-2 border-white bg-rose-500">
-                <FontAwesomeIcon icon={faPlus} className="text-md text-white" />
-              </div>
-            </label>
-            {errors.picture && <FormError message={errors.picture.message} />}
-
-            <div className="flex justify-center items-center gap-3 font-bold w-full">
-              <p>
-                {session && session.user.firstName} {session && session.user.lastName}
-              </p>
-              <button
-                type="button"
-                className="font-bold text-blue-700 underline"
-                onClick={() => signOut()}
+      {session?.user.id ? (
+        <>
+          <Head>
+            <title>Profile</title>
+            <link rel="icon" href="/logo.svg" />
+          </Head>
+          <Layout>
+            <div className="flex flex-col items-center">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="mt-12 flex max-w-lg flex-col items-start gap-8 w-full"
               >
-                <div className="bg-rose-500 grid h-8 w-8 place-items-center rounded-full">
-                  <FontAwesomeIcon icon={faRightFromBracket} color="white" />
+                <label className="relative cursor-pointer self-center" htmlFor="picture">
+                  {picturePreview ? (
+                    <img
+                      src={picturePreview}
+                      alt="Profile picture"
+                      className="h-48 w-48 rounded-full"
+                    />
+                  ) : (
+                    <FontAwesomeIcon icon={faCircleUser} className="text-[12rem] text-rose-200" />
+                  )}
+
+                  <input
+                    id="picture"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    {...register('picture')}
+                  />
+                  <div className="absolute bottom-3 right-2 grid h-7 w-7 place-items-center rounded-full border-2 border-white bg-rose-500">
+                    <FontAwesomeIcon icon={faPlus} className="text-md text-white" />
+                  </div>
+                </label>
+                {errors.picture && <FormError message={errors.picture.message} />}
+
+                <div className="flex justify-center items-center gap-3 font-bold w-full">
+                  <p>
+                    {session && session.user.firstName} {session && session.user.lastName}
+                  </p>
+                  <button
+                    type="button"
+                    className="font-bold text-blue-700 underline"
+                    onClick={() => signOut()}
+                  >
+                    <div className="bg-rose-500 grid h-8 w-8 place-items-center rounded-full">
+                      <FontAwesomeIcon icon={faRightFromBracket} color="white" />
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    className="font-bold text-blue-700 underline"
+                    onClick={() => deleteUser()}
+                  >
+                    <div className="bg-rose-500 grid h-8 w-8 place-items-center rounded-full">
+                      <FontAwesomeIcon icon={faTrashCan} color="white" />
+                    </div>
+                  </button>
                 </div>
-              </button>
-            </div>
 
-            <LocationInput register={register} setValue={setValue} />
-            {errors.location && <FormError message={errors.location.message} />}
+                <LocationInput register={register} setValue={setValue} />
+                {errors.location && <FormError message={errors.location.message} />}
 
-            <TextAreaInput placeholder="Tell us something about you" register={register} id="bio" />
-            {errors.bio && <FormError message={errors.bio.message} />}
-
-            <div>
-              <h3 className="mb-3 text-left font-bold">Do you have a car?</h3>
-              <div className="flex flex-row gap-4">
-                <Button
-                  buttonType="button"
-                  text="yes"
-                  bgColor={`${hasCar ? 'bg-rose-700' : 'bg-rose-300'}`}
-                  textColor="text-white"
-                  fontWeight="semibold"
-                  onClick={changeCarYes}
+                <TextAreaInput
+                  placeholder="Tell us something about you"
+                  register={register}
+                  id="bio"
                 />
-                <Button
-                  buttonType="button"
-                  text="no"
-                  bgColor={`${hasCar ? 'bg-rose-300' : 'bg-rose-700'}`}
-                  textColor="text-white"
-                  fontWeight="semibold"
-                  onClick={changeCarNo}
-                />
-              </div>
-            </div>
+                {errors.bio && <FormError message={errors.bio.message} />}
 
-            {hasCar && (
-              <div>
-                <h3 className="mb-2 text-left font-bold">My car</h3>
-                <div className="flex flex-wrap items-start gap-3">
+                <div>
+                  <h3 className="mb-3 text-left font-bold">Do you have a car?</h3>
+                  <div className="flex flex-row gap-4">
+                    <Button
+                      buttonType="button"
+                      text="yes"
+                      bgColor={`${hasCar ? 'bg-rose-700' : 'bg-rose-300'}`}
+                      textColor="text-white"
+                      fontWeight="semibold"
+                      onClick={changeCarYes}
+                    />
+                    <Button
+                      buttonType="button"
+                      text="no"
+                      bgColor={`${hasCar ? 'bg-rose-300' : 'bg-rose-700'}`}
+                      textColor="text-white"
+                      fontWeight="semibold"
+                      onClick={changeCarNo}
+                    />
+                  </div>
+                </div>
+
+                {hasCar && (
+                  <div>
+                    <h3 className="mb-2 text-left font-bold">My car</h3>
+                    <div className="flex flex-wrap items-start gap-3">
+                      <TextInput
+                        placeholder="Which car do you have?"
+                        register={register}
+                        name="carModel"
+                        tailwindBgClass="bg-rose-500"
+                        icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
+                      />
+
+                      <NumberInput
+                        placeholder="2"
+                        register={register}
+                        name="availableSeats"
+                        tailwindBgClass="bg-rose-500"
+                        icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-3">
+                  <h3 className="text-left font-bold">Interests</h3>
+                  <TagsInput control={control} register={register} />
+
                   <TextInput
-                    placeholder="Which car do you have?"
+                    placeholder="What music do you listen to?"
                     register={register}
-                    name="carModel"
+                    registerOptions={{
+                      required:
+                        'Please tell us about some music you listen to. We use it to match witch users which have similar interests.',
+                    }}
+                    name="music"
                     tailwindBgClass="bg-rose-500"
-                    icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
+                    icon={<FontAwesomeIcon icon={faHeadphones} color="white" />}
                   />
-
-                  <NumberInput
-                    placeholder="2"
-                    register={register}
-                    name="availableSeats"
-                    tailwindBgClass="bg-rose-500"
-                    icon={<FontAwesomeIcon icon={faCouch} color="white" />}
-                  />
+                  {errors.music && <FormError message={errors.music.message} />}
                 </div>
-              </div>
-            )}
 
-            <div className="flex flex-col gap-3">
-              <h3 className="text-left font-bold">Interests</h3>
-              <TagsInput control={control} register={register} />
-
-              <TextInput
-                placeholder="What music do you listen to?"
-                register={register}
-                registerOptions={{
-                  required:
-                    'Please tell us about some music you listen to. We use it to match witch users which have similar interests.',
-                }}
-                name="music"
-                tailwindBgClass="bg-rose-500"
-                icon={<FontAwesomeIcon icon={faHeadphones} color="white" />}
-              />
-              {errors.music && <FormError message={errors.music.message} />}
+                <Button
+                  buttonType="submit"
+                  text="save profile"
+                  bgColor="bg-rose-700"
+                  textColor="text-white"
+                  fontWeight="semibold"
+                />
+              </form>
             </div>
-
-            <Button
-              buttonType="submit"
-              text="save profile"
-              bgColor="bg-rose-700"
-              textColor="text-white"
-              fontWeight="semibold"
-            />
-          </form>
+          </Layout>
+        </>
+      ) : (
+        <div className="flex justify-center items-center h-screen">
+          <SpinnerCircular />
         </div>
-      </Layout>
+      )}
     </>
   )
 }
