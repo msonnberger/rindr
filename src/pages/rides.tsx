@@ -38,7 +38,7 @@ const Rides: NextPage<{
 
   useEffect(() => {
     updatePreviews()
-  }, [rideRequests, sharedRidesData])
+  }, [rideRequests, sharedRidesData, rideDates])
 
   async function updatePreviews() {
     const newPreviews = await fetchPreviews(session?.user.id as string)
