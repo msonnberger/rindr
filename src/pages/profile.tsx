@@ -56,6 +56,7 @@ const Profile: NextPage = () => {
         session.user.interests?.map((tag) => ({ tag: tag }))
       )
       setValue('music', session.user.music)
+      setHasCar(Boolean(session.user.carModel))
       console.log('useeffect in')
 
       if (session.user.location) {
