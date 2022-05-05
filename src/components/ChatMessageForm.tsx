@@ -32,7 +32,7 @@ export default function ChatMessageForm({ channelId, receiverId }: FormProps) {
     setNewMessage('')
   }
 
-  async function handleEnter(event) {
+  async function handleEnter(event: React.KeyboardEvent<HTMLTextAreaElement>) {
     //event.preventDefault()
     if (event.key === 'Enter') {
       const { error } = await supabase.from('chat_messages').insert({
@@ -48,6 +48,7 @@ export default function ChatMessageForm({ channelId, receiverId }: FormProps) {
 
       setNewMessage('')
     } else {
+      // @ts-ignore
       setNewMessage(event.target.value)
     }
   }

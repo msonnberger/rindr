@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
-import { SupabaseRide, User } from 'src/types/main'
+import { FindRideResponse, SupabaseRide } from 'src/types/main'
 import { combineCoordinates, stringToCoordinates } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
 
@@ -16,8 +16,7 @@ interface QueryParams {
   date: string
 }
 
-type ResObject = SupabaseRide & { driver: User; imageUrl: string }
-type ResData = ResObject[] | { error: string }
+type ResData = FindRideResponse[] | { error: string }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResData>) {
   const session = await getSession({ req })
@@ -35,8 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const column = campusIsStart === 'true' ? 'start_location' : 'destination_location'
   const tomorrow = new Date(new Date(date).getTime() + 60 * 60 * 24 * 1000).toISOString()
 
-  const { data: rideCandidates } = await supabase
-    .from<ResObject>('rides')
+  let { data: rideCandidates } = await supabase
+    .from('rides')
     .select(
       `
       *,
@@ -46,7 +45,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     `
     )
     .neq('driver_id', session?.user.id as string)
-    .neq('passenger_id', session?.user.id as string)
     .eq(column, campus)
     .gte('departure', date)
     .lte('departure', tomorrow)
@@ -56,11 +54,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return
   }
 
-  const extraTimePromises = rideCandidates.map((ride) => calculateExtraMinutesNeeded(ride, pickup))
+  rideCandidates = rideCandidates.map((candidate) => {
+    const { driver, ...ride } = candidate
+    return { ride, driver }
+  })
+
+  const extraTimePromises = rideCandidates.map((card) =>
+    calculateExtraMinutesNeeded(card.ride, pickup)
+  )
   const extraTimes = await Promise.all(extraTimePromises)
 
-  let rides = rideCandidates.filter((ride, i) => extraTimes[i] < ride.threshold)
-  const imagePromises = rides.map((ride) => addRouteImage(ride, pickup))
+  let rides = rideCandidates.filter((card, i) => extraTimes[i] < card.ride.threshold)
+  const imagePromises = rides.map((card) => addRouteImage(card, pickup))
   rides = await Promise.all(imagePromises)
 
   res.status(200).json(rides ?? [])
@@ -91,18 +96,22 @@ async function calculateExtraMinutesNeeded(ride: SupabaseRide, pickupCoords: str
   return (data.routes[0].duration - ride.duration) / 60
 }
 
-async function addRouteImage(ride: ResObject, pickup: string) {
-  const start: Coordinates = { latitude: ride.start_latitude, longitude: ride.start_longitude }
+async function addRouteImage(card: FindRideResponse, pickup: string): Promise<FindRideResponse> {
+  const start: Coordinates = {
+    latitude: card.ride.start_latitude,
+    longitude: card.ride.start_longitude,
+  }
   const via: Coordinates = stringToCoordinates(pickup)
   const destination: Coordinates = {
-    latitude: ride.destination_latitude,
-    longitude: ride.destination_longitude,
+    latitude: card.ride.destination_latitude,
+    longitude: card.ride.destination_longitude,
   }
 
   const geoJSON = await getGeoJSON(start, via, destination)
   const imageUrl = getImageUrl(geoJSON)
 
-  return { ...ride, image_url: imageUrl }
+  card.ride.image_url = imageUrl
+  return card
 }
 
 async function getGeoJSON(start: Coordinates, via: Coordinates, destination: Coordinates) {

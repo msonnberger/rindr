@@ -62,6 +62,27 @@ export interface ChatPreviewType {
   }
 }
 
+export interface SupabaseUser {
+  id: string
+  email: string
+  first_name: string
+  last_name: string
+  picture_url: string
+  bio: string
+  interests: string[]
+  music: string
+  location: string
+  latitude: number
+  longitude: number
+  department?: string
+  car_model?: string
+  available_seats?: number
+  savings_co2?: number
+  savings_euro?: number
+  thumbs_up_count?: number
+  thumbs_down_count?: number
+}
+
 export interface SupabaseLatestMessages {
   id: string
   content: string
@@ -118,4 +139,9 @@ export interface SupabaseRide {
   arrival: string
   duration: number
   threshold: number
+}
+
+export interface FindRideResponse {
+  driver: SupabaseUser
+  ride: SupabaseRide & { image_url: string }
 }
