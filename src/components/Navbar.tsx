@@ -20,12 +20,18 @@ export default function Navbar() {
         bgColor={bgStylings.Slate}
         fgColor={fgStylings.Slate}
         route="/"
-        isActive={currentRoute === '/'}
+        isActive={
+          currentRoute === '/' || currentRoute === '/share-ride' || currentRoute === '/find-ride'
+        }
       >
         <FontAwesomeIcon
           size="lg"
           icon={faHouse}
-          color={currentRoute === '/' ? Slate[50] : Slate[300]}
+          color={
+            currentRoute === '/' || currentRoute === '/share-ride' || currentRoute === '/find-ride'
+              ? Slate[50]
+              : Slate[300]
+          }
         />
       </NavElement>
       <NavElement
@@ -33,12 +39,22 @@ export default function Navbar() {
         bgColor={bgStylings.Sky}
         fgColor={fgStylings.Sky}
         route="/chat"
-        isActive={currentRoute === '/chat' || currentRoute === '/new-chat'}
+        isActive={
+          currentRoute === '/chat' ||
+          currentRoute === '/new-chat' ||
+          currentRoute === '/chatroom/[id]'
+        }
       >
         <FontAwesomeIcon
           size="lg"
           icon={faCommentDots}
-          color={currentRoute === '/chat' || currentRoute === '/new-chat' ? Sky[400] : Slate[300]}
+          color={
+            currentRoute === '/chat' ||
+            currentRoute === '/new-chat' ||
+            currentRoute === '/chatroom/[id]'
+              ? Sky[400]
+              : Slate[300]
+          }
         />
       </NavElement>
       <NavElement
