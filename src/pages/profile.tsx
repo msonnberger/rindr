@@ -143,33 +143,36 @@ const Profile: NextPage = () => {
       return
     }
 
-    const { error: deleteImageError } = await supabase.storage
-      .from('profile-pictures')
-      .remove([session?.user.pictureUrl.substring(session?.user.pictureUrl.lastIndexOf('/') + 1)])
-    if (deleteImageError) {
-      console.error(deleteImageError)
-      alert('Something went wrong when deleting your image. Please try again later.')
-      return
+    if (confirm('Do you really want to delete your profile?')) {
+      const { error: deleteImageError } = await supabase.storage
+        .from('profile-pictures')
+        .remove([session?.user.pictureUrl.substring(session?.user.pictureUrl.lastIndexOf('/') + 1)])
+      if (deleteImageError) {
+        console.error(deleteImageError)
+        alert('Something went wrong when deleting your image. Please try again later.')
+        return
+      }
+
+      const { error: deleteUserError } = await supabase
+        .from('users')
+        .delete()
+        .match({ id: session.user.id })
+
+      if (deleteUserError) {
+        console.error(deleteUserError)
+        alert('Something went wrong when deleting your image. Please try again later.')
+        return
+      }
+
+      signOut()
+      alert('User successfully deleted!')
+      router.replace('/')
     }
-
-    const { error: deleteUserError } = await supabase
-      .from('users')
-      .delete()
-      .match({ id: session.user.id })
-
-    if (deleteUserError) {
-      console.error(deleteUserError)
-      alert('Something went wrong when deleting your image. Please try again later.')
-      return
-    }
-
-    alert('User successfully deleted!')
-    router.replace('/')
   }
 
   return (
     <>
-      {session?.user && (
+      {session?.user.location && (
         <>
           <Head>
             <title>Profile</title>
