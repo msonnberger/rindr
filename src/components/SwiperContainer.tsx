@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { createRef, useMemo, useRef, useState } from 'react'
 import TinderCard from 'react-tinder-card'
 import { Campuses } from 'src/types/main'
+import { supabase } from '@utils/supabaseClient'
 import { SwiperCard } from './SwiperCard'
 
 interface SwiperContainerProps {
@@ -17,7 +18,7 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
   const swiperCard = {
     user: session?.user,
     ride: {
-      id: '1234',
+      id: '518a1dae-a874-4d4c-a0a4-ffd4763fba29',
       driver_id: session?.user.id,
       passenger_id: '',
       start_latitude: session?.user.latitude,
@@ -35,12 +36,32 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
   const [currentIndex, setCurrentIndex] = useState(swiperCards.length - 1)
   const currentIndexRef = useRef(currentIndex)
 
+  async function sendRideRequest(index: number) {
+    const ride: any = swiperCards[index].ride
+    if (!session) {
+      alert('Looks like you are not logged in. Please try reloading the page.')
+      return
+    }
+
+    const { data, error } = await supabase.from('ride_requests').insert({
+      ride_id: ride.id,
+      passenger_id: session?.user.id,
+      status: 'pending',
+    })
+
+    if (error || !data) {
+      alert('Something went wrong. Please try again later.')
+      return
+    }
+  }
+
   //TODO: get all filtered Rides and show them as a swiper-tindercard and commit the proper user object
 
   const onSwipe = (direction: string, index: number) => {
     updateCurrentIndex(index - 1)
     if (direction === 'right') {
       //TODO: API new RideRequest
+      sendRideRequest(index)
       console.log('RIGHT', index)
     }
     if (direction === 'up') {

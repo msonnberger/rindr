@@ -85,12 +85,6 @@ export interface SupabaseChatMessages {
   created_at: string
 }
 
-export interface RideRequest {
-  ride_id: string
-  passenger_id: string
-  status: 'declined' | 'pending' | 'accepted'
-}
-
 export const Campuses: Array<Location> = [
   { name: 'Campus Urstein', latitude: 47.72350695668047, longitude: 13.087123685074921 },
   { name: 'Campus Kuchl', latitude: 47.63056265693036, longitude: 13.15139572735022 },
@@ -106,6 +100,7 @@ export interface Location {
 
 export interface SupabaseRide {
   id: string
+  created_at: string
   driver_id: string
   passenger_id: string
   start_latitude: number
@@ -119,3 +114,36 @@ export interface SupabaseRide {
   duration: number
   threshold: number
 }
+
+export interface SupabaseRideRequest {
+  id: string
+  created_at: string
+  ride_id: string
+  passenger_id: string
+  status: 'declined' | 'accepted' | 'pending'
+}
+
+export interface RideRequest {
+  ride_id: string
+  passenger_id: string
+  status: 'declined' | 'pending' | 'accepted'
+}
+
+export interface RequestsJoinRides {
+  id: string
+  passenger_id: string
+  status: 'declined' | 'pending' | 'accepted'
+  ride_id: string
+  driver_id: string
+  arrival: string
+  departure: string
+  destination_location: string
+  start_location: string
+  first_name: string
+  accepted_passenger_id: string
+  via_point_latitude: number
+  via_point_longitude: number
+  via_point_location: number
+}
+
+export declare type RequestsByDate = Record<string, RequestsJoinRides[]>
