@@ -77,3 +77,10 @@ export const combineCoordinates = (locations: Partial<Location>[]) => {
   const stringLocations = locations.map((location) => `${location.longitude},${location.latitude}`)
   return stringLocations.join(';')
 }
+
+export const stringToCoordinates = (coords: string) => {
+  return {
+    latitude: Number(coords.split(',')[0]),
+    longitude: Number(coords.split(',')[1]),
+  }
+}
