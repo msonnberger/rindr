@@ -131,8 +131,8 @@ const Profile: NextPage = () => {
       return
     }
 
-    // alert('The profile has been updated')
-    router.replace('/profile')
+    alert('The profile has been updated')
+    location.reload()
   }
 
   const [hasCar, setHasCar] = useState(true)
