@@ -69,7 +69,7 @@ export default function RideDateContainer({ ride }: RideDateContainerProps) {
     }
 
     if (driverAddress) fetchPickupTime(driverAddress, userAdress, ride.departure)
-  }, [])
+  }, [ride.departure])
 
   return (
     <div className="bg-sky-100 p-5 rounded-3xl flex relative flex-row items-center">
@@ -78,7 +78,7 @@ export default function RideDateContainer({ ride }: RideDateContainerProps) {
         {Campuses.find((campusObject) => campusObject.name == ride.destination_location) ? (
           <p>
             <b>{firstName}</b> picks you up from {ride.via_point_location} at{' '}
-            <b>{formatTime(new Date(pickupTime))}!</b>
+            <b>{pickupTime && formatTime(new Date(pickupTime))}!</b>
           </p>
         ) : (
           <p>
