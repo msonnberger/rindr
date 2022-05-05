@@ -122,7 +122,7 @@ const Rides: NextPage<{
         />
         {openedSharedRides && (
           <div className="flex flex-col gap-4 mt-4 mb-4">
-            {sharedRidesData.length > 0 ? (
+            {sharedRidesData && sharedRidesData.length > 0 ? (
               sharedRidesData.map((ride) => <SharedRideContainer key={ride.id} ride={ride} />)
             ) : (
               <p className="text-emerald-500 mt-4 text-lg ml-4">
@@ -145,7 +145,7 @@ const Rides: NextPage<{
         />
         {openedRideDates && (
           <div className="flex flex-col gap-4 mt-4 mb-4">
-            {Object.keys(rideDates).length > 0 ? (
+            {rideDates && Object.keys(rideDates).length > 0 ? (
               Object.keys(rideDates).map((date) => (
                 <Fragment key={date}>
                   <p className="flex font-bold text-lg text-slate-900 mt-2  ml-4">
@@ -197,7 +197,7 @@ async function fetchPreviews(userId: string): Promise<{
     .from<RequestsJoinRides>('requests_join_rides')
     .select('*')
     .eq('accepted_passenger_id', userId)
-    .order('arrival', { ascending: false })
+    .order('arrival', { ascending: true })
 
   if (error) {
     throw error
