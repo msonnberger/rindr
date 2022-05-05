@@ -1,11 +1,16 @@
+import { faAngleLeft, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { fgStylings } from '@styles/colors'
+import { useRouter } from 'next/router'
+import { Emerald, fgStylings } from '@styles/colors'
 import Heading from '@components/Heading'
 import ImpressumSection from '@components/ImpressumSection'
 import Layout from '@components/Layout'
 
 const Savings: NextPage = () => {
+  const router = useRouter()
+
   return (
     <>
       <Head>
@@ -14,7 +19,15 @@ const Savings: NextPage = () => {
       </Head>
       <Layout>
         <div className="p-4">
-          <Heading title="Impressum" color={fgStylings.Emerald} marginTop="mt-10" />
+          <button onClick={() => router.back()}>
+            <FontAwesomeIcon
+              icon={faAngleLeft}
+              size="lg"
+              color={Emerald[400]}
+              className="cursor-pointer"
+            />
+          </button>
+          <Heading title="Impressum" color={fgStylings.Emerald} marginTop="mt-8" />
           <p className="mt-6">
             This website was created by Team Rindr with the members: Juliane Mohr, Maximilian Hajek,
             Martin Sonnberger and Pascal Gottschling as Multimediaproject 2b for FH Salzburg.
