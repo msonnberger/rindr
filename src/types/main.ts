@@ -163,7 +163,7 @@ export interface RequestsJoinRides {
   via_point_location: string
 }
 
-export declare type RequestsByDate = Record<string, RequestsJoinRides[]>
+export type RequestsByDate = Record<string, RequestsJoinRides[]>
 
 export interface FindRideResponse {
   driver: SupabaseUser
