@@ -5,7 +5,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { Fragment, useState } from 'react'
 import { RequestsByDate, RequestsJoinRides, SupabaseRide } from 'src/types/main'
-import { formatDateRides, formatTimestamp, printDatePreview } from '@utils/functions'
+import { formatDateRides, formatTimestamp } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
 import { Emerald, Orange, Sky, fgStylings } from '@styles/colors'
 import Heading from '@components/Heading'
@@ -216,7 +216,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const dataRideDates = initialPreviews.rideDates
 
   const requestsByDate = requests.reduce((dateGroups, request) => {
-    const dateString = printDatePreview(new Date(formatTimestamp(request.arrival)))
+    const dateString = formatTimestamp(request.arrival)
 
     return {
       ...dateGroups,
