@@ -60,7 +60,6 @@ export const SwiperContainer = ({ setOpenFilter, setOpenedProfile }: SwiperConta
   const onSwipe = (direction: string, index: number) => {
     updateCurrentIndex(index - 1)
     if (direction === 'right') {
-      //TODO: API new RideRequest
       sendRideRequest(index)
       console.log('RIGHT', index)
     }
