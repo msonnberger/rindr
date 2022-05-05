@@ -18,6 +18,7 @@ import { SpinnerCircular } from 'spinners-react'
 import { SetupProfileFormValues } from 'src/types/main'
 import { supabase } from '@utils/supabaseClient'
 import Button from '@components/Button'
+import Image from '@components/Image'
 import Layout from '@components/Layout'
 import { LocationInput, NumberInput, TagsInput, TextAreaInput, TextInput } from '@components/inputs'
 
@@ -193,10 +194,10 @@ const Profile: NextPage = () => {
               >
                 <label className="relative cursor-pointer self-center" htmlFor="picture">
                   {picturePreview ? (
-                    <img
+                    <Image
                       src={picturePreview}
                       alt="Profile picture"
-                      className="h-48 w-48 rounded-full"
+                      className="h-48 w-48 rounded-full object-cover"
                     />
                   ) : (
                     <FontAwesomeIcon icon={faCircleUser} className="text-[12rem] text-rose-200" />
