@@ -19,17 +19,21 @@ export default function SwiperProfile({ profileInfos, setOpenend }: SwiperProfil
     return { bgColor: Rose[random], textColor: textColor }
   }
   return (
-    <div className="relative w-96 z-10 p-4 rounded-3xl h-auto">
-      <div className="h-[500px] bg-sky-400 rounded-3xl p-4 relative">
-        <Image src={profileInfos.mapUrl} alt="Image of map with route" className="absolute" />
+    <div className="relative w-96 z-10 rounded-3xl h-auto">
+      <div className="h-[500px] rounded-3xl p-4 relative">
+        <Image
+          src={profileInfos.mapUrl}
+          alt="Image of map with route"
+          className="absolute top-0 left-0 rounded-3xl h-[500px]"
+        />
 
         <button
-          className="h-10 w-10 rounded-3xl flex items-center justify-center bg-slate-50 bg-opacity-50"
+          className="h-10 w-10 rounded-3xl flex items-center justify-center bg-slate-50 bg-opacity-50 absolute"
           onClick={() => setOpenend(undefined)}
         >
           <FontAwesomeIcon icon={faArrowLeft} size="lg" color={Slate[800]} />
         </button>
-        <div className="absolute bottom-0 mb-2 left-2 right-2">
+        <div className="absolute bottom-0 mb-2 left-2 right-4">
           <SwiperUserInfo
             pictureUrl={profileInfos.pictureUrl}
             department={profileInfos.department}

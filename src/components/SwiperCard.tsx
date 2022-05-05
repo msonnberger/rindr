@@ -40,7 +40,7 @@ export const SwiperCard = ({ driver, ride, swipe }: SwiperCardProps) => {
   }
 
   return (
-    <div className="w-96 rounded-3xl bg-slate-100 h-600px flex flex-col shadow-xl relative">
+    <div className="w-96 rounded-3xl bg-slate-100 h-600px flex flex-col relative">
       <div className="bg-sky-300 rounded-3xl shadow-xl h-520px relative">
         <Image
           src={ride.image_url}
