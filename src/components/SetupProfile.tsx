@@ -60,6 +60,11 @@ export default function SetupProfile() {
 
     const { publicURL } = supabase.storage.from('profile-pictures').getPublicUrl(uid)
 
+    if (!hasCar) {
+      formData.carModel = undefined
+      formData.availableSeats = undefined
+    }
+
     const { data, error } = await supabase.from<SupabaseUser>('users').insert({
       id: session.user.id,
       email: session.user.email,
