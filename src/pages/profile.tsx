@@ -189,7 +189,7 @@ const Profile: NextPage = () => {
             <div className="flex flex-col items-center">
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="mt-12 flex max-w-lg flex-col items-start gap-8 w-full"
+                className="flex max-w-lg flex-col items-start gap-8 w-full"
               >
                 <label className="relative cursor-pointer self-center" htmlFor="picture">
                   {picturePreview ? (

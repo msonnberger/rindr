@@ -107,7 +107,7 @@ export default function SetupProfile() {
       <h2 className="mt-3 text-lg">Please finish setting up your profile.</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-12 flex max-w-lg flex-col items-start gap-8 w-full"
+        className="flex max-w-lg flex-col items-start gap-8 w-full"
       >
         <label className="relative cursor-pointer self-center" htmlFor="picture">
           {picturePreview ? (
