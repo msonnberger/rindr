@@ -47,6 +47,10 @@ const Profile: NextPage = () => {
               <p className="text-white font-bold ml-5 text-lg">Find Ride</p>
             </div>
           </Link>
+
+          <Link href="/impressum" passHref>
+            <p className="text-black ml-5 text-lg">Impressum</p>
+          </Link>
         </main>
       </Layout>
     </>
