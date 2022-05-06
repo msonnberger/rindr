@@ -179,14 +179,14 @@ async function fetchPreviews(userId: string): Promise<{
     .from<SupabaseRide>('rides')
     .select('*')
     .eq('driver_id', userId)
-    .order('arrival', { ascending: true })
+    .order('arrival', { ascending: false })
 
   //view: requests_join_rides
   let { data: dataRideDates, error: errorRideDates } = await supabase
     .from<RequestsJoinRides>('requests_join_rides')
     .select('*')
     .eq('accepted_passenger_id', userId)
-    .order('arrival', { ascending: true })
+    .order('arrival', { ascending: false })
 
   if (error) {
     throw error
