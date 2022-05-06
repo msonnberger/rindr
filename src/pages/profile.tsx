@@ -135,12 +135,9 @@ const Profile: NextPage = () => {
 
   const [hasCar, setHasCar] = useState(true)
 
-  const changeCarYes = () => {
-    setHasCar(true)
-  }
-
-  const changeCarNo = () => {
-    setHasCar(false)
+  const changeCar = () => {
+    if (hasCar) setHasCar(false)
+    else setHasCar(true)
   }
 
   const deleteUser = async () => {
@@ -258,7 +255,7 @@ const Profile: NextPage = () => {
                       bgColor={`${hasCar ? 'bg-rose-700' : 'bg-rose-300'}`}
                       textColor="text-white"
                       fontWeight="semibold"
-                      onClick={changeCarYes}
+                      onClick={changeCar}
                     />
                     <Button
                       buttonType="button"
@@ -266,7 +263,7 @@ const Profile: NextPage = () => {
                       bgColor={`${hasCar ? 'bg-rose-300' : 'bg-rose-700'}`}
                       textColor="text-white"
                       fontWeight="semibold"
-                      onClick={changeCarNo}
+                      onClick={changeCar}
                     />
                   </div>
                 </div>
