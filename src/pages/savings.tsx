@@ -14,7 +14,7 @@ import SocialShareButton from '@components/SocialShareButton'
 
 const Savings: NextPage = () => {
   const { data: session } = useSession()
-  const [ranking, SetRanking] = useState('')
+  const [ranking, setRanking] = useState('')
 
   useEffect(() => {
     if (session) {
@@ -28,7 +28,7 @@ const Savings: NextPage = () => {
       .select('*', { count: 'exact' })
       .gt('savings_co2', session?.user.savingsCo2)
 
-    SetRanking(convertRanking(count ?? 0))
+    setRanking(convertRanking((count ?? 0) + 1))
   }
 
   return (
@@ -56,7 +56,7 @@ const Savings: NextPage = () => {
                   <span className="font-bold">You</span> saved
                 </p>
                 <span className={`text-4xl font-bold mb-2 ${fgStylings.Emerald}`}>
-                  {session?.user.savingsCo2}kg
+                  {session?.user.savingsCo2} kg
                 </span>
                 <p className="mt-3">
                   in CO2 this month! This is the same amount as{' '}

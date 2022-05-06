@@ -91,7 +91,6 @@ export const SwiperContainer = ({
   }
 
   const outOfFrame = (name: string | undefined, idx: number) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
     // @ts-ignore
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
   }

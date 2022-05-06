@@ -57,11 +57,8 @@ const Profile: NextPage = () => {
       )
       setValue('music', session.user.music)
       setHasCar(Boolean(session.user.carModel))
-      console.log('useeffect in')
 
       if (session.user.location) {
-        console.log('innnn')
-
         setLoading(false)
       }
     }
@@ -127,8 +124,7 @@ const Profile: NextPage = () => {
       .match({ id: session.user.id })
 
     if (error || !data) {
-      console.log(error)
-
+      console.error(error)
       alert('Something went wrong. Please try again later.')
       return
     }
