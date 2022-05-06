@@ -33,7 +33,7 @@ export default function TextInput({
         id={name}
         placeholder={placeholder}
         {...register(name, registerOptions)}
-        className="bg-inherit focus:outline-none w-fit overflow-hidden overflow-ellipsis whitespace-nowrap"
+        className="bg-inherit focus:outline-none w-full overflow-hidden overflow-ellipsis whitespace-nowrap"
       />
     </div>
   )
