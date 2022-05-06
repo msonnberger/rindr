@@ -55,3 +55,15 @@ it('Test if Toggle is rendered', () => {
 test('testing if 25 minutes prints "25"', () => {
   expect(formatMinutes('25')).toBe('25')
 })
+
+it('Test if Confirmation Button is rendered', () => {
+  render(
+    <ConfirmationButton
+      text="Confirmation"
+      bgColor="bg-emerald-100"
+      textColor="text-white"
+    ></ConfirmationButton>
+  )
+
+  expect(screen.getByText(/Confirmation/i)).toBeInTheDocument()
+})
