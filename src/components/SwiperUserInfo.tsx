@@ -20,7 +20,7 @@ export default function SwiperUserInfo({
   return (
     <div
       className={`${
-        withArrow ? 'h-24' : 'h-20'
+        withArrow ? 'h-24' : 'h-22'
       } bg-slate-50 bg-opacity-50 rounded-3xl p-3 flex flex-col backdrop-blur-sm`}
     >
       <div className="flex-row flex justify-between items-center">
@@ -47,7 +47,7 @@ export default function SwiperUserInfo({
         )}
       </div>
       {withArrow && (
-        <FontAwesomeIcon icon={faChevronDown} color={Slate[800]} size="lg" className="mt-1" />
+        <FontAwesomeIcon icon={faChevronDown} color={Slate[500]} size="lg" className="-mt-3" />
       )}
     </div>
   )
