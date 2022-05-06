@@ -5,20 +5,20 @@ import React, { useState } from 'react'
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { SetupProfileFormValues } from 'src/types/main'
 
+interface LocationInputProps {
+  register: UseFormRegister<SetupProfileFormValues>
+  setValue: UseFormSetValue<SetupProfileFormValues>
+  initialLocation?: Location
+}
+
 interface Location {
   name: string
   coordinates: string[]
 }
 
-interface LocationInputProps {
-  register: UseFormRegister<SetupProfileFormValues>
-  setValue: UseFormSetValue<SetupProfileFormValues>
-  initialLocation: Location
-}
-
 export default function LocationInput({ register, setValue, initialLocation }: LocationInputProps) {
   const [suggestions, setSuggestions] = useState<Location[]>([])
-  const [selected, setSelected] = useState<Location>(initialLocation)
+  const [selected, setSelected] = useState<Location>(initialLocation ?? ({} as Location))
   const [query, setQuery] = useState('')
 
   const onInputChange = async (event: React.SyntheticEvent) => {
