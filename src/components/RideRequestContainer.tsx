@@ -24,8 +24,9 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
   const handleClick = (status: 'accepted' | 'declined' | 'pending') => {
     answerRideRequest(status)
 
-    status === 'accepted' &&
+    if (status === 'accepted') {
       updateSavingsCO2ForPassenger(RideRequest.ride_id, RideRequest.accepted_passenger_id)
+    }
   }
 
   async function answerRideRequest(status: 'accepted' | 'declined' | 'pending') {
