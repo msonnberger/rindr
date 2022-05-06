@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom'
-import { fireEvent, queryByText, render, screen } from '@testing-library/react'
-import { createRoot } from 'react-dom/client'
+import { render, screen } from '@testing-library/react'
 import ConfirmationButton from '../src/components/ConfirmationButton.tsx'
 import Error from '../src/components/ErrorMessage.tsx'
 import HeaderBubble from '../src/components/HeaderBubble.tsx'
@@ -8,14 +7,7 @@ import Head from '../src/components/Heading.tsx'
 import Image from '../src/components/Image.tsx'
 import Tag from '../src/components/Tag.tsx'
 import ToggleButton from '../src/components/ToggleButton.tsx'
-import {
-  formatDate,
-  formatMinutes,
-  formatTime,
-  getRandomInt,
-  printDate,
-  printDatePreview,
-} from '../src/utils/functions'
+import { formatMinutes } from '../src/utils/functions'
 
 describe('testing Heading Component()', () => {
   it('Test if Heading is rendered', () => {
