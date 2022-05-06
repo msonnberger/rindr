@@ -1,4 +1,4 @@
-import { formatTime } from '@utils/functions'
+import { formatTime } from '../utils/functions'
 
 interface ChatMessageProps {
   text: string

@@ -1,10 +1,13 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import { createRoot } from 'react-dom/client'
+import ChatMessage from '../src/components/ChatMessage'
 import ConfirmationButton from '../src/components/ConfirmationButton.tsx'
 import Error from '../src/components/ErrorMessage.tsx'
 import HeaderBubble from '../src/components/HeaderBubble.tsx'
 import Head from '../src/components/Heading.tsx'
 import Image from '../src/components/Image.tsx'
+import Social from '../src/components/SocialShareButton.tsx'
 import Tag from '../src/components/Tag.tsx'
 import ToggleButton from '../src/components/ToggleButton.tsx'
 import { formatMinutes } from '../src/utils/functions'
@@ -63,4 +66,24 @@ it('Test if Error Message is rendered', () => {
   render(<Error headline="head" text="error" colors="bg-emerald-100"></Error>)
 
   expect(screen.getByText(/error/i)).toBeInTheDocument()
+})
+
+it('Test if Chat Message is rendered', () => {
+  render(<ChatMessage text="chat" timestamp="4/15/2022" received="true"></ChatMessage>)
+
+  expect(screen.getByText('chat')).toBeInTheDocument()
+})
+
+it('Test if Social Button is rendered', () => {
+  render(
+    <Social
+      color="bg-emerald-100"
+      textColor="white"
+      url=""
+      text="social"
+      description="mega"
+    ></Social>
+  )
+
+  expect(screen.getByText('mega')).toBeInTheDocument()
 })
