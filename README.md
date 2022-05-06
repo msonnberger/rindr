@@ -27,7 +27,7 @@
 
 # How to run this project
 
-- add ".env.local" file with variables for sign-in and Supabase) --> pay attention on the proper naming of this file (env.local without dot in the beginning will fail)
+- add ".env.local" file
 - npm npm install --legacy-peer-deps
 - npm run dev
 
