@@ -35,4 +35,4 @@
 
 ## [Figma](https://www.figma.com/file/mZ2G3EvSs2VLwsl7D0Mnbx/RideSharing?node-id=0%3A1)
 
-## [Supabase] (https://app.supabase.io/project/epipzztphtjupkzwxmsj)
+## [Supabase](https://app.supabase.io/project/epipzztphtjupkzwxmsj)
