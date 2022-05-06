@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { fireEvent, queryByText, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { createRoot } from 'react-dom/client'
 import ChatMessage from '../src/components/ChatMessage'
 import ConfirmationButton from '../src/components/ConfirmationButton.tsx'
@@ -10,14 +10,7 @@ import Image from '../src/components/Image.tsx'
 import Social from '../src/components/SocialShareButton.tsx'
 import Tag from '../src/components/Tag.tsx'
 import ToggleButton from '../src/components/ToggleButton.tsx'
-import {
-  formatDate,
-  formatMinutes,
-  formatTime,
-  getRandomInt,
-  printDate,
-  printDatePreview,
-} from '../src/utils/functions'
+import { formatMinutes } from '../src/utils/functions'
 
 describe('testing Heading Component()', () => {
   it('Test if Heading is rendered', () => {
