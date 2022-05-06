@@ -1,22 +1,13 @@
 import '@testing-library/jest-dom'
-import { fireEvent, queryByText, render, screen } from '@testing-library/react'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createRoot } from 'react-dom/client'
+import { render, screen } from '@testing-library/react'
 import ConfirmationButton from '../src/components/ConfirmationButton.tsx'
+import Error from '../src/components/ErrorMessage.tsx'
 import HeaderBubble from '../src/components/HeaderBubble.tsx'
 import Head from '../src/components/Heading.tsx'
 import Image from '../src/components/Image.tsx'
-// import Tag from '../src/components/Tag.tsx'
+import Tag from '../src/components/Tag.tsx'
 import ToggleButton from '../src/components/ToggleButton.tsx'
-import {
-  formatDate,
-  formatMinutes,
-  formatTime,
-  getRandomInt,
-  printDate,
-  printDatePreview,
-} from '../src/utils/functions'
+import { formatMinutes } from '../src/utils/functions'
 
 describe('testing Heading Component()', () => {
   it('Test if Heading is rendered', () => {
@@ -40,11 +31,11 @@ it('Test if Image is rendered', () => {
   expect(screen.getByAltText(/testi/i)).toBeInTheDocument()
 })
 
-// it('Test if Tag is rendered', () => {
-//   render(<Tag key="1" text="testtag" className="pl-4 pr-4 py-2"></Tag>)
+it('Test if Tag is rendered', () => {
+  render(<Tag text="testtag" className="pl-4 pr-4 py-2"></Tag>)
 
-//   expect(screen.getByAltText(/testtag/i)).toBeInTheDocument()
-// })
+  expect(screen.getByText('testtag')).toBeInTheDocument()
+})
 
 it('Test if Toggle is rendered', () => {
   render(<ToggleButton text="testtoggle" bgColor="bg-emerald-100" openend="true"></ToggleButton>)
@@ -66,4 +57,10 @@ it('Test if Confirmation Button is rendered', () => {
   )
 
   expect(screen.getByText(/Confirmation/i)).toBeInTheDocument()
+})
+
+it('Test if Error Message is rendered', () => {
+  render(<Error headline="head" text="error" colors="bg-emerald-100"></Error>)
+
+  expect(screen.getByText(/error/i)).toBeInTheDocument()
 })

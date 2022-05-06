@@ -6,25 +6,16 @@
     "plugin:react/jsx-runtime",
     "prettier"
   ],
-  "plugins": ["import-alias"],
+  "plugins": ["jest"],
   "rules": {
     "react/jsx-curly-brace-presence": [
       "error",
       { "props": "never", "children": "never", "propElementValues": "always" }
     ],
-    "import-alias/import-alias": [
-      "error",
-      {
-        "relativeDepth": 0,
-        "aliases": [
-          { "alias": "@components", "matcher": "^components" },
-          { "alias": "@hooks", "matcher": "^hooks" },
-          { "alias": "@utils", "matcher": "^utils" },
-          { "alias": "@styles", "matcher": "^styles" }
-        ]
-      }
-    ],
     "react-hooks/exhaustive-deps": "off",
     "@next/next/no-img-element": "off"
+  },
+  "env": {
+    "jest/globals": true
   }
 }
