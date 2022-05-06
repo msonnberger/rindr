@@ -19,8 +19,12 @@ const Profile: NextPage = () => {
         <link rel="icon" href="/logo.svg" />
       </Head>
       <Layout>
-        <Image alt="logo" src="/logo.svg" height={100} width={100} />
-
+        <div className="flex justify-between items-center">
+          <Image alt="logo" src="/logo.svg" height={100} width={100} />
+          <Link href="/imprint">
+            <a className="text-sky-600 font-semibold text-lg">Imprint</a>
+          </Link>
+        </div>
         <main className="flex w-full flex-1 flex-col items-center justify-center gap-8 px-20 text-center">
           {session && (
             <div className="mb-20">
@@ -47,8 +51,6 @@ const Profile: NextPage = () => {
               <p className="text-white font-bold ml-5 text-lg">Find Ride</p>
             </div>
           </Link>
-
-          <Link href="/impressum">Impressum</Link>
         </main>
       </Layout>
     </>
