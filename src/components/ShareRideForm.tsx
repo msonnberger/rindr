@@ -70,6 +70,9 @@ export default function ShareRideForm() {
       return
     }
 
+    const calc = ~~((session?.user?.savingsCo2 ?? 0) + (newRide.duration ?? 0) / 200)
+    await supabase.from('users').update({ savings_co2: calc }).match({ id: session?.user.id })
+
     router.push('/rides')
   }
 
