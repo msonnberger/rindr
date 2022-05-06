@@ -3,8 +3,20 @@ import { fireEvent, queryByText, render, screen } from '@testing-library/react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createRoot } from 'react-dom/client'
+import ConfirmationButton from '../src/components/ConfirmationButton.tsx'
 import HeaderBubble from '../src/components/HeaderBubble.tsx'
 import Head from '../src/components/Heading.tsx'
+import Image from '../src/components/Image.tsx'
+// import Tag from '../src/components/Tag.tsx'
+import ToggleButton from '../src/components/ToggleButton.tsx'
+import {
+  formatDate,
+  formatMinutes,
+  formatTime,
+  getRandomInt,
+  printDate,
+  printDatePreview,
+} from '../src/utils/functions'
 
 describe('testing Heading Component()', () => {
   it('Test if Heading is rendered', () => {
@@ -20,4 +32,26 @@ it('Test if Heading is rendered', () => {
   )
 
   expect(screen.getByText(/Tester/i)).toBeInTheDocument()
+})
+
+it('Test if Image is rendered', () => {
+  render(<Image src="/car.svg" alt="testi" width="32" height="32"></Image>)
+
+  expect(screen.getByAltText(/testi/i)).toBeInTheDocument()
+})
+
+// it('Test if Tag is rendered', () => {
+//   render(<Tag key="1" text="testtag" className="pl-4 pr-4 py-2"></Tag>)
+
+//   expect(screen.getByAltText(/testtag/i)).toBeInTheDocument()
+// })
+
+it('Test if Toggle is rendered', () => {
+  render(<ToggleButton text="testtoggle" bgColor="bg-emerald-100" openend="true"></ToggleButton>)
+
+  expect(screen.getByText(/testtoggle/i)).toBeInTheDocument()
+})
+
+test('testing if 25 minutes prints "25"', () => {
+  expect(formatMinutes('25')).toBe('25')
 })
