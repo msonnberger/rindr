@@ -4,6 +4,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { Emerald, fgStylings } from '@styles/colors'
+import FHLogoText from '@components/FHLogoText'
 import Heading from '@components/Heading'
 import ImpressumSection from '@components/ImpressumSection'
 import Layout from '@components/Layout'
@@ -57,7 +58,7 @@ const Imprint: NextPage = () => {
           </ImpressumSection>
 
           <ImpressumSection header="Contact">
-            <ul className="leading-7">
+            <ul className="leading-7 mb-8">
               <li>
                 <a href="mailto:jmohr.mmt-b2020@fh-salzburg.ac.at">
                   jmohr.mmt-b2020@fh-salzburg.ac.at
@@ -80,6 +81,7 @@ const Imprint: NextPage = () => {
               </li>
             </ul>
           </ImpressumSection>
+          <FHLogoText width={200} />
         </div>
       </Layout>
     </>

@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { fgStylings } from '@styles/colors'
+import FHLogo from '@components/FHLogo'
 import Heading from '@components/Heading'
 import Image from '@components/Image'
 import Layout from '@components/Layout'
@@ -20,6 +21,7 @@ const Profile: NextPage = () => {
       </Head>
       <Layout>
         <div className="flex justify-between items-center">
+          <FHLogo width={100} />
           <Image alt="logo" src="/logo.svg" height={100} width={100} />
           <Link href="/imprint">
             <a className="text-sky-600 font-semibold text-lg">Imprint</a>

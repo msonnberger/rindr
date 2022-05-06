@@ -116,7 +116,7 @@ export default function ShareRideForm() {
         )}
       </div>
       <button
-        className="w-6 h-6 bg-emerald-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3"
+        className="p-2 bg-emerald-400 rounded-full flex justify-center items-center absolute right-0 mt-4 mr-3"
         onClick={(ev) => ExchangeLocation(ev)}
       >
         <FontAwesomeIcon icon={faRightLeft} color="white" rotation={90} />
