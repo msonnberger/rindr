@@ -28,7 +28,7 @@
 # How to run this project
 
 - add ".env.local" file with variables for sign-in and Supabase) --> pay attention on the proper naming of this file (env.local without dot in the beginning will fail)
-- npm install
+- npm npm install --legacy-peer-deps
 - npm run dev
 
 ## [Live Version (Vercel)](https://rindr.vercel.app)
