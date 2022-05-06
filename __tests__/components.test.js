@@ -1,9 +1,8 @@
 import '@testing-library/jest-dom'
 import { fireEvent, queryByText, render, screen } from '@testing-library/react'
-import React from 'react'
-import ReactDOM from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import ConfirmationButton from '../src/components/ConfirmationButton.tsx'
+import Error from '../src/components/ErrorMessage.tsx'
 import HeaderBubble from '../src/components/HeaderBubble.tsx'
 import Head from '../src/components/Heading.tsx'
 import Image from '../src/components/Image.tsx'
@@ -66,4 +65,10 @@ it('Test if Confirmation Button is rendered', () => {
   )
 
   expect(screen.getByText(/Confirmation/i)).toBeInTheDocument()
+})
+
+it('Test if Error Message is rendered', () => {
+  render(<Error headline="head" text="error" colors="bg-emerald-100"></Error>)
+
+  expect(screen.getByText(/error/i)).toBeInTheDocument()
 })
