@@ -6,7 +6,7 @@ import Error from '../src/components/ErrorMessage.tsx'
 import HeaderBubble from '../src/components/HeaderBubble.tsx'
 import Head from '../src/components/Heading.tsx'
 import Image from '../src/components/Image.tsx'
-// import Tag from '../src/components/Tag.tsx'
+import Tag from '../src/components/Tag.tsx'
 import ToggleButton from '../src/components/ToggleButton.tsx'
 import {
   formatDate,
@@ -39,11 +39,11 @@ it('Test if Image is rendered', () => {
   expect(screen.getByAltText(/testi/i)).toBeInTheDocument()
 })
 
-// it('Test if Tag is rendered', () => {
-//   render(<Tag key="1" text="testtag" className="pl-4 pr-4 py-2"></Tag>)
+it('Test if Tag is rendered', () => {
+  render(<Tag text="testtag" className="pl-4 pr-4 py-2"></Tag>)
 
-//   expect(screen.getByAltText(/testtag/i)).toBeInTheDocument()
-// })
+  expect(screen.getByText('testtag')).toBeInTheDocument()
+})
 
 it('Test if Toggle is rendered', () => {
   render(<ToggleButton text="testtoggle" bgColor="bg-emerald-100" openend="true"></ToggleButton>)

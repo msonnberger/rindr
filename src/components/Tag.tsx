@@ -1,13 +1,12 @@
-import { getRandomInt } from '@utils/functions'
-import { Rose } from '@styles/colors'
+import { Rose } from '../styles/colors'
+import { getRandomInt } from '../utils/functions'
 
 interface TagProps {
   text: string
-  key: string | number
   className?: string
 }
 
-export default function Tag({ text, key, className }: TagProps) {
+export default function Tag({ text, className }: TagProps) {
   const randomColor = () => {
     const random = getRandomInt(1, 9) * 100
     const textColor = random < 500 ? Rose[900] : Rose[50]
@@ -18,7 +17,6 @@ export default function Tag({ text, key, className }: TagProps) {
 
   return (
     <div
-      key={key}
       className={`group relative flex gap-4 rounded-full bg-slate-100 ${className}`}
       style={{ backgroundColor: bgColor, color: textColor }}
     >
