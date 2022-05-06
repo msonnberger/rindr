@@ -23,6 +23,9 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
 
   const handleClick = (status: 'accepted' | 'declined' | 'pending') => {
     answerRideRequest(status)
+
+    status === 'accepted' &&
+      updateSavingsCO2ForPassenger(RideRequest.ride_id, RideRequest.accepted_passenger_id)
   }
 
   async function answerRideRequest(status: 'accepted' | 'declined' | 'pending') {
@@ -65,6 +68,25 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
       alert('Updating rides.passenger_id failed')
       return
     }
+  }
+
+  const updateSavingsCO2ForPassenger = async (rideId: string, passengerId: string) => {
+    const { data: dataRides } = await supabase
+      .from('rides')
+      .select('duration')
+      .match({ id: rideId })
+      .limit(1)
+      .single()
+
+    const { data: dataPassenger } = await supabase
+      .from('users')
+      .select('savings_co2')
+      .match({ id: passengerId })
+      .limit(1)
+      .single()
+
+    const calc = ~~(dataPassenger.savings_co2 + dataRides.duration / 200)
+    await supabase.from('users').update({ savings_co2: calc }).match({ id: passengerId })
   }
 
   return (
