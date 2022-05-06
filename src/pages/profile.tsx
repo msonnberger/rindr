@@ -236,7 +236,17 @@ const Profile: NextPage = () => {
                   </button>
                 </div>
 
-                <LocationInput register={register} setValue={setValue} />
+                <LocationInput
+                  register={register}
+                  setValue={setValue}
+                  initialLocation={{
+                    name: session?.user.location ?? '',
+                    coordinates: [
+                      session?.user.latitude.toString() ?? '',
+                      session?.user.longitude.toString() ?? '',
+                    ],
+                  }}
+                />
                 {errors.location && <FormError message={errors.location.message} />}
 
                 <TextAreaInput
