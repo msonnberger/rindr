@@ -60,7 +60,7 @@ export default function FindRideForm({ setOpenFilter, setSwiperCards }: FindRide
   return (
     <>
       <button
-        className="rounded-3xl flex items-center justify-center bg-sky-400 py-2 pl-4 pr-4 text-white fit-content w-max absolute right-0 top-16"
+        className="rounded-3xl flex items-center justify-center bg-sky-400 py-2 pl-4 pr-4 text-white fit-content w-max absolute right-0 top-0"
         onClick={() => handleSubmit()}
       >
         Close Filter
@@ -78,7 +78,7 @@ export default function FindRideForm({ setOpenFilter, setSwiperCards }: FindRide
         )}
       </div>
       <button
-        className="w-6 h-6 bg-sky-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3"
+        className="p-2 bg-sky-400 rounded-full flex justify-center items-center absolute right-0 mt-4 mr-3"
         onClick={(ev) => ExchangeLocation(ev)}
       >
         <FontAwesomeIcon icon={faRightLeft} color="white" rotation={90} />

@@ -31,15 +31,17 @@ const FindRide: NextPage = () => {
         )}
         {!openedProfile && (
           <div className="relative">
-            <button onClick={() => router.back()} className="w-min">
-              <FontAwesomeIcon
-                icon={faAngleLeft}
-                size="lg"
-                color={Sky[400]}
-                className="cursor-pointer absolute"
-              />
-            </button>
-            <Heading title="Find Ride" color={fgStylings.Sky} marginTop="mt-10" />
+            <div className="flex items-center">
+              <button onClick={() => router.back()} className="w-min">
+                <FontAwesomeIcon
+                  icon={faAngleLeft}
+                  size="lg"
+                  color={Sky[400]}
+                  className="cursor-pointer mr-4"
+                />
+              </button>
+              <Heading title="Find Ride" color={fgStylings.Sky} marginTop="" />
+            </div>
             {openFilter && (
               <FindRideForm setOpenFilter={setOpenFilter} setSwiperCards={setSwiperCards} />
             )}

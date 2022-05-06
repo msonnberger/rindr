@@ -4,17 +4,18 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { Emerald, fgStylings } from '@styles/colors'
+import FHLogoText from '@components/FHLogoText'
 import Heading from '@components/Heading'
 import ImpressumSection from '@components/ImpressumSection'
 import Layout from '@components/Layout'
 
-const Savings: NextPage = () => {
+const Imprint: NextPage = () => {
   const router = useRouter()
 
   return (
     <>
       <Head>
-        <title>Savings</title>
+        <title>Imprint</title>
         <link rel="icon" href="/logo.svg" />
       </Head>
       <Layout>
@@ -27,7 +28,7 @@ const Savings: NextPage = () => {
               className="cursor-pointer"
             />
           </button>
-          <Heading title="Impressum" color={fgStylings.Emerald} marginTop="mt-8" />
+          <Heading title="Imprint" color={fgStylings.Emerald} marginTop="mt-8" />
           <p className="mt-6">
             This website was created by Team Rindr with the members: Juliane Mohr, Maximilian Hajek,
             Martin Sonnberger and Pascal Gottschling as Multimediaproject 2b for FH Salzburg.
@@ -57,17 +58,34 @@ const Savings: NextPage = () => {
           </ImpressumSection>
 
           <ImpressumSection header="Contact">
-            <ul>
-              <li>jmohr.mmt-b2020@fh-salzburg.ac.at</li>
-              <li>mhajek.mmt-b2020@fh-salzburg.ac.at</li>
-              <li>msonnberger.mmt-b2020@fh-salzburg.ac.at</li>
-              <li>pgottschling.mmt-b2020@fh-salzburg.ac.at</li>
+            <ul className="leading-7 mb-8">
+              <li>
+                <a href="mailto:jmohr.mmt-b2020@fh-salzburg.ac.at">
+                  jmohr.mmt-b2020@fh-salzburg.ac.at
+                </a>
+              </li>
+              <li>
+                <a href="mailto:mhajek.mmt-b2020@fh-salzburg.ac.at">
+                  mhajek.mmt-b2020@fh-salzburg.ac.at
+                </a>
+              </li>
+              <li>
+                <a href="msonnberger.mmt-b2020@fh-salzburg.ac.at">
+                  msonnberger.mmt-b2020@fh-salzburg.ac.at
+                </a>
+              </li>
+              <li>
+                <a href="pgottschling.mmt-b2020@fh-salzburg.ac.at">
+                  pgottschling.mmt-b2020@fh-salzburg.ac.at
+                </a>
+              </li>
             </ul>
           </ImpressumSection>
+          <FHLogoText width={200} />
         </div>
       </Layout>
     </>
   )
 }
 
-export default Savings
+export default Imprint

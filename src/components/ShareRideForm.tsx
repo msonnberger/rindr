@@ -20,14 +20,19 @@ export default function ShareRideForm() {
   }
 
   const router = useRouter()
+  const now = new Date()
   const [locationInput, setLocationInput] = useState<LocationObject>(home)
   const [locationOptions, setLocationOptions] = useState<Array<LocationObject>>([home])
   const [destinationInput, setDestinationInput] = useState<LocationObject>(Campuses[0])
   const [destinationOptions, setDestinationOptions] = useState<Array<LocationObject>>(Campuses)
-  const [dateInput, setDateInput] = useState(new Date().toISOString().split('T')[0])
-  const [timeInput, setTimeInput] = useState('08:00')
+  const [dateInput, setDateInput] = useState(now.toISOString().split('T')[0])
+  const [timeInput, setTimeInput] = useState(
+    now.toLocaleTimeString('de-AT', {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  )
   const [thresholdInput, setThresholdInput] = useState(25)
-  const now = new Date()
 
   const handleSubmit = async () => {
     const newRide: Partial<SupabaseRide> = {
@@ -111,7 +116,7 @@ export default function ShareRideForm() {
         )}
       </div>
       <button
-        className="w-6 h-6 bg-emerald-400 rounded-2xl flex justify-center items-center absolute right-0 mt-4 mr-3"
+        className="p-2 bg-emerald-400 rounded-full flex justify-center items-center absolute right-0 mt-4 mr-3"
         onClick={(ev) => ExchangeLocation(ev)}
       >
         <FontAwesomeIcon icon={faRightLeft} color="white" rotation={90} />
