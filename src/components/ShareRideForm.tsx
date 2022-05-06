@@ -27,6 +27,7 @@ export default function ShareRideForm() {
   const [dateInput, setDateInput] = useState(new Date().toISOString().split('T')[0])
   const [timeInput, setTimeInput] = useState('08:00')
   const [thresholdInput, setThresholdInput] = useState(25)
+  const now = new Date()
 
   const handleSubmit = async () => {
     const newRide: Partial<SupabaseRide> = {
@@ -134,6 +135,7 @@ export default function ShareRideForm() {
             className="flex gap-4 rounded-full bg-slate-100 p-3 focus:outline-none text-slate-600 font-light"
             type="date"
             name="date"
+            min={now.toISOString().split('T')[0]}
             onChange={(ev) => setDateInput(ev.target.value)}
             value={dateInput}
           />
