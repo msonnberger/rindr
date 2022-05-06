@@ -4,8 +4,8 @@ import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Fragment, useState } from 'react'
-import { RequestsByDate, RequestsJoinRides, SupabaseRide } from 'src/types/main'
-import { formatDateRides, formatTimestamp } from '@utils/functions'
+import { RequestsByDate, RequestsJoinRides, SupabaseRide, SupabaseUser } from 'src/types/main'
+import { combineCoordinates, formatDateRides, formatTimestamp } from '@utils/functions'
 import { supabase } from '@utils/supabaseClient'
 import { Emerald, Orange, Sky, fgStylings } from '@styles/colors'
 import Heading from '@components/Heading'
@@ -182,7 +182,7 @@ async function fetchPreviews(userId: string): Promise<{
     .order('arrival', { ascending: true })
 
   //view: requests_join_rides
-  const { data: dataRideDates, error: errorRideDates } = await supabase
+  let { data: dataRideDates, error: errorRideDates } = await supabase
     .from<RequestsJoinRides>('requests_join_rides')
     .select('*')
     .eq('accepted_passenger_id', userId)
@@ -193,18 +193,72 @@ async function fetchPreviews(userId: string): Promise<{
   }
 
   if (errorSharedRides) {
-    throw error
+    throw errorSharedRides
   }
 
   if (errorRideDates) {
-    throw error
+    throw errorRideDates
   }
 
   if (!data || !dataSharedRides || !dataRideDates) {
     throw new Error()
   }
 
+  const namePromises = dataRideDates.map((rideDate) => addDriverName(rideDate))
+  dataRideDates = await Promise.all(namePromises)
+
+  const pickupTimePromises = dataRideDates.map((rideDate) => addPickupTime(rideDate))
+  dataRideDates = await Promise.all(pickupTimePromises)
+
   return { rideRequests: data, sharedRides: dataSharedRides, rideDates: dataRideDates }
+}
+
+async function addDriverName(rideDate: RequestsJoinRides) {
+  const { data, error } = await supabase
+    .from<SupabaseUser>('users')
+    .select('first_name, latitude, longitude, location')
+    .eq('id', rideDate.driver_id)
+    .single()
+
+  if (error) throw error
+
+  return {
+    ...rideDate,
+    driver_first_name: data.first_name,
+    driver_latitude: data.latitude,
+    driver_longitude: data.longitude,
+    driver_location: data.location,
+  }
+}
+
+async function addPickupTime(rideDate: RequestsJoinRides) {
+  const start = {
+    latitude: rideDate.driver_latitude,
+    longitude: rideDate.driver_longitude,
+  }
+
+  const destination = {
+    latitude: rideDate.via_point_latitude,
+    longitude: rideDate.via_point_longitude,
+  }
+
+  const baseUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/`
+  const splitDeparture = rideDate.departure.split('+')[0]
+  const departure = splitDeparture.substring(0, splitDeparture.length - 3)
+  const params = new URLSearchParams([
+    ['depart_at', departure],
+    ['access_token', process.env.PRIVATE_MAPBOX_KEY as string],
+  ])
+
+  const url = `${baseUrl}${combineCoordinates([start, destination])}?${params.toString()}`
+  const response = await fetch(url)
+  const data = await response.json()
+
+  const duration = data.routes[0].duration
+  const departureDate = new Date(rideDate.departure)
+  const arrivalDate = new Date(departureDate.getTime() + duration * 1000).toISOString()
+
+  return { ...rideDate, pickup_time: arrivalDate }
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -224,12 +278,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }, {} as RequestsByDate)
 
-  const rideDatesByDate = dataRideDates.reduce((dateGroups, request) => {
-    const dateString = formatTimestamp(request.arrival)
+  const rideDatesByDate = dataRideDates.reduce((dateGroups, ride) => {
+    const dateString = formatTimestamp(ride.arrival)
 
     return {
       ...dateGroups,
-      [dateString]: [...(dateGroups[dateString] || []), request],
+      [dateString]: [...(dateGroups[dateString] || []), ride],
     }
   }, {} as RequestsByDate)
 

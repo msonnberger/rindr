@@ -161,6 +161,10 @@ export interface RequestsJoinRides {
   via_point_latitude: number
   via_point_longitude: number
   via_point_location: string
+  driver_first_name: string
+  driver_latitude: number
+  driver_longitude: number
+  pickup_time: string
 }
 
 export type RequestsByDate = Record<string, RequestsJoinRides[]>
