@@ -13,11 +13,12 @@ interface Location {
 interface LocationInputProps {
   register: UseFormRegister<SetupProfileFormValues>
   setValue: UseFormSetValue<SetupProfileFormValues>
+  initialLocation: Location
 }
 
-export default function LocationInput({ register, setValue }: LocationInputProps) {
+export default function LocationInput({ register, setValue, initialLocation }: LocationInputProps) {
   const [suggestions, setSuggestions] = useState<Location[]>([])
-  const [selected, setSelected] = useState<Location>({} as Location)
+  const [selected, setSelected] = useState<Location>(initialLocation)
   const [query, setQuery] = useState('')
 
   const onInputChange = async (event: React.SyntheticEvent) => {
