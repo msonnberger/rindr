@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { createRoot } from 'react-dom/client'
 import ChatMessage from '../src/components/ChatMessage'
 import ConfirmationButton from '../src/components/ConfirmationButton.tsx'
 import Error from '../src/components/ErrorMessage.tsx'
