@@ -22,7 +22,7 @@ export default function NavElement({
 
   useEffect(() => {
     if (isActive) {
-      const timeout = setTimeout(() => setShow(true), 500)
+      const timeout = setTimeout(() => setShow(true), 50)
 
       return () => {
         clearTimeout(timeout)
@@ -31,28 +31,21 @@ export default function NavElement({
   }, [])
 
   return (
-    <div className="w-16">
-      {isActive && (
-        <Link href={route} passHref>
-          <button
-            className={`flex h-10 flex-row items-center justify-between gap-3 rounded-3xl px-3 ${bgColor}`}
-          >
-            {children}
-            {show && (
-              <p
-                className={`font-sans text-xs font-bold ${fgColor} hidden sm:block animate-slideIn`}
-              >
-                {title}
-              </p>
-            )}
-          </button>
-        </Link>
-      )}
-      {!isActive && (
-        <Link href={route} passHref>
-          <button className="px-3">{children}</button>
-        </Link>
-      )}
-    </div>
+    <Link href={route}>
+      <a
+        className={`min-w-[3rem] w-fit flex h-10 items-center justify-center gap-3 rounded-3xl px-3 ${
+          isActive && bgColor
+        }`}
+      >
+        {children}
+        <p
+          className={`${
+            show ? 'visible' : 'invisible'
+          } font-sans text-xs font-bold ${fgColor} hidden sm:block animate-slideIn`}
+        >
+          {title}
+        </p>
+      </a>
+    </Link>
   )
 }
