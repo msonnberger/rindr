@@ -31,7 +31,7 @@
 - npm npm install --legacy-peer-deps
 - npm run dev
 
-## [Live Version (Vercel)](https://rindr.vercel.app)
+## [Live Version](https://rindr.msonnberger.com)
 
 ## [Figma](https://www.figma.com/file/mZ2G3EvSs2VLwsl7D0Mnbx/RideSharing?node-id=0%3A1)
 
