@@ -78,7 +78,7 @@ const Rides: NextPage<{
                     {rideRequests[date].map((request: RequestsJoinRides, index: number) => (
                       <RideRequestContainer
                         updatePreviews={updatePreviews}
-                        RideRequest={request}
+                        rideRequest={request}
                         key={index}
                       />
                     ))}
@@ -173,6 +173,7 @@ async function fetchPreviews(userId: string): Promise<{
     .select('*')
     .eq('driver_id', userId)
     .order('arrival', { ascending: false })
+    .order('id')
 
   const { data: dataSharedRides, error: errorSharedRides } = await supabase
     .from<SupabaseRide>('rides')
