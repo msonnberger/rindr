@@ -308,7 +308,7 @@ const Profile: NextPage = () => {
                   <TagsInput control={control} register={register} />
                   <h3 className="text-left font-bold">Music</h3>
                   <TextInput
-                    placeholder="What music do you listen to?"
+                    placeholder="Flo Rindr, Avril Lavinge, ..."
                     register={register}
                     registerOptions={{
                       required:
