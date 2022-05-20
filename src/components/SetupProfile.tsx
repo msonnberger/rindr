@@ -7,7 +7,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { SetupProfileFormValues, SupabaseUser } from 'src/types/main'
@@ -17,7 +16,6 @@ import Button from './Button'
 
 export default function SetupProfile() {
   const { data: session } = useSession()
-  const router = useRouter()
 
   const {
     register,
@@ -44,7 +42,6 @@ export default function SetupProfile() {
       alert('Looks like you are not logged in. Please try reloading the page.')
       return
     }
-    console.log(formData.carModel)
 
     const uid = session.user.id
 
@@ -87,7 +84,7 @@ export default function SetupProfile() {
       return
     }
 
-    router.replace('/')
+    window.location.replace('/')
   }
 
   const [hasCar, setHasCar] = useState(true)
