@@ -48,7 +48,7 @@ const Profile: NextPage = () => {
       setValue('longitude', session.user.longitude)
       setValue('latitude', session.user.latitude)
       setValue('bio', session.user.bio)
-      setValue('hasNoCar', Boolean(session.user.carModel))
+      setValue('hasNoCar', Boolean(!session.user.carModel))
       setValue('carModel', session.user.carModel)
       setValue('availableSeats', session.user.availableSeats)
       setValue(
@@ -136,8 +136,8 @@ const Profile: NextPage = () => {
   const [hasCar, setHasCar] = useState(true)
 
   const changeCar = () => {
-    if (hasCar) setHasCar(false)
-    else setHasCar(true)
+    setHasCar(!hasCar)
+    setValue('hasNoCar', hasCar)
   }
 
   const deleteUser = async () => {
@@ -305,7 +305,7 @@ const Profile: NextPage = () => {
                         </div>
                       </div>
                     </div>
-                    <div>{errors.carModel && <FormError message={errors.carModel.message} />}</div>
+                    {errors.carModel && <FormError message={errors.carModel.message} />}
                   </>
                 )}
 

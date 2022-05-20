@@ -154,28 +154,31 @@ export default function SetupProfile() {
         </div>
 
         {hasCar && (
-          <div>
-            <h3 className="mb-3 text-left font-bold">My car</h3>
-            <div className="flex flex-wrap items-start gap-3">
-              <TextInput
-                placeholder="Which car do you have?"
-                register={register}
-                name="carModel"
-                tailwindBgClass="bg-rose-500"
-                icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
-              />
-              <div className="relative">
-                <NumberInput
-                  placeholder="2"
+          <>
+            <div>
+              <h3 className="mb-3 text-left font-bold">My car</h3>
+              <div className="flex flex-wrap items-start gap-3">
+                <TextInput
+                  placeholder="Which car do you have?"
                   register={register}
-                  name="availableSeats"
+                  name="carModel"
                   tailwindBgClass="bg-rose-500"
-                  icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+                  icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
                 />
-                <p className="font-light absolute top-3 left-32">seats</p>
+                <div className="relative">
+                  <NumberInput
+                    placeholder="2"
+                    register={register}
+                    name="availableSeats"
+                    tailwindBgClass="bg-rose-500"
+                    icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+                  />
+                  <p className="font-light absolute top-3 left-32">seats</p>
+                </div>
               </div>
             </div>
-          </div>
+            {errors.carModel && <FormError message={errors.carModel.message} />}
+          </>
         )}
 
         <div className="flex flex-col gap-3">
