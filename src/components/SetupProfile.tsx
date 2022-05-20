@@ -179,7 +179,11 @@ export default function SetupProfile() {
         )}
 
         <div className="flex flex-col gap-3">
-          <h3 className="text-left font-bold">Interests</h3>
+          <div className="flex items-center">
+            <h3 className="text-left font-bold">Interests</h3>
+            <span className="ml-1 font-light text-xs">(Optional)</span>
+          </div>
+
           <TagsInput control={control} register={register} />
           <h3 className="text-left font-bold">Music</h3>
           <TextInput
