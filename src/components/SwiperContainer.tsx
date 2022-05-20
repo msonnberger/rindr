@@ -102,7 +102,7 @@ export const SwiperContainer = ({
         onClick={() => setOpenFilter(true)}
       >
         <FontAwesomeIcon icon={faRoute} size="lg" />
-        <p className="ml-3 font-bold">Filter</p>
+        <p className="ml-3 font-bold">Edit Search</p>
       </button>
       <div className="flex justify-center mt-8">
         {currentIndexRef.current == -1 && (
