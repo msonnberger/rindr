@@ -61,9 +61,9 @@ export default function FindRideForm({ setOpenFilter, setSwiperCards }: FindRide
     <>
       <button
         className="rounded-3xl flex items-center justify-center bg-sky-400 py-2 pl-4 pr-4 text-white fit-content w-max absolute right-0 top-0"
-        onClick={() => handleSubmit()}
+        onClick={() => setOpenFilter(false)}
       >
-        Close Filter
+        Close
       </button>
       <div className="mt-5">
         <p className="font-light mt-6 mb-2">from</p>
