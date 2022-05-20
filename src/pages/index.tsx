@@ -37,14 +37,17 @@ const Profile: NextPage = () => {
               />
             </div>
           )}
-          <Link href="/share-ride" passHref>
-            <div className="flex flex-row h-20 bg-emerald-200 items-center rounded-4xl cursor-pointer w-52">
-              <div className="h-16 w-16 rounded-4xl bg-emerald-400 flex justify-center items-center ml-2">
-                <FontAwesomeIcon icon={faUserGroup} color="white" size="2x" />
+          {session?.user.carModel && (
+            <Link href="/share-ride" passHref>
+              <div className="flex flex-row h-20 bg-emerald-200 items-center rounded-4xl cursor-pointer w-52">
+                <div className="h-16 w-16 rounded-4xl bg-emerald-400 flex justify-center items-center ml-2">
+                  <FontAwesomeIcon icon={faUserGroup} color="white" size="2x" />
+                </div>
+                <p className="text-white font-bold ml-5 text-lg">Share Ride</p>
               </div>
-              <p className="text-white font-bold ml-5 text-lg">Share Ride</p>
-            </div>
-          </Link>
+            </Link>
+          )}
+
           <Link href="/find-ride" passHref>
             <div className="flex flex-row h-20 bg-sky-200 items-center rounded-4xl cursor-pointer w-52">
               <div className="h-16 w-16 rounded-4xl bg-sky-400 flex justify-center items-center ml-2">

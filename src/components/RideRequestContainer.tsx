@@ -8,16 +8,16 @@ import Image from '@components/Image'
 import ConfirmationButton from './ConfirmationButton'
 
 interface RideRequestProps {
-  RideRequest: RequestsJoinRides
+  rideRequest: RequestsJoinRides
   updatePreviews: any
 }
 
-export default function RideRequestContainer({ RideRequest, updatePreviews }: RideRequestProps) {
+export default function RideRequestContainer({ rideRequest, updatePreviews }: RideRequestProps) {
   const { data: session } = useSession()
   const bgColor =
-    RideRequest.status === 'accepted'
-      ? `bg-emerald-100`
-      : RideRequest.status === 'pending'
+    rideRequest.status === 'accepted'
+      ? 'bg-emerald-100'
+      : rideRequest.status === 'pending'
       ? 'bg-orange-100'
       : 'bg-orange-200'
 
@@ -25,7 +25,7 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
     answerRideRequest(status)
 
     if (status === 'accepted') {
-      updateSavingsCO2ForPassenger(RideRequest.ride_id, RideRequest.accepted_passenger_id)
+      updateSavingsCO2ForPassenger(rideRequest.ride_id, rideRequest.accepted_passenger_id)
     }
   }
 
@@ -35,13 +35,13 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
       return
     }
 
-    if (status === 'accepted' && RideRequest.accepted_passenger_id != null) {
+    if (status === 'accepted' && rideRequest.accepted_passenger_id != null) {
       //only one passenger allowed, set the other one to decline
       const { data, error } = await supabase
         .from('ride_requests')
         .update({ status: 'declined' })
-        .eq('passenger_id', RideRequest.accepted_passenger_id)
-        .eq('ride_id', RideRequest.ride_id)
+        .eq('passenger_id', rideRequest.accepted_passenger_id)
+        .eq('ride_id', rideRequest.ride_id)
 
       if (error || !data) {
         alert('Delete other passenger from ride failed.')
@@ -52,12 +52,12 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
     const { data, error } = await supabase
       .from('ride_requests')
       .update({ status: status })
-      .eq('id', RideRequest.id)
+      .eq('id', rideRequest.id)
 
     const { data: dataRides, error: ErrorRides } = await supabase
       .from('rides')
-      .update({ passenger_id: RideRequest.passenger_id })
-      .eq('id', RideRequest.ride_id)
+      .update({ passenger_id: rideRequest.passenger_id })
+      .eq('id', rideRequest.ride_id)
 
     updatePreviews()
 
@@ -86,6 +86,8 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
       .limit(1)
       .single()
 
+    if (!dataPassenger || !dataRides) return
+
     const calc = ~~(dataPassenger.savings_co2 + dataRides.duration / 200)
     await supabase.from('users').update({ savings_co2: calc }).match({ id: passengerId })
   }
@@ -95,10 +97,10 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
       <Image src="/cow.svg" alt="Cow-Image" width={40} className="rotate-12 absolute left-0" />
       <div className="w-full flex flex-col items-center ml-8">
         <p>
-          <b>{RideRequest.first_name}</b> requests to join your ride to{' '}
-          {RideRequest.destination_location} at <b>{formatTime(new Date(RideRequest.departure))}</b>
+          <b>{rideRequest.first_name}</b> requests to join your ride to{' '}
+          {rideRequest.destination_location} at <b>{formatTime(new Date(rideRequest.departure))}</b>
         </p>
-        {RideRequest.status == 'pending' && (
+        {rideRequest.status == 'pending' && (
           <div className="flex flex-row mt-4 justify-center gap-3">
             <ConfirmationButton
               text="Accept"
@@ -114,9 +116,14 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
             />
           </div>
         )}
-        {RideRequest.status == 'accepted' && (
+        {rideRequest.status == 'accepted' && (
           <div className="flex flex-row mt-4 justify-center gap-3">
-            <ConfirmationButton text="Accepted" bgColor="bg-emerald-500" textColor="text-white" />
+            <ConfirmationButton
+              text="Accepted"
+              bgColor="bg-emerald-500"
+              textColor="text-white"
+              disabled
+            />
             <button
               className="bg-orange-600 w-7 h-7 rounded-2xl flex items-center justify-center"
               onClick={() => handleClick('pending')}
@@ -125,9 +132,14 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
             </button>
           </div>
         )}
-        {RideRequest.status == 'declined' && (
+        {rideRequest.status == 'declined' && (
           <div className="flex flex-row mt-4 justify-center gap-3">
-            <ConfirmationButton text="Declined" bgColor="bg-orange-600" textColor="text-white" />
+            <ConfirmationButton
+              text="Declined"
+              bgColor="bg-orange-600"
+              textColor="text-white"
+              disabled
+            />
             <button
               className="bg-emerald-400 w-7 h-7 rounded-2xl flex items-center justify-center"
               onClick={() => handleClick('pending')}
@@ -139,7 +151,7 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
       </div>
 
       <a
-        href={`https://www.google.com/maps/search/?api=1&query=${RideRequest.via_point_latitude}%2C${RideRequest.via_point_longitude}`}
+        href={`https://www.google.com/maps/search/?api=1&query=${rideRequest.via_point_latitude}%2C${rideRequest.via_point_longitude}`}
         target="_blank"
         rel="noreferrer"
       >

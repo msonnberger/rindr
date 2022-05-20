@@ -49,7 +49,7 @@ export default function TagsInput({ control, register }: TagsInputProps) {
           onChange={(e) => {
             setNewTagValue(e.target.value)
           }}
-          placeholder="new tag"
+          placeholder="Traveling"
           className="max-w-[6rem] bg-slate-100 focus:outline-none"
         />
       </div>

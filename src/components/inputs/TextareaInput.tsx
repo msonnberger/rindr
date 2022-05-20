@@ -6,7 +6,7 @@ interface TextInputProps {
   register: UseFormRegister<any>
 }
 
-export default function TextInput({ placeholder, id, register }: TextInputProps) {
+export default function TextareaInput({ placeholder, id, register }: TextInputProps) {
   return (
     <div className={`flex gap-4 rounded-3xl bg-slate-100 p-2 w-full h-32 `}>
       <textarea

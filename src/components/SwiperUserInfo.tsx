@@ -1,4 +1,4 @@
-import { faChevronDown, faHeadphones } from '@fortawesome/free-solid-svg-icons'
+import { faChevronUp, faHeadphones } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Slate } from '@styles/colors'
 import Image from '@components/Image'
@@ -47,7 +47,7 @@ export default function SwiperUserInfo({
         )}
       </div>
       {withArrow && (
-        <FontAwesomeIcon icon={faChevronDown} color={Slate[500]} size="lg" className="-mt-3" />
+        <FontAwesomeIcon icon={faChevronUp} color={Slate[500]} size="lg" className="-mt-3" />
       )}
     </div>
   )

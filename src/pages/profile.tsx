@@ -48,7 +48,7 @@ const Profile: NextPage = () => {
       setValue('longitude', session.user.longitude)
       setValue('latitude', session.user.latitude)
       setValue('bio', session.user.bio)
-      setValue('hasNoCar', Boolean(session.user.carModel))
+      setValue('hasNoCar', Boolean(!session.user.carModel))
       setValue('carModel', session.user.carModel)
       setValue('availableSeats', session.user.availableSeats)
       setValue(
@@ -136,8 +136,8 @@ const Profile: NextPage = () => {
   const [hasCar, setHasCar] = useState(true)
 
   const changeCar = () => {
-    if (hasCar) setHasCar(false)
-    else setHasCar(true)
+    setHasCar(!hasCar)
+    setValue('hasNoCar', hasCar)
   }
 
   const deleteUser = async () => {
@@ -279,36 +279,48 @@ const Profile: NextPage = () => {
                 </div>
 
                 {hasCar && (
-                  <div>
-                    <h3 className="mb-2 text-left font-bold">My car</h3>
-                    <div className="flex flex-wrap items-start gap-3">
-                      <TextInput
-                        placeholder="Which car do you have?"
-                        register={register}
-                        name="carModel"
-                        tailwindBgClass="bg-rose-500"
-                        icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
-                      />
-                      <div className="relative">
-                        <NumberInput
-                          placeholder="2"
+                  <>
+                    <div>
+                      <h3 className="mb-2 text-left font-bold">My car</h3>
+                      <div className="flex flex-wrap items-start gap-3">
+                        <TextInput
+                          placeholder="Which car do you have?"
                           register={register}
-                          name="availableSeats"
+                          registerOptions={{
+                            required: 'Please tell us about your car model',
+                          }}
+                          name="carModel"
                           tailwindBgClass="bg-rose-500"
-                          icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+                          icon={<FontAwesomeIcon icon={faCarAlt} color="white" />}
                         />
-                        <p className="font-light absolute top-3 left-32">seats</p>
+                        <div className="relative">
+                          <NumberInput
+                            placeholder="2"
+                            min={1}
+                            max={99}
+                            register={register}
+                            name="availableSeats"
+                            tailwindBgClass="bg-rose-500"
+                            icon={<FontAwesomeIcon icon={faCouch} color="white" />}
+                          />
+                          <p className="font-light absolute top-3 left-32">seats</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                    {errors.carModel && <FormError message={errors.carModel.message} />}
+                  </>
                 )}
 
                 <div className="flex flex-col gap-5">
-                  <h3 className="text-left font-bold">Interests</h3>
+                  <div className="flex items-center">
+                    <h3 className="text-left font-bold">Interests</h3>
+                    <span className="ml-1 font-light text-xs">(Optional)</span>
+                  </div>
+
                   <TagsInput control={control} register={register} />
                   <h3 className="text-left font-bold">Music</h3>
                   <TextInput
-                    placeholder="What music do you listen to?"
+                    placeholder="Flo Rindr, Avril Lavinge, ..."
                     register={register}
                     registerOptions={{
                       required:
