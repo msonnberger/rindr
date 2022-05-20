@@ -173,7 +173,6 @@ async function fetchPreviews(userId: string): Promise<{
     .select('*')
     .eq('driver_id', userId)
     .order('arrival', { ascending: false })
-    .order('first_name', { ascending: true })
 
   const { data: dataSharedRides, error: errorSharedRides } = await supabase
     .from<SupabaseRide>('rides')

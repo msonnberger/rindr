@@ -16,7 +16,7 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
   const { data: session } = useSession()
   const bgColor =
     RideRequest.status === 'accepted'
-      ? `bg-emerald-100`
+      ? 'bg-emerald-100'
       : RideRequest.status === 'pending'
       ? 'bg-orange-100'
       : 'bg-orange-200'
@@ -129,7 +129,12 @@ export default function RideRequestContainer({ RideRequest, updatePreviews }: Ri
         )}
         {RideRequest.status == 'declined' && (
           <div className="flex flex-row mt-4 justify-center gap-3">
-            <ConfirmationButton text="Declined" bgColor="bg-orange-600" textColor="text-white" />
+            <ConfirmationButton
+              text="Declined"
+              bgColor="bg-orange-600"
+              textColor="text-white"
+              disabled
+            />
             <button
               className="bg-emerald-400 w-7 h-7 rounded-2xl flex items-center justify-center"
               onClick={() => handleClick('pending')}
