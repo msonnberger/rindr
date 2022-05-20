@@ -8,6 +8,8 @@ interface NumInputProps {
   tailwindBgClass?: string
   register: UseFormRegister<any>
   disabled?: boolean
+  min?: number
+  max?: number
 }
 
 export default function NumberInput({
@@ -17,6 +19,8 @@ export default function NumberInput({
   name,
   register,
   disabled,
+  min,
+  max,
 }: NumInputProps) {
   return (
     <div className={`flex w-28 gap-4 rounded-full bg-slate-100 p-2 ${!icon && 'pl-5'}`}>
@@ -31,7 +35,8 @@ export default function NumberInput({
         placeholder={placeholder}
         {...register(name)}
         className="w-2/5 bg-inherit text-center focus:outline-none"
-        min="1"
+        min={min}
+        max={max}
       />
     </div>
   )

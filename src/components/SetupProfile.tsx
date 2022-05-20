@@ -168,6 +168,8 @@ export default function SetupProfile() {
                 <div className="relative">
                   <NumberInput
                     placeholder="2"
+                    min={1}
+                    max={99}
                     register={register}
                     name="availableSeats"
                     tailwindBgClass="bg-rose-500"
