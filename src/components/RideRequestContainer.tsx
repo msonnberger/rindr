@@ -12,14 +12,16 @@ interface RideRequestProps {
   updatePreviews: any
 }
 
+const RIDE_REQUEST_COLORS = {
+  accepted: 'bg-emerald-100',
+  pending: 'bg-orange-100',
+  default: 'bg-orange-200',
+}
+
 export default function RideRequestContainer({ rideRequest, updatePreviews }: RideRequestProps) {
   const { data: session } = useSession()
-  const bgColor =
-    rideRequest.status === 'accepted'
-      ? 'bg-emerald-100'
-      : rideRequest.status === 'pending'
-      ? 'bg-orange-100'
-      : 'bg-orange-200'
+  // @ts-ignore
+  const bgColor = RIDE_REQUEST_COLORS[rideRequest.status] || RIDE_REQUEST_COLORS.default
 
   const handleClick = (status: 'accepted' | 'declined' | 'pending') => {
     answerRideRequest(status)
