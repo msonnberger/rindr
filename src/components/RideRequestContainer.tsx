@@ -88,7 +88,7 @@ export default function RideRequestContainer({ rideRequest, updatePreviews }: Ri
 
     if (!dataPassenger || !dataRides) return
 
-    const calc = ~~(dataPassenger.savings_co2 + dataRides.duration / 200)
+    const calc = Math.floor(dataPassenger.savings_co2 + dataRides.duration / 200)
     await supabase.from('users').update({ savings_co2: calc }).match({ id: passengerId })
   }
 
