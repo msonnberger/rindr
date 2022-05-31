@@ -1,10 +1,18 @@
 import { camelCase } from 'lodash'
 import { LocationObject } from 'src/types/main'
+import { Rose } from '@styles/colors'
 
 export const getRandomInt = (min: number, max: number) => {
   min = Math.ceil(min)
   max = Math.floor(max)
   return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+export const getRandomColor = (color1: string, color2: string, textColorNumber: number) => {
+  const random = getRandomInt(1, 9) * 100
+  const textColor = random < textColorNumber ? Rose[color1] : Rose[color2]
+  // @ts-ignore
+  return { bgColor: Rose[random], textColor: textColor }
 }
 
 export const camelizeKeys = (obj: any): any => {
