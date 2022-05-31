@@ -2,13 +2,29 @@ import { camelCase } from 'lodash'
 import { LocationObject } from 'src/types/main'
 import { Rose } from '@styles/colors'
 
+interface ColorPalette {
+  50: string
+  100: string
+  200: string
+  300: string
+  400: string
+  500: string
+  600: string
+  700: string
+  800: string
+  900: string
+}
 export const getRandomInt = (min: number, max: number) => {
   min = Math.ceil(min)
   max = Math.floor(max)
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-export const getRandomColor = (color1: string, color2: string, textColorNumber: number) => {
+export const getRandomColor = (
+  color1: keyof ColorPalette,
+  color2: keyof ColorPalette,
+  textColorNumber: number
+) => {
   const random = getRandomInt(1, 9) * 100
   const textColor = random < textColorNumber ? Rose[color1] : Rose[color2]
   // @ts-ignore

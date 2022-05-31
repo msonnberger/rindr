@@ -6,14 +6,14 @@ interface TagProps {
   className?: string
 }
 
-// export default function Tag({ text, className }: TagProps) {
-//   const randomColor = () => {
-//     const random = getRandomInt(1, 9) * 100
-//     const textColor = random < 500 ? Rose[900] : Rose[50]
-//     // @ts-ignore
-//     return { bgColor: Rose[random], textColor: textColor }
-//   }
-  const { bgColor, textColor } = getRandomColor('900', '50', 500)
+export default function Tag({ text, className }: TagProps) {
+  //   const randomColor = () => {
+  //     const random = getRandomInt(1, 9) * 100
+  //     const textColor = random < 500 ? Rose[900] : Rose[50]
+  //     // @ts-ignore
+  //     return { bgColor: Rose[random], textColor: textColor }
+  //   }
+  const { bgColor, textColor } = getRandomColor(900, 50, 500)
 
   return (
     <div

@@ -34,7 +34,7 @@ export default function TagsInput({ control, register }: TagsInputProps) {
           disabled={newTagValue === ''}
           onClick={(e) => {
             e.preventDefault()
-            const { bgColor, textColor } = getRandomColor('900', '50', 400)
+            const { bgColor, textColor } = getRandomColor(900, 50, 400)
             setTagColors([{ bgColor, textColor }, ...tagColors])
             prepend({ tag: newTagValue })
             setNewTagValue('')
@@ -54,7 +54,7 @@ export default function TagsInput({ control, register }: TagsInputProps) {
         />
       </div>
       {fields.map((field, index) => {
-        const { bgColor, textColor } = tagColors[index] ?? getRandomColor('900', '50', 400)
+        const { bgColor, textColor } = tagColors[index] ?? getRandomColor(900, 50, 400)
 
         return (
           <div
