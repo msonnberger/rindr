@@ -1,7 +1,7 @@
 import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Campuses, LocationObject } from 'src/types/main'
 import Button from '@components/Button'
 import Image from '@components/Image'
@@ -15,28 +15,25 @@ interface FindRideFormProps {
 export default function FindRideForm({ setOpenFilter, setSwiperCards }: FindRideFormProps) {
   const { data: session } = useSession()
 
-  const home: LocationObject = {
-    name: 'Home',
-    latitude: session?.user.latitude as number,
-    longitude: session?.user.longitude as number,
-  }
+  useEffect(() => {
+    const home: LocationObject = {
+      name: 'Home',
+      latitude: session?.user.latitude as number,
+      longitude: session?.user.longitude as number,
+    }
 
-  const [destinationInput, setDestinationInput] = useState<LocationObject>(Campuses[0])
-  const [destinationOptions, setDestinationOptions] = useState<Array<LocationObject>>(Campuses)
-  const [locationInput, setLocationInput] = useState<LocationObject>(home)
-  const [locationOptions, setLocationOptions] = useState<Array<LocationObject>>([home])
+    setLocationInput(home)
+    setLocationOptions([home])
+  }, [session])
+
+  const [destinationInput, setDestinationInput] = useState(Campuses[0])
+  const [destinationOptions, setDestinationOptions] = useState(Campuses)
+  const [locationInput, setLocationInput] = useState({} as LocationObject)
+  const [locationOptions, setLocationOptions] = useState([] as LocationObject[])
   const [dateInput, setDateInput] = useState(new Date().toISOString().split('T')[0])
 
-  const buildParams = (params: Record<string, unknown>) => {
-    // @ts-ignore
-    return Object.keys(params).reduce((urlSearchParams, [key, value]) => {
-      urlSearchParams.set(key, value)
-      return urlSearchParams
-    }, new URLSearchParams())
-  }
-
   const handleSubmit = async () => {
-    const params = buildParams(
+    const params =
       locationInput.name === 'Home'
         ? {
             date: dateInput,
@@ -50,9 +47,8 @@ export default function FindRideForm({ setOpenFilter, setSwiperCards }: FindRide
             campusIsStart: 'true',
             pickup: `${destinationInput.latitude},${destinationInput.longitude}`,
           }
-    )
 
-    const res = await fetch('/api/rides/find-matches?' + params.toString())
+    const res = await fetch('/api/rides/find-matches?' + new URLSearchParams(params).toString())
     const data = await res.json()
 
     setSwiperCards(data)
