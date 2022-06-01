@@ -1,6 +1,6 @@
 import { camelCase } from 'lodash'
 import { LocationObject } from 'src/types/main'
-import { Rose } from '@styles/colors'
+import { Rose } from 'src/styles/colors'
 
 export const getRandomInt = (min: number, max: number) => {
   min = Math.ceil(min)
