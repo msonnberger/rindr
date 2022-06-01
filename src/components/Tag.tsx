@@ -1,5 +1,4 @@
-import { Rose } from '../styles/colors'
-import { getRandomInt } from '../utils/functions'
+import { getRandomColor } from '../utils/functions'
 
 interface TagProps {
   text: string
@@ -7,13 +6,7 @@ interface TagProps {
 }
 
 export default function Tag({ text, className }: TagProps) {
-  const randomColor = () => {
-    const random = getRandomInt(1, 9) * 100
-    const textColor = random < 500 ? Rose[900] : Rose[50]
-    // @ts-ignore
-    return { bgColor: Rose[random], textColor: textColor }
-  }
-  const { bgColor, textColor } = randomColor()
+  const { bgColor, textColor } = getRandomColor(900, 50, 500)
 
   return (
     <div

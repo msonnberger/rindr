@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import { Control, UseFormRegister, useFieldArray } from 'react-hook-form'
 import { SetupProfileFormValues } from 'src/types/main'
-import { getRandomInt } from '@utils/functions'
-import { Rose } from '@styles/colors'
+import { getRandomColor } from '@utils/functions'
 
 interface TagsInputProps {
   control: Control<SetupProfileFormValues>
@@ -20,13 +19,6 @@ export default function TagsInput({ control, register }: TagsInputProps) {
     name: 'interests',
   })
 
-  const randomColor = () => {
-    const random = getRandomInt(1, 9) * 100
-    const textColor = random < 400 ? Rose[900] : Rose[50]
-    // @ts-ignore
-    return { bgColor: Rose[random], textColor: textColor }
-  }
-
   return (
     <div className="flex flex-wrap justify-start gap-3">
       <div className="flex w-fit gap-2 rounded-full bg-slate-100 p-2 pr-8">
@@ -34,7 +26,7 @@ export default function TagsInput({ control, register }: TagsInputProps) {
           disabled={newTagValue === ''}
           onClick={(e) => {
             e.preventDefault()
-            const { bgColor, textColor } = randomColor()
+            const { bgColor, textColor } = getRandomColor(900, 50, 400)
             setTagColors([{ bgColor, textColor }, ...tagColors])
             prepend({ tag: newTagValue })
             setNewTagValue('')
@@ -54,7 +46,7 @@ export default function TagsInput({ control, register }: TagsInputProps) {
         />
       </div>
       {fields.map((field, index) => {
-        const { bgColor, textColor } = tagColors[index] ?? randomColor()
+        const { bgColor, textColor } = tagColors[index] ?? getRandomColor(900, 50, 400)
 
         return (
           <div

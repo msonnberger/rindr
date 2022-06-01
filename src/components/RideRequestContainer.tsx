@@ -12,14 +12,16 @@ interface RideRequestProps {
   updatePreviews: any
 }
 
+const RIDE_REQUEST_COLORS = {
+  accepted: 'bg-emerald-100',
+  pending: 'bg-orange-100',
+  default: 'bg-orange-200',
+}
+
 export default function RideRequestContainer({ rideRequest, updatePreviews }: RideRequestProps) {
   const { data: session } = useSession()
-  const bgColor =
-    rideRequest.status === 'accepted'
-      ? 'bg-emerald-100'
-      : rideRequest.status === 'pending'
-      ? 'bg-orange-100'
-      : 'bg-orange-200'
+  // @ts-ignore
+  const bgColor = RIDE_REQUEST_COLORS[rideRequest.status] || RIDE_REQUEST_COLORS.default
 
   const handleClick = (status: 'accepted' | 'declined' | 'pending') => {
     answerRideRequest(status)
@@ -88,7 +90,7 @@ export default function RideRequestContainer({ rideRequest, updatePreviews }: Ri
 
     if (!dataPassenger || !dataRides) return
 
-    const calc = ~~(dataPassenger.savings_co2 + dataRides.duration / 200)
+    const calc = Math.floor(dataPassenger.savings_co2 + dataRides.duration / 200)
     await supabase.from('users').update({ savings_co2: calc }).match({ id: passengerId })
   }
 
