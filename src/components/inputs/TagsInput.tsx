@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import { Control, UseFormRegister, useFieldArray } from 'react-hook-form'
 import { SetupProfileFormValues } from 'src/types/main'
-import { getRandomColor, getRandomInt } from '@utils/functions'
-import { Rose } from '@styles/colors'
+import { getRandomColor } from '@utils/functions'
 
 interface TagsInputProps {
   control: Control<SetupProfileFormValues>
@@ -19,13 +18,6 @@ export default function TagsInput({ control, register }: TagsInputProps) {
     control,
     name: 'interests',
   })
-
-  // const randomColor = () => {
-  //   const random = getRandomInt(1, 9) * 100
-  //   const textColor = random < 400 ? Rose[900] : Rose[50]
-  //   // @ts-ignore
-  //   return { bgColor: Rose[random], textColor: textColor }
-  // }
 
   return (
     <div className="flex flex-wrap justify-start gap-3">
