@@ -27,19 +27,30 @@ export default function FindRideForm({ setOpenFilter, setSwiperCards }: FindRide
   const [locationOptions, setLocationOptions] = useState<Array<LocationObject>>([home])
   const [dateInput, setDateInput] = useState(new Date().toISOString().split('T')[0])
 
-  const handleSubmit = async () => {
-    const params = new URLSearchParams()
-    params.set('date', dateInput)
+  const buildParams = (params: Record<string, unknown>) => {
+    // @ts-ignore
+    return Object.keys(params).reduce((urlSearchParams, [key, value]) => {
+      urlSearchParams.set(key, value)
+      return urlSearchParams
+    }, new URLSearchParams())
+  }
 
-    if (locationInput.name === 'Home') {
-      params.set('campus', destinationInput.name)
-      params.set('campusIsStart', 'false')
-      params.set('pickup', `${locationInput.latitude},${locationInput.longitude}`)
-    } else {
-      params.set('campus', locationInput.name)
-      params.set('campusIsStart', 'true')
-      params.set('pickup', `${destinationInput.latitude},${destinationInput.longitude}`)
-    }
+  const handleSubmit = async () => {
+    const params = buildParams(
+      locationInput.name === 'Home'
+        ? {
+            date: dateInput,
+            campus: destinationInput.name,
+            campusIsStart: 'false',
+            pickup: `${locationInput.latitude},${locationInput.longitude}`,
+          }
+        : {
+            date: dateInput,
+            campus: locationInput.name,
+            campusIsStart: 'true',
+            pickup: `${destinationInput.latitude},${destinationInput.longitude}`,
+          }
+    )
 
     const res = await fetch('/api/rides/find-matches?' + params.toString())
     const data = await res.json()
