@@ -6,9 +6,9 @@ import {
   printDatePreview,
 } from '../src/utils/functions'
 
-let date = new Date('April 15, 2022 23:15:00')
-let today = new Date()
-let yesterday = new Date(Date.now() - 86400000)
+const date = new Date('2022-04-15T23:15:00')
+const today = new Date()
+const yesterday = new Date(Date.now() - 86400000)
 
 describe('testing formatMinutes()', () => {
   test('testing if 3 minutes prints "03"', () => {
